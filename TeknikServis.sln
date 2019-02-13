@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeknikServis.DAL", "TeknikS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeknikServis.Models", "TeknikServis.Models\TeknikServis.Models.csproj", "{5D6A1C3A-3DBF-4338-A897-11CF29415025}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Temam", "Temam\Temam.csproj", "{2C8B1F0B-986B-43E2-BF1C-29BC0B756919}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{5D6A1C3A-3DBF-4338-A897-11CF29415025}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D6A1C3A-3DBF-4338-A897-11CF29415025}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D6A1C3A-3DBF-4338-A897-11CF29415025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C8B1F0B-986B-43E2-BF1C-29BC0B756919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C8B1F0B-986B-43E2-BF1C-29BC0B756919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C8B1F0B-986B-43E2-BF1C-29BC0B756919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C8B1F0B-986B-43E2-BF1C-29BC0B756919}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{CCB84FED-448F-4AAE-97E9-D27890A99E9C} = {1B98D7FA-4B79-41DE-BEDF-AF0783813C34}
 		{1F65556C-AB5F-436B-B009-502111187DA6} = {1B98D7FA-4B79-41DE-BEDF-AF0783813C34}
 		{5D6A1C3A-3DBF-4338-A897-11CF29415025} = {1B98D7FA-4B79-41DE-BEDF-AF0783813C34}
+		{2C8B1F0B-986B-43E2-BF1C-29BC0B756919} = {85711CEB-0B1F-4E23-A808-546BBB791130}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8AAB859-3FF2-442F-BB48-8F5AB9125402}
