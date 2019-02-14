@@ -7263,13 +7263,13 @@
     <Content Include="build\less\variables.less" />
     <Content Include="build\scss\_variables.scss" />
     <None Include="packages.config" />
-    <Content Include="Shared\_LayoutMain.cshtml" />
-    <Content Include="Shared\Partial\_HeaderPartial.cshtml" />
-    <Content Include="Shared\Partial\_SidebarPartial.cshtml" />
-    <Content Include="Shared\Partial\_FooterPartial.cshtml" />
     <Content Include="plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="tsconfig.json" />
+    <Content Include="Views\Shared\Partial\_FooterPartial.cshtml" />
+    <Content Include="Views\Shared\Partial\_HeaderPartial.cshtml" />
+    <Content Include="Views\Shared\Partial\_SidebarPartial.cshtml" />
+    <Content Include="Views\_LayoutMain.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -7281,7 +7281,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Partial\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="bower_components\fullcalendar\dist\fullcalendar.d.ts" />
