@@ -4,6 +4,7 @@ using System;
 using System.Web.Mvc;
 using System.Web.Routing;
 using TeknikServis.BLL.Identity;
+using TeknikServis.Models.Enums;
 using TeknikServis.Models.IdentityModels;
 
 namespace TeknikServisWeb
@@ -16,7 +17,7 @@ namespace TeknikServisWeb
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
 
-            var roller = Enum.GetNames(typeof(IdentityRole));
+            var roller = Enum.GetNames(typeof(IdentityRoles));
 
             var roleManager = MembershipTools.NewRoleManager();
             foreach (var rol in roller)
