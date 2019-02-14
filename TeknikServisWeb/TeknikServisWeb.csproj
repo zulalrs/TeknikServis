@@ -7263,10 +7263,6 @@
     <Content Include="build\less\variables.less" />
     <Content Include="build\scss\_variables.scss" />
     <None Include="packages.config" />
-    <Content Include="Shared\_LayoutMain.cshtml" />
-    <Content Include="Shared\Partial\_HeaderPartial.cshtml" />
-    <Content Include="Shared\Partial\_SidebarPartial.cshtml" />
-    <Content Include="Shared\Partial\_FooterPartial.cshtml" />
     <Content Include="plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="tsconfig.json" />
