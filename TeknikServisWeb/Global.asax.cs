@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Web.Mvc;
 using System.Web.Routing;
+using TeknikServis.BLL.Identity;
+using TeknikServis.Models.IdentityModels;
 
 namespace TeknikServisWeb
 {
@@ -13,6 +14,19 @@ namespace TeknikServisWeb
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+
+            var roller = Enum.GetNames(typeof(IdentityRole));
+
+            var roleManager = MembershipTools.NewRoleManager();
+            foreach (var rol in roller)
+            {
+                if (!roleManager.RoleExists(rol))
+                    roleManager.Create(new Role()
+                    {
+                        Name = rol
+                    });
+            }
         }
     }
 }
