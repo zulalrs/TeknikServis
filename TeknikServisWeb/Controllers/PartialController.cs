@@ -9,9 +9,17 @@ namespace TeknikServisWeb.Controllers
     public class PartialController : Controller
     {
         // GET: Partial
-        public ActionResult Index()
+        public PartialViewResult HeaderPartial() 
         {
-            return View();
+            return PartialView("Partial/_HeaderPartial");
+        }
+        public PartialViewResult SidebarPartial()
+        {
+            return PartialView("Partial/_SidebarPartial");
+        }
+        public PartialViewResult FooterPartial()
+        {
+            return PartialView("Partial/_FooterPartial");
         }
     }
 }

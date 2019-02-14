@@ -6642,6 +6642,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartialController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -7269,7 +7270,8 @@
     <Content Include="Views\Shared\Partial\_FooterPartial.cshtml" />
     <Content Include="Views\Shared\Partial\_HeaderPartial.cshtml" />
     <Content Include="Views\Shared\Partial\_SidebarPartial.cshtml" />
-    <Content Include="Views\_LayoutMain.cshtml" />
+    <Content Include="Views\Shared\_LayoutMain.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
