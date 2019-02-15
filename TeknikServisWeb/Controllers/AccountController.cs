@@ -56,6 +56,8 @@ namespace TeknikServisWeb.Controllers
                     Email = rm.Email,
                     Name = rm.Name,
                     Surname = rm.Surname,
+                    Adress=rm.Adress,
+                    PhoneNumber=rm.Telephone,
                     ActivationCode = StringHelpers.GetCode()
                 };
                 var result = await userManager.CreateAsync(newUser, rm.Password);

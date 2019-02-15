@@ -32,7 +32,7 @@ namespace TeknikServis.Models.ViewModels
 
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon numarasi sadece sayilardan olusmalidir")]
         [StringLength(10, ErrorMessage = "Telefon numarasi 10 haneden fazla olamaz")]
-        public string Telefon { get; set; }
+        public string Telephone { get; set; }
 
 
         [Required]
