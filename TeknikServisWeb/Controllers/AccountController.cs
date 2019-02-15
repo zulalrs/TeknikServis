@@ -187,5 +187,40 @@ namespace TeknikServisWeb.Controllers
 
             return View();
         }
+        [HttpGet]
+        [Authorize]
+        public ActionResult UserProfile()
+        {
+            try
+            {
+                var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+                var user = NewUserManager().FindById(id);
+                var data = new ProfilePasswordViewModel()
+                {
+                    UserProfileViewModel = new UserProfileViewModel()
+                    {
+                        Email = user.Email,
+                        Id = user.Id,
+                        Name = user.Name,
+                        PhoneNumber = user.PhoneNumber,
+                        Surname = user.Surname,
+                        UserName = user.UserName,
+                        AvatarPath = string.IsNullOrEmpty(user.AvatarPath) ? "/dist/img/ZGlogo.jpg" : user.AvatarPath
+                    }
+                };
+                return View(data);
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "UserProfile",
+                    ControllerName = "Account",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+        }
     }
 }

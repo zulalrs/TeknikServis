@@ -19,6 +19,7 @@ namespace TeknikServis.Models.IdentityModels
         [StringLength(100)]
         public string Adress { get; set; }
         public string ActivationCode { get; set; }
+        public string AvatarPath { get; set; }
 
     }
 }
