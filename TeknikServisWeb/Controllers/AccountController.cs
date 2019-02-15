@@ -109,7 +109,7 @@ namespace TeknikServisWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(RegisterLoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace TeknikServisWeb.Controllers
                     return View("Index", model);
 
                 var userManager = NewUserManager();
-                var user = await userManager.FindAsync(model.LoginViewModel.UserName, model.LoginViewModel.Password);
+                var user = await userManager.FindAsync(model.UserName, model.Password);
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
@@ -128,7 +128,7 @@ namespace TeknikServisWeb.Controllers
                     await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                 authManager.SignIn(new AuthenticationProperties()
                 {
-                    IsPersistent = model.LoginViewModel.RememberMe
+                    IsPersistent = model.RememberMe
                 }, userIdentity);
                 return RedirectToAction("Index", "Home");
             }
@@ -152,6 +152,40 @@ namespace TeknikServisWeb.Controllers
             return RedirectToAction("Index", "Account");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Activation(string code)
+        {
+            try
+            {
+                var userStore = NewUserStore();
+                var user = userStore.Users.FirstOrDefault(x => x.ActivationCode == code);
 
+                if (user != null)
+                {
+                    if (user.EmailConfirmed)
+                    {
+                        ViewBag.Message = $"<div class='alert alert-info alert-dismissible'><i class='icon fa fa-info'></i>Bu hesap daha önce aktive edilmiştir.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+                    }
+                    else
+                    {
+                        user.EmailConfirmed = true;
+
+                        userStore.Context.SaveChanges();
+                        ViewBag.Message = $"<div class='alert alert-success alert-dismissible'><i class='icon fa fa-check'></i>Aktivasyon işleminiz başarılı.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = $"<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Aktivasyon başarısız<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Aktivasyon işleminde bir hata oluştu.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+            }
+
+            return View();
+        }
     }
 }
