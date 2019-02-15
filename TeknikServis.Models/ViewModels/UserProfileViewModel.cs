@@ -23,6 +23,9 @@ namespace TeknikServis.Models.ViewModels
         [Display(Name = "Telefon No.")]
         public string PhoneNumber { get; set; }
 
+        [Display(Name = "Adres")]
+        public string Adress { get; set; }
+
         public string AvatarPath { get; set; }
         public HttpPostedFileBase PostedFile { get; set; }
     }
