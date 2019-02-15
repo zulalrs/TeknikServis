@@ -11,6 +11,7 @@ using TeknikServis.Models.ViewModels;
 using TeknikServis.BLL.Identity;
 using static TeknikServis.BLL.Identity.MembershipTools;
 using TeknikServis.BLL.Services;
+using Microsoft.Owin.Security;
 
 namespace TeknikServisWeb.Controllers
 {
@@ -105,5 +106,52 @@ namespace TeknikServisWeb.Controllers
                 return RedirectToAction("Error", "Home");
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(RegisterLoginViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return View("Index", model);
+
+                var userManager = NewUserManager();
+                var user = await userManager.FindAsync(model.LoginViewModel.UserName, model.LoginViewModel.Password);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
+                    return View("Index", model);
+                }
+                var authManager = HttpContext.GetOwinContext().Authentication;
+                var userIdentity =
+                    await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                authManager.SignIn(new AuthenticationProperties()
+                {
+                    IsPersistent = model.LoginViewModel.RememberMe
+                }, userIdentity);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "Index",
+                    ControllerName = "Account",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+        }
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            authManager.SignOut();
+            return RedirectToAction("Index", "Account");
+        }
+
+
     }
 }
