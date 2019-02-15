@@ -70,15 +70,18 @@
                     @Html.TextBoxFor(x => x.RegisterViewModel.ConfirmPassword, new { @class = "form-control", placeholder = "Şifre Tekrar", type = "password" })
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
-                
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Kayıt Ol</button>
+                </div>
+               <br />
+                <div class="social-auth-links text-center">
+                    <p><b>- Veya -</b></p>
+                    <a href="#" class="btn btn-block btn-social btn-google btn-flat">
+                        <i class="fa fa-google-plus"></i> Sign up using
+                        Google+
+                    </a>
+                </div>
             }
-            <div class="social-auth-links text-center">
-                <p><b>- Veya -</b></p>               
-                <a href="#" class="btn btn-block btn-social btn-google btn-flat">
-                    <i class="fa fa-google-plus"></i> Sign up using
-                    Google+
-                </a>
-            </div>
 
             <a href="@Url.Action("Index", "Account")" class="text-center"><b>Giriş Yap</b></a>
         </div>
