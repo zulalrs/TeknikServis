@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Web;
 using TeknikServis.DAL;
 using TeknikServis.Models.IdentityModels;
 

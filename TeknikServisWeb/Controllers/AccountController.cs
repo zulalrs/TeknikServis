@@ -5,9 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using TeknikServis.BLL.Helpers;
 using TeknikServis.Models.IdentityModels;
 using TeknikServis.Models.ViewModels;
+using TeknikServis.BLL.Identity;
 using static TeknikServis.BLL.Identity.MembershipTools;
+using TeknikServis.BLL.Services;
 
 namespace TeknikServisWeb.Controllers
 {
@@ -20,7 +23,11 @@ namespace TeknikServisWeb.Controllers
                 return RedirectToAction("Index", "Home");
             return View();
         }
-
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterLoginViewModel model)
@@ -56,11 +63,11 @@ namespace TeknikServisWeb.Controllers
                 {
                     if (userStore.Users.Count() == 1)
                     {
-                        await userManager.AddToRoleAsync(newUser.Id, "Admin");
+                        await userManager.AddToRoleAsync(newUser.Id, "GenelYonetici");
                     }
                     else
                     {
-                        await userManager.AddToRoleAsync(newUser.Id, "User");
+                        await userManager.AddToRoleAsync(newUser.Id, "Musteri");
                     }
 
                     string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +

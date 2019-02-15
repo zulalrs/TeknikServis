@@ -78,6 +78,7 @@
     <Compile Include="Abstracts\BaseEntity.cs" />
     <Compile Include="Abstracts\BaseEntity2.cs" />
     <Compile Include="Enums\IdentityRoles.cs" />
+    <Compile Include="Enums\MessageStates.cs" />
     <Compile Include="IdentityModels\Role.cs" />
     <Compile Include="IdentityModels\User.cs" />
     <Compile Include="Models\ResponseData.cs" />
@@ -93,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
