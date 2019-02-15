@@ -1,0 +1,35 @@
+﻿@using TeknikServis.Models.ViewModels
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var message = TempData["Model"] as ErrorViewModel;
+}
+
+<div class="error-page">
+    <h2 class="headline text-yellow">@(message?.ErrorCode ?? 404)</h2>
+
+    <div class="error-content">
+        <h3><i class="fa fa-warning text-yellow"></i> Oops!</h3>
+
+        <p>
+            @(message?.Text ?? "Aradığınız sayfa bulunamadı")
+        </p>
+
+        <form class="search-form">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search">
+
+                <div class="input-group-btn">
+                    <button type="submit" name="submit" class="btn btn-warning btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.input-group -->
+        </form>
+        <br />
+        <a href="@Url.Action(message?.ActionName??"Index",message?.ControllerName??"Home")" class="btn btn-info">Geri git</a>
+    </div>
+    <!-- /.error-content -->
+</div>
+
