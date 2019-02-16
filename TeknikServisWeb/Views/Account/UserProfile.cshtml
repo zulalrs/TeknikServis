@@ -27,9 +27,11 @@
             <!-- form start -->
             @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "fieldset", enctype = "multipart/form-data" }))
             {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.UserProfileViewModel.Id)
+                @Html.HiddenFor(x => x.UserProfileViewModel.UserName)
                 <div class="box-body">
                     <div class="form-group">
-                        @Html.AntiForgeryToken()
                         @Html.LabelFor(x => x.UserProfileViewModel.Name)
                         @Html.TextBoxFor(x => x.UserProfileViewModel.Name, new { @class = "form-control", placeholder = "Adınızı Giriniz" })
 
