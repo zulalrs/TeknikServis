@@ -291,5 +291,68 @@ namespace TeknikServisWeb.Controllers
                 return RedirectToAction("Error", "Home");
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword(ProfilePasswordViewModel model)
+        {
+            try
+            {
+                var userManager = NewUserManager();
+                var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+                var user = NewUserManager().FindById(id);
+                var data = new ProfilePasswordViewModel()
+                {
+                    UserProfileViewModel = new UserProfileViewModel()
+                    {
+                        Email = user.Email,
+                        Id = user.Id,
+                        Name = user.Name,
+                        PhoneNumber = user.PhoneNumber,
+                        Surname = user.Surname,
+                        UserName = user.UserName
+                    }
+                };
+                model.UserProfileViewModel = data.UserProfileViewModel;
+                if (!ModelState.IsValid)
+                {
+                    model.ChangePasswordViewModel = new ChangePasswordViewModel();
+                    return View("UserProfile", model);
+                }
+
+
+                var result = await userManager.ChangePasswordAsync(
+                    HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId(),
+                    model.ChangePasswordViewModel.OldPassword, model.ChangePasswordViewModel.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    //todo kullanıcıyı bilgilendiren bir mail atılır
+                    return RedirectToAction("Logout", "Account");
+                }
+                else
+                {
+                    var err = "";
+                    foreach (var resultError in result.Errors)
+                    {
+                        err += resultError + " ";
+                    }
+                    ModelState.AddModelError("", err);
+                    model.ChangePasswordViewModel = new ChangePasswordViewModel();
+                    return View("UserProfile", model);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "UserProfile",
+                    ControllerName = "Account",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+        }
     }
 }
