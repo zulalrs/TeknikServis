@@ -90,6 +90,7 @@
     <Compile Include="ViewModels\RegisterLoginViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
+    <Compile Include="ViewModels\UpdateUserRoleViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
