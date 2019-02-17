@@ -59,7 +59,6 @@ namespace TeknikServisWeb.Controllers
                     Email = rm.Email,
                     Name = rm.Name,
                     Surname = rm.Surname,
-                    Adress=rm.Adress,
                     PhoneNumber=rm.Telephone,
                     ActivationCode = StringHelpers.GetCode()
                 };

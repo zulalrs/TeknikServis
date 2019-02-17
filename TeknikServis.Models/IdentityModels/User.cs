@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TeknikServis.Models.Entities;
+using TeknikServis.Models.Enums;
 
 namespace TeknikServis.Models.IdentityModels
 {
@@ -16,10 +14,14 @@ namespace TeknikServis.Models.IdentityModels
         [StringLength(60)]
         [Required]
         public string Surname { get; set; }
-        [StringLength(100)]
-        public string Adress { get; set; }
         public string ActivationCode { get; set; }
         public string AvatarPath { get; set; }
+        public bool TeknisyenBosMu { get; set; }
+        
+        public TeknisyenDurumu TeknisyenDurumu { get; set; }
+
+
+        public virtual ICollection<Ariza> Arizalar { get; set; } = new HashSet<Ariza>();
 
     }
 }
