@@ -39,6 +39,8 @@
 
         <div class="register-box-body">
             <p class="login-box-msg"><b>Kayıt Ol</b></p>
+            <p>@Html.ValidationSummary()</p>
+            <p>@TempData["Message"]</p>
             @using (Html.BeginForm("Register", "Account", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()

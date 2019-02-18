@@ -37,7 +37,7 @@ namespace TeknikServisWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Index", model);
+                return View("Register", model);
             }
             try
             {
@@ -50,7 +50,7 @@ namespace TeknikServisWeb.Controllers
                 if (user != null)
                 {
                     ModelState.AddModelError("UserName", "Bu kullanıcı adı daha önceden alınmıştır");
-                    return View("Index", model);
+                    return View("Register", model);
                 }
 
                 var newUser = new User()
@@ -60,8 +60,9 @@ namespace TeknikServisWeb.Controllers
                     Name = rm.Name,
                     Surname = rm.Surname,
                     PhoneNumber=rm.Telephone,
-                    ActivationCode = StringHelpers.GetCode()
-                };
+                    ActivationCode = StringHelpers.GetCode(),
+                    AvatarPath= "../../dist/img/ZGlogo.jpg"
+            };
                 var result = await userManager.CreateAsync(newUser, rm.Password);
                 if (result.Succeeded)
                 {
@@ -89,18 +90,18 @@ namespace TeknikServisWeb.Controllers
                         err += resultError + " ";
                     }
                     ModelState.AddModelError("", err);
-                    return View("Index", model);
+                    return View("Register", model);
                 }
 
-                TempData["Message"] = "Kaydınız alınlıştır. Lütfen giriş yapınız";
-                return RedirectToAction("Index");
+                TempData["Message"] = "Kaydınız alınmıştır. Lütfen giriş yapınız";
+                return RedirectToAction("Register");
             }
             catch (Exception ex)
             {
                 TempData["Model"] = new ErrorViewModel()
                 {
                     Text = $"Bir hata oluştu {ex.Message}",
-                    ActionName = "Index",
+                    ActionName = "Register",
                     ControllerName = "Account",
                     ErrorCode = 500
                 };

@@ -46,10 +46,10 @@ namespace TeknikServisWeb.Controllers
                 var ariza = new Ariza()
                 {
                     MusteriId = HttpContext.User.Identity.GetUserId(),
-                    Aciklama = model.Description,
+                    Aciklama = model.Aciklama,
                     MarkaId = markaId,
                     ModelId = markaModelId,
-                    Adres = model.Adress,
+                    Adres = model.Adres,
 
                 };
                 new ArizaRepository().Insert(ariza);
