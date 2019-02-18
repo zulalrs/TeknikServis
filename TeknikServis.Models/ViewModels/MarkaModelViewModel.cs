@@ -10,10 +10,11 @@ namespace TeknikServis.Models.ViewModels
     public class MarkaModelViewModel
     {
         [Required]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Marka adı 50 karakterden fazla olamaz")]
         public string Marka { get; set; }
+
         [Required]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Model adı 50 karakterden fazla olamaz")]
         public string Model { get; set; }
 
     }

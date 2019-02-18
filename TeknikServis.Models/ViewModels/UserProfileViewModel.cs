@@ -6,21 +6,33 @@ namespace TeknikServis.Models.ViewModels
     public class UserProfileViewModel
     {
         public string Id { get; set; }
+
         [Required]
+        [StringLength(20, ErrorMessage = "Üye adı 20 karakterden fazla olamaz!")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Lütfen sadece Harf kullanın")]
         [Display(Name = "Ad")]
-        [StringLength(25)]
         public string Name { get; set; }
-        [StringLength(35)]
+
         [Required]
+        [StringLength(20, ErrorMessage = "Üye Soyadı 20 karakterden fazla olamaz!")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Lütfen sadece Harf kullanın")]
         [Display(Name = "Soyad")]
         public string Surname { get; set; }
+
         [Required]
+        [StringLength(20, ErrorMessage = "Üye Soyadı 20 karakterden fazla olamaz!")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Lütfen sadece Harf kullanın")]
         [Display(Name = "Kullanıcı Adı")]
         public string UserName { get; set; }
+
         [Required]
-        [EmailAddress]
+        [StringLength(20, ErrorMessage = "E-Mail 20 karakterden fazla olamaz!")]
+        [EmailAddress(ErrorMessage = "Geçersiz E-Mail adresi")]
         public string Email { get; set; }
+
         [Display(Name = "Telefon No.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon sadece sayılardan oluşmalıdır")]
+        [StringLength(11, ErrorMessage = "telefon 11 karakterden fazla olamaz!")]
         public string PhoneNumber { get; set; }
 
         public string AvatarPath { get; set; }

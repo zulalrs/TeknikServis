@@ -14,7 +14,7 @@
         @using (Html.BeginForm("ArizaBildirimi", "Musteri", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
-       
+
             <div class="form-group">
                 @Html.LabelFor(x => x.Adress)
                 @Html.TextAreaFor(x => x.Adress, new { @class = "form-control", placeholder = "Adresinizi giriniz." })
@@ -52,8 +52,11 @@
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Kayıt Oluştur</button>
-            </div>
+            </div> 
+         
         }
+
+
     </div>
 
 </div>
