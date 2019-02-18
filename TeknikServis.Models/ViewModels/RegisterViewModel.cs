@@ -10,12 +10,14 @@ namespace TeknikServis.Models.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(20, ErrorMessage = "Lütfen 35 karakteri geçmeyiniz")]
         [Display(Name = "Ad")]
-        [StringLength(25)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Lütfen sadece Harf kullanın")]
         public string Name { get; set; }
 
-        [StringLength(35)]
+        [StringLength(20,ErrorMessage ="Lütfen 35 karakteri geçmeyiniz")]
         [Required]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Lütfen sadece Harf kullanın")]
         [Display(Name = "Soyad")]
         public string Surname { get; set; }
 
@@ -24,14 +26,15 @@ namespace TeknikServis.Models.ViewModels
         public string UserName { get; set; }
 
         [Required]
-        [EmailAddress]
+        [StringLength(20, ErrorMessage = "E-Mail 20 karakterden fazla olamaz!")]
+        [EmailAddress(ErrorMessage = "Geçersiz E-Mail adresi")]
         public string Email { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200, ErrorMessage ="Lütfen 200 karakteri geçmeyiniz")]
         public string Adress { get; set; }
 
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon numarasi sadece sayilardan olusmalidir")]
-        [StringLength(10, ErrorMessage = "Telefon numarasi 10 haneden fazla olamaz")]
+        [StringLength(11, ErrorMessage = "Telefon numarasi 11 haneden fazla olamaz")]
         public string Telephone { get; set; }
 
 
