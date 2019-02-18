@@ -26,7 +26,7 @@ namespace TeknikServis.Models.ViewModels
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "E-Mail 20 karakterden fazla olamaz!")]
+        [StringLength(600, ErrorMessage = "E-Mail 60 karakterden fazla olamaz!")]
         [EmailAddress(ErrorMessage = "Geçersiz E-Mail adresi")]
         public string Email { get; set; }
 
@@ -36,7 +36,6 @@ namespace TeknikServis.Models.ViewModels
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon numarasi sadece sayilardan olusmalidir")]
         [StringLength(11, ErrorMessage = "Telefon numarasi 11 haneden fazla olamaz")]
         public string Telephone { get; set; }
-
 
         [Required]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Şifreniz en az 5 karakter olmalıdır!")]
