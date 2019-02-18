@@ -13,10 +13,13 @@ namespace TeknikServis.Models.ViewModels
         public MarkaModelViewModel MarkaModelViewModel { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(200, ErrorMessage ="Adresiniz 200 karakterden fazla olamaz")]
+        [Display(Name = "Adres")]
         public string Adress { get; set; }
+
         [Required]
-        [StringLength(200)]
+        [StringLength(200, ErrorMessage = "Açıklamanız 200 karakterden fazla olamaz")]
+        [Display(Name ="Açıklama")]
         public string Description { get; set; }
 
         public string ArizaFoto { get; set; }
