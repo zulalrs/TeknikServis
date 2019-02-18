@@ -10,12 +10,12 @@ namespace TeknikServis.Models.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(20, ErrorMessage = "Lütfen 35 karakteri geçmeyiniz")]
+        [StringLength(20, ErrorMessage = "Lütfen 20 karakteri geçmeyiniz")]
         [Display(Name = "Ad")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Lütfen sadece Harf kullanın")]
         public string Name { get; set; }
 
-        [StringLength(20,ErrorMessage ="Lütfen 35 karakteri geçmeyiniz")]
+        [StringLength(20,ErrorMessage ="Lütfen 20 karakteri geçmeyiniz")]
         [Required]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Lütfen sadece Harf kullanın")]
         [Display(Name = "Soyad")]
@@ -38,7 +38,7 @@ namespace TeknikServis.Models.ViewModels
         public string Telephone { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = "Şifreniz en az 5 karakter olmalıdır!")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "Şifreniz en az 6 karakter olmalıdır!")]
         [Display(Name = "Şifre")]
         [DataType(DataType.Password)]
         public string Password { get; set; }

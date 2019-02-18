@@ -19,13 +19,13 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
-                            <th>Fotoğref</th>
+                            <th>Fotoğraf</th>
                             <th>Kullanıcı İsmi</th>
                             <th>Ad</th>
                             <th>Soyad</th>
                             <th>Email</th>
                             <th>Aktif</th>
-                            <th class="text-center" style="width: 10%;">Actions</th>
+                            <th class="text-center" style="width: 10%;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,13 +44,13 @@
                                 <td>@Html.CheckBox("EmailConfirm", data.EmailConfirmed, new { disabled = "true" })</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-xs btn-default btnsendcode" name="@data.Id" type="button" title="Send Activation Code">
+                                        <button class="btn btn-xs btn-default btn-warning btnsendcode" name="@data.Id" type="button" title="Send Activation Code">
                                             <i class="ion-android-mail"></i>
                                         </button>
-                                        <button class="btn btn-xs btn-default btnsendpassword" name="@data.Id" type="button" title="Send Password">
+                                        <button class="btn btn-xs btn-default btn-danger btnsendpassword" name="@data.Id" type="button" title="Send Password">
                                             <i class="ion-key"></i>
                                         </button>
-                                        <a href="@Url.Action("EditUser", "Admin", new {id = data.Id})" class="btn btn-xs btn-default" title="Edit User">
+                                        <a href="@Url.Action("EditUser", "Admin", new {id = data.Id})" class="btn btn-xs btn-default btn-success" title="Edit User">
                                             <i class="ion-edit"></i>
                                         </a>
                                     </div>
