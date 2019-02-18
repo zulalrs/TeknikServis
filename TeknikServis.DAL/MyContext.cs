@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Data.Entity;
+using TeknikServis.Models.Entities;
 using TeknikServis.Models.IdentityModels;
 
 namespace TeknikServis.DAL
@@ -8,11 +10,15 @@ namespace TeknikServis.DAL
     {
         public MyContext() : base("name=MyCon")
         {
-
+            this.InstanceDate = DateTime.Now;
         }
+        public DateTime InstanceDate { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
         }
+        public virtual DbSet<Marka> Markalar { get; set; }
+        public virtual DbSet<Model> Modeller { get; set; }
+        public virtual DbSet<Ariza> Arizalar { get; set; }
     }
 }

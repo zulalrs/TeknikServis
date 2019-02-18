@@ -11,47 +11,37 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <form role="form">
-            <!-- text input -->
-            <div class="form-group">
-                @Html.LabelFor(x => x.UserProfileViewModel.Name)
-                @Html.TextBoxFor(x => x.UserProfileViewModel.Name, new { @class = "form-control", placeholder = "Adınızı giriniz." })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => x.UserProfileViewModel.Surname)
-                @Html.TextBoxFor(x => x.UserProfileViewModel.Surname, new { @class = "form-control", placeholder = "Soyadınızı giriniz." })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => x.UserProfileViewModel.Email)
-                @Html.TextBoxFor(x => x.UserProfileViewModel.Email, new { @class = "form-control", type = "email", placeholder = "Emailinizi giriniz." })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => x.UserProfileViewModel.PhoneNumber)
-                @Html.TextBoxFor(x => x.UserProfileViewModel.PhoneNumber, new { @class = "form-control", placeholder = "Telefon numaranızı giriniz." })
-            </div>
+        @using (Html.BeginForm("ArizaBildirimi", "Musteri", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+       
             <div class="form-group">
                 @Html.LabelFor(x => x.Adress)
                 @Html.TextAreaFor(x => x.Adress, new { @class = "form-control", placeholder = "Adresinizi giriniz." })
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.MarkaModelViewModel.Marka)
+                @Html.TextBoxFor(x => x.MarkaModelViewModel.Marka, new { @class = "form-control", placeholder = "Marka giriniz." })
+                @*@Html.LabelFor(x => x.MarkaModelViewModel.Marka)
                 <select class="form-control">
                     <option>option 1</option>
                     <option>option 2</option>
                     <option>option 3</option>
                     <option>option 4</option>
                     <option>option 5</option>
-                </select>
+                </select>*@
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.MarkaModelViewModel.Model)
+                @Html.TextBoxFor(x => x.MarkaModelViewModel.Model, new { @class = "form-control", placeholder = "Model giriniz." })
+                @*@Html.LabelFor(x => x.MarkaModelViewModel.Model)
                 <select class="form-control">
                     <option>option 1</option>
                     <option>option 2</option>
                     <option>option 3</option>
                     <option>option 4</option>
                     <option>option 5</option>
-                </select>
+                </select>*@
             </div>
             <!-- textarea -->
 
@@ -63,7 +53,7 @@
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Kayıt Oluştur</button>
             </div>
-        </form>
+        }
     </div>
 
 </div>
