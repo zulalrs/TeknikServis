@@ -53,14 +53,20 @@ namespace TeknikServisWeb.Controllers
 
                 };
                 new ArizaRepository().Insert(ariza);
+                TempData["Message"] = "Kaydınız alınlıştır";
+                return RedirectToAction("ArizaBildirimi","Musteri");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
-            }
-
-            return View();
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "ArizaBildirimi",
+                    ControllerName = "Musteri",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }      
         }
     }
 }

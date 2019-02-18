@@ -33,7 +33,7 @@ namespace TeknikServisWeb.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterLoginViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace TeknikServisWeb.Controllers
                 var userStore = NewUserStore();
                 var userManager = NewUserManager();
 
-                var rm = model.RegisterViewModel;
+                var rm = model;
 
                 var user = await userManager.FindByNameAsync(rm.UserName);
                 if (user != null)

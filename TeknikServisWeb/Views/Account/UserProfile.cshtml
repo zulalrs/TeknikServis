@@ -29,14 +29,17 @@
                     <div class="form-group">
                         @Html.LabelFor(x => x.ChangePasswordViewModel.OldPassword)
                         @Html.TextBoxFor(x => x.ChangePasswordViewModel.OldPassword, new { @class = "form-control", type = "password" })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.ChangePasswordViewModel.OldPassword)</span>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(x => x.ChangePasswordViewModel.NewPassword)
                         @Html.TextBoxFor(x => x.ChangePasswordViewModel.NewPassword, new { @class = "form-control", type = "password" })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.ChangePasswordViewModel.NewPassword)</span>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(x => x.ChangePasswordViewModel.ConfirmNewPassword)
                         @Html.TextBoxFor(x => x.ChangePasswordViewModel.ConfirmNewPassword, new { @class = "form-control", type = "password" })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.ChangePasswordViewModel.OldPassword)</span>
                     </div>
                 </div>
                 <div class="box-footer">
@@ -62,23 +65,28 @@
                     <div class="form-group">
                         @Html.LabelFor(x => x.UserProfileViewModel.Name)
                         @Html.TextBoxFor(x => x.UserProfileViewModel.Name, new { @class = "form-control", placeholder = "Adınızı Giriniz" })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.UserProfileViewModel.Name)</span>
 
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(x => x.UserProfileViewModel.Surname)
                         @Html.TextBoxFor(x => x.UserProfileViewModel.Surname, new { @class = "form-control", placeholder = "Soyadınızı Giriniz" })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.UserProfileViewModel.Surname)</span>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(x => x.UserProfileViewModel.Email)
                         @Html.TextBoxFor(x => x.UserProfileViewModel.Email, new { @class = "form-control", type = "email", placeholder = "Email Giriniz" })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.UserProfileViewModel.Email)</span>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(x => x.UserProfileViewModel.PhoneNumber)
                         @Html.TextBoxFor(x => x.UserProfileViewModel.PhoneNumber, new { @class = "form-control", placeholder = "Telefon Numaranızı Giriniz" })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.UserProfileViewModel.PhoneNumber)</span>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(x => x.UserProfileViewModel.PostedFile)
                         @Html.TextBoxFor(x => x.UserProfileViewModel.PostedFile, new { @class = "form-control", type = "file", multiple = false })
+                        <br /><span class="text-red">@Html.ValidationMessageFor(x => x.UserProfileViewModel.PostedFile)</span>
                     </div>
 
                 </div>

@@ -18,5 +18,7 @@ namespace TeknikServis.Models.ViewModels
         [Required]
         [StringLength(200)]
         public string Description { get; set; }
+
+        public string ArizaFoto { get; set; }
     }
 }
