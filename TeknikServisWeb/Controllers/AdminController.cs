@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using TeknikServis.BLL.Helpers;
+using TeknikServis.BLL.Repository;
 using TeknikServis.BLL.Services;
+using TeknikServis.Models.Entities;
 using TeknikServis.Models.Models;
 using TeknikServis.Models.ViewModels;
 using static TeknikServis.BLL.Identity.MembershipTools;
@@ -281,10 +284,104 @@ namespace TeknikServisWeb.Controllers
             return View();
         }
 
+
         [HttpPost]
-        public ActionResult GetMarkaModel(MarkaModelViewModel markamodel)
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult AddMarka(MarkaModelViewModel marka)
         {
-            return View(markamodel);
+            try
+            {
+                //if (markamodel.MarkaId== 0) markamodel.MarkaId = 0;
+
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError("MarkaAdi", "70 karakteri geçmeyiniz");
+                    marka.MarkaId = marka.MarkaId;
+                    ViewBag.MarkaList = GetMarka();
+                    return View(marka);
+                }
+
+                
+                new MarkaRepository().Insert(new Marka() {
+                    Id=marka.MarkaId,
+                    MarkaAdi=marka.Marka
+                });
+                TempData["Message"] = $"{marka.Marka} isimli kategori başarıyla eklenmiştir";
+                return RedirectToAction("Add");
+            }
+            catch (DbEntityValidationException ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu: {EntityHelpers.ValidationMessage(ex)}",
+                    ActionName = "AddMarka",
+                    ControllerName = "Admin",
+                    ErrorCode = 400
+                };
+                return RedirectToAction("Error", "Home");
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu: {ex.Message}",
+                    ActionName = "AddMarka",
+                    ControllerName = "Admin",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult AddModel(MarkaModelViewModel mmodel)
+        {
+            try
+            {
+                //if (markamodel.MarkaId== 0) markamodel.MarkaId = 0;
+
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError("MarkaAdi", "70 karakteri geçmeyiniz");
+                    mmodel.ModelId = mmodel.ModelId;
+                    ViewBag.MarkaList = GetMarka();
+                    return View(mmodel);
+                }
+
+
+                new MarkaRepository().Insert(new Marka()
+                {
+                    Id = mmodel.ModelId,
+                    MarkaAdi = mmodel.Model
+                });
+                TempData["Message"] = $"{mmodel.Model} isimli Model başarıyla eklenmiştir";
+                return RedirectToAction("Add");
+            }
+            catch (DbEntityValidationException ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu: {EntityHelpers.ValidationMessage(ex)}",
+                    ActionName = "AddModel",
+                    ControllerName = "Admin",
+                    ErrorCode = 400
+                };
+                return RedirectToAction("Error", "Home");
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu: {ex.Message}",
+                    ActionName = "AddModel",
+                    ControllerName = "Admin",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
         }
     }
 }

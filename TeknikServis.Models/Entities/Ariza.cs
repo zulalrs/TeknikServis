@@ -7,7 +7,7 @@ using TeknikServis.Models.IdentityModels;
 namespace TeknikServis.Models.Entities
 {
     [Table("Arizalar")]
-    public class Ariza : BaseEntity<int>
+    public class Ariza : RepositoryBase<int>
     {
         [StringLength(200)]
         public string Aciklama { get; set; }

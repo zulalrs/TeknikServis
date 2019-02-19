@@ -10,7 +10,7 @@ using TeknikServis.Models.Abstracts;
 namespace TeknikServis.BLL.Repository
 {
   
-        public abstract class RepositoryBase<T, TId> : IDisposable where T : BaseEntity<TId>
+        public abstract class RepositoryBase<T, TId> : IDisposable where T : RepositoryBase<TId>
         {
             internal static MyContext DbContext;
             private static DbSet<T> DbObject;

@@ -10,7 +10,7 @@ using TeknikServis.Models.Abstracts;
 namespace TeknikServis.Models.Entities
 {
     [Table("Modeller")]
-    public class Model:BaseEntity<int>
+    public class Model:RepositoryBase<int>
     {
         public string ModelAdi { get; set; }
         public int MarkaId { get; set; }

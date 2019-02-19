@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeknikServis.Models.Abstracts
 {
-    public abstract class BaseEntity<T>
+    public abstract class RepositoryBase<T>
     {
         [Key]
         [Column(Order = 1)]

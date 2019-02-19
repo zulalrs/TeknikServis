@@ -17,14 +17,7 @@ namespace TeknikServisWeb.Controllers
                 .GetAll()
                 .OrderBy(x => x.MarkaAdi);
 
-            var markaList = new List<SelectListItem>()
-            {
-                new SelectListItem()
-                {
-                    Text ="Lütfen Marka Seçiniz.",
-                    Value="0"
-                }
-            };
+            var markaList = new List<SelectListItem>();
             foreach (var marka in markalar)
             {
                 markaList.Add(new SelectListItem()
@@ -41,14 +34,8 @@ namespace TeknikServisWeb.Controllers
                 .GetAll()
                 .OrderBy(x => x.ModelAdi);
 
-            var modelList = new List<SelectListItem>()
-            {
-                new SelectListItem()
-                {
-                    Text ="Lütfen Marka Seçiniz.",
-                    Value="0"
-                }
-            };
+            var modelList = new List<SelectListItem>();
+
             foreach (var model in modeller)
             {
                 modelList.Add(new SelectListItem()
