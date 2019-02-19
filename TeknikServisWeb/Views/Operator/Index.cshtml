@@ -32,29 +32,31 @@
                         @for (int i = 0; i < Model.Count; i++)
                         {
                             var data = Model[i];
-                            <tr class="@(data.ArizaOnaylandiMi?"":"bg-red")">
-                                <td class="text-center">@(i + 1)</td>
-                                <td class="text-center">
-                                    <img src="@(string.IsNullOrEmpty(data.ArizaFoto)?"/dist/img/ZGlogo.jpg":data.ArizaFoto)" class="img-rounded" width="100" height="100" />
-                                </td>
-                                <td>@data.MusteriAdi</td>
-                                <td>@data.Adres</td>
-                                <td>@data.EklemeTarihi</td>
-                                <td>
-                                   
-                                        @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.TeknisyenList, new { @class = "form-control", style="width:100%" })
-                                    
-                               
-                                </td>
-                                <td>@Html.CheckBox("EmailConfirm", data.ArizaOnaylandiMi)</td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <button class="btn btn-default btnguncelle" name="@data.Id" type="button" title="Güncelle">Güncelle   
-                                        </button>
-                                     
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr class="@(data.ArizaOnaylandiMi?"":"bg-red")">
+                            
+                            <td class="text-center">@(i + 1)</td>
+                            <td class="text-center">
+                                <img src="@(string.IsNullOrEmpty(data.ArizaFoto)?"/dist/img/ZGlogo.jpg":data.ArizaFoto)" class="img-rounded" width="100" height="100" />
+                            </td>
+                            <td>@data.MusteriAdi</td>
+                            <td>@data.Adres</td>
+                            <td>@data.EklemeTarihi</td>
+                            <td>
+                            
+                                @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.TeknisyenList, new { @class = "form-control", style = "width:100%", id = "teknisyen" })
+
+
+                            </td>
+                            <td>@Html.CheckBox("ArizaOnaylandiMi", data.ArizaOnaylandiMi, new { id = "onay" })</td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-default btnguncelle" name="@data.Id" type="button" title="Güncelle">
+                                        Güncelle
+                                    </button>
+
+                                </div>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -71,6 +73,42 @@
     <script>
         $(function () {   
             $('#example1').DataTable()
+            $(".btnguncelle").click(function () {
+                var id = this.name;
+                console.log(id);
+                var trItems = $(this).parent().parent().parent().children();
+                var select = $(trItems[5]).children()[0];
+                var secili = $(select).val();
+                var onay = $(trItems[6]).children().is(':checked');
+                //console.log(secili + " " + id + " " + musteriadi);
+            
+                var data = {
+                    Id:id,
+                    ArizaOnaylandiMi :onay,
+                    TeknisyenId: secili,
+                    EklemeTarihi: $(trItems[4])[0].innerText,
+                    ArizaFoto: $(trItems[1])[0].childNodes[1].attributes[0].textContent,
+                    MusteriAdi: $(trItems[2])[0].innerText,
+                    Adres: $(trItems[3])[0].innerText
+                }
+                $.ajax({
+                    url: "@Url.Action("Guncelle","Operator")",
+                    method: "post",
+                    dataType: "json",
+                    data: data
+                }).done(function (e) {
+                    console.log(e);
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Onay'
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
+                });
+            });
         });
     </script>
 }

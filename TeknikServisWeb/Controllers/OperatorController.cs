@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using TeknikServis.BLL.Identity;
 using TeknikServis.BLL.Repository;
+using TeknikServis.Models.Models;
 using TeknikServis.Models.ViewModels;
 using static TeknikServis.BLL.Identity.MembershipTools;
 
@@ -30,7 +31,7 @@ namespace TeknikServisWeb.Controllers
                 {
                     Id = x.Id,
                     ArizaFoto = x.ArizaFoto,
-                    MusteriAdi = x.Musteri.Name + x.Musteri.Surname,
+                    MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
                     Adres = x.Adres,
                     EklemeTarihi = x.EklemeTarihi,
                     TeknisyenId = x.TeknisyenId,
@@ -51,24 +52,76 @@ namespace TeknikServisWeb.Controllers
             });
             foreach (var user in users)
             {
-                if (!user.TeknisyenBosMu)
+                if (user.TeknisyenBosMu)
                 {
-                    var roller = NewUserManager().GetRoles(user.Id);
-                    foreach (var rol in roller)
+                    if (NewUserManager().IsInRole(user.Id, "Teknisyen"))
                     {
-                        if (rol == "Teknisyen")
+                        data.Add(new SelectListItem()
                         {
-                            data.Add(new SelectListItem()
-                            {
-                                Text = $"{user.Name} {user.Surname}",
-                                Value = user.Id
-                            });
-                        }
+                            Text = $"{user.Name} {user.Surname}",
+                            Value = user.Id
+                        });
                     }
                 }
             }
 
             return data;
         }
+
+        public JsonResult Guncelle(UserMarkaModelViewModel data)
+        {
+            try
+            {
+
+                if (data == null)
+                {
+                    return Json(new ResponseData()
+                    {
+                        message = "Arıza kaydı bulunamadı",
+                        success = false
+                    });
+                }
+
+                var ariza = new ArizaRepository().GetById(data.Id);
+                ariza.ArizaOnaylandiMi = data.ArizaOnaylandiMi;
+                if(data.ArizaOnaylandiMi)
+                {
+                    if (data.TeknisyenId == null)
+                    {
+                        return Json(new ResponseData()
+                        {
+                            message = "Lütfen teknisyen seçiniz",
+                            success = false
+                        });
+                    }
+                    ariza.TeknisyenId = data.TeknisyenId;
+                    NewUserManager().FindById(ariza.TeknisyenId).TeknisyenBosMu = true;
+
+                    return Json(new ResponseData()
+                    {
+                        message = "Güncelleme başarılı",
+                        success = true
+                    });
+                }
+                else
+                {
+                    return Json(new ResponseData()
+                    {
+                        message = "Ariza onaylanmadığı için teknisyen seçimi yapılamaz.",
+                        success = false
+                    });
+                }
+               
+            }
+            catch
+            {
+                return Json(new ResponseData()
+                {
+                    message = "Bir hata oluştu",
+                    success = false
+                });
+            }
+        }
+    
     }
 }
