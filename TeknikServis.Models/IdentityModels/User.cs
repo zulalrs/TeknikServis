@@ -16,7 +16,7 @@ namespace TeknikServis.Models.IdentityModels
         public string Surname { get; set; }
         public string ActivationCode { get; set; }
         public string AvatarPath { get; set; }
-        public bool TeknisyenBosMu { get; set; }
+        public bool TeknisyenBosMu { get; set; } = true;
         
         public TeknisyenDurumu TeknisyenDurumu { get; set; }
 

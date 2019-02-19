@@ -8,7 +8,9 @@ namespace TeknikServis.Models.Enums
 {
     public enum TeknisyenDurumu
     {
+        Beklemede,
         Yolda,
         Ulasti
+        
     }
 }
