@@ -23,7 +23,7 @@ namespace TeknikServisWeb.Controllers
             ViewBag.TeknisyenList = teknisyenler;
 
             var data = new List<UserMarkaModelViewModel>();
-            var ariza = new ArizaRepository().GetAll()
+            var ariza = new ArizaRepository().GetAll(x=>x.ArizaOnaylandiMi==false)
                 .ToList();
             foreach (var x in ariza)
             {
@@ -44,7 +44,8 @@ namespace TeknikServisWeb.Controllers
         public List<SelectListItem> Teknisyenler()
         {
             var data = new List<SelectListItem>();
-            var users = MembershipTools.NewUserStore().Users.ToList();
+            var users = NewUserStore().Users.ToList();
+
             data.Add(new SelectListItem()
             {
                 Text = $"Teknisyen Seçiniz",
@@ -52,9 +53,11 @@ namespace TeknikServisWeb.Controllers
             });
             foreach (var user in users)
             {
-                if (user.TeknisyenBosMu)
+                if (NewUserManager().IsInRole(user.Id, "Teknisyen"))
                 {
-                    if (NewUserManager().IsInRole(user.Id, "Teknisyen"))
+                    var teknisyen = new ArizaRepository().GetAll().FirstOrDefault(x => x.TeknisyenId == user.Id);
+
+                    if (teknisyen == null)
                     {
                         data.Add(new SelectListItem()
                         {
@@ -63,6 +66,7 @@ namespace TeknikServisWeb.Controllers
                         });
                     }
                 }
+
             }
 
             return data;
@@ -83,8 +87,9 @@ namespace TeknikServisWeb.Controllers
                 }
 
                 var ariza = new ArizaRepository().GetById(data.Id);
+                ariza.TeknisyenId = data.TeknisyenId;
                 ariza.ArizaOnaylandiMi = data.ArizaOnaylandiMi;
-                if(data.ArizaOnaylandiMi)
+                if (data.ArizaOnaylandiMi)
                 {
                     if (data.TeknisyenId == null)
                     {
@@ -94,9 +99,10 @@ namespace TeknikServisWeb.Controllers
                             success = false
                         });
                     }
-                    ariza.TeknisyenId = data.TeknisyenId;
-                    NewUserManager().FindById(ariza.TeknisyenId).TeknisyenBosMu = true;
-
+                    new ArizaRepository().Update(ariza);
+                    //var teknisyen = NewUserManager().FindById(ariza.TeknisyenId);
+                    //teknisyen.TeknisyenBosMu = false;
+                    //NewUserManager().Update(teknisyen); ;
                     return Json(new ResponseData()
                     {
                         message = "Güncelleme başarılı",
@@ -107,21 +113,21 @@ namespace TeknikServisWeb.Controllers
                 {
                     return Json(new ResponseData()
                     {
-                        message = "Ariza onaylanmadığı için teknisyen seçimi yapılamaz.",
+                        message = "Ariza onaylanmadı",
                         success = false
                     });
                 }
-               
+
             }
-            catch
+            catch (Exception ex)
             {
                 return Json(new ResponseData()
                 {
-                    message = "Bir hata oluştu",
+                    message = $"Bir hata oluştu {ex.Message}",
                     success = false
                 });
             }
         }
-    
+
     }
 }

@@ -276,6 +276,7 @@ namespace TeknikServisWeb.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = "Admin")]
         public ActionResult GetMarkaModel()
         {
             ViewBag.MarkaList = GetMarka();
@@ -287,7 +288,6 @@ namespace TeknikServisWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult AddMarka(MarkaModelViewModel marka)
         {
             try
