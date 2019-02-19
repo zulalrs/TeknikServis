@@ -16,7 +16,7 @@ using static TeknikServis.BLL.Identity.MembershipTools;
 namespace TeknikServisWeb.Controllers
 {
     [Authorize(Roles = "GenelYonetici")]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         // GET: Admin
         public ActionResult Index()
@@ -270,6 +270,21 @@ namespace TeknikServisWeb.Controllers
             }
 
             return RedirectToAction("EditUser", new { id = userId });
+        }
+
+        [HttpGet]
+        public ActionResult GetMarkaModel()
+        {
+            ViewBag.MarkaList = GetMarka();
+            ViewBag.ModelList = GetModel();
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetMarkaModel(MarkaModelViewModel markamodel)
+        {
+            return View(markamodel);
         }
     }
 }

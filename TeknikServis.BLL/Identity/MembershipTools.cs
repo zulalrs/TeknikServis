@@ -18,6 +18,8 @@ namespace TeknikServis.BLL.Identity
         public static RoleManager<Role> NewRoleManager() => new RoleManager<Role>(NewRoleStore());
 
 
+
+
         public static string GetNameSurname(string userId)
         {
             User user;

@@ -6645,6 +6645,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusteriController.cs" />
     <Compile Include="Controllers\PartialController.cs" />
@@ -7285,6 +7286,7 @@
     <Content Include="Views\Account\RecoverPassword.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Musteri\ArizaBildirimi.cshtml" />
+    <Content Include="Views\Admin\GetMarkaModel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -7296,6 +7298,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="bower_components\fullcalendar\dist\fullcalendar.d.ts" />
