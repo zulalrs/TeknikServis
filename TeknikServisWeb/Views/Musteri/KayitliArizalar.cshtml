@@ -8,9 +8,9 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="box">
+        <div class="box box-info">
             <div class="box-header">
-                <h3 class="box-title">Responsive Hover Table</h3>
+                <h3 class="box-title">Kayıtlı Arızalarım</h3>
 
                 <div class="box-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
@@ -33,14 +33,7 @@
                             <th>Teknisyen Durumu</th>
                             <th>Arıza Onay Durumu</th>
                             <th>Ücret</th>
-                            <th class="text-center" style="width: 10%;">Action</th>
-                        </tr>
-                        <tr>
-                            <td>183</td>
-                            <td>John Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-success">Approved</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                            
                         </tr>
                         @for (int i = 0; i < Model.Count; i++)
                         {
@@ -53,11 +46,10 @@
                                 <td>
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Beklemede)
                                     {<span class="label label-danger">@data.TeknisyenDurumu</span>}
-                                    @{else if (data.TeknisyenDurumu == TeknisyenDurumu.Yolda)
-                                    <span class="label label-warning">@data.TeknisyenDurumu</span>}
-                                    @{else if (data.TeknisyenDurumu == TeknisyenDurumu.Ulasti)
-                                        <span class="label label-success">@data.TeknisyenDurumu</span>}
-                                        
+                                    @if (data.TeknisyenDurumu == TeknisyenDurumu.Yolda)
+                                    {<span class="label label-warning">@data.TeknisyenDurumu</span>}
+                                    @if (data.TeknisyenDurumu == TeknisyenDurumu.Ulasti)
+                                    {<span class="label label-success">@data.TeknisyenDurumu</span>}
                                 </td>
                                 <td>@data.ArizaOnaylandiMi</td>
                                 <td>@data.Ucret</td>
