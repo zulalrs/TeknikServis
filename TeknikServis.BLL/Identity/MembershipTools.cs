@@ -51,16 +51,15 @@ namespace TeknikServis.BLL.Identity
                     return "";
 
                 user = NewUserManager().FindById(id);
-                foreach (var item in user.Roles)
-                {
-                     role = NewRoleManager().FindById(item.RoleId).Name;
-                }
+
             }
             else
             {
                 user = NewUserManager().FindById(userId);
-                if (user == null)
-                    return null;
+                foreach (var item in user.Roles)
+                {
+                    role = NewRoleManager().FindById(item.RoleId).Name;
+                }
             }
 
             return $"{role}";

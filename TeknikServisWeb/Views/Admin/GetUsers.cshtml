@@ -1,4 +1,5 @@
-﻿@model List<TeknikServis.Models.IdentityModels.User>
+﻿@using TeknikServis.BLL.Identity;
+@model List<TeknikServis.Models.IdentityModels.User>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -41,7 +42,7 @@
                                 <td class="font-500">@data.UserName</td>
                                 <td>@data.Name</td>
                                 <td>@data.Surname</td>
-                                <td>@</td>
+                                <td>@MembershipTools.GetRole(data.Id)</td>
                                 <td>@data.Email</td>
                                 <td>@Html.CheckBox("EmailConfirm", data.EmailConfirmed, new { disabled = "true" })</td>
                                 <td class="text-center">
@@ -49,7 +50,7 @@
                                         <button class="btn btn-xs btn-default btn-warning btnsendcode" name="@data.Id" type="button" title="Send Activation Code">
                                             <i class="ion-android-mail"></i>
                                         </button>
-                                        <button class="btn btn-xs btn-default btn-danger btnsendpassword" name="@data.Id" type="button" title="Send Password">
+                                        <button class="btn btn-xs btn-default btn-info btnsendpassword" name="@data.Id" type="button" title="Send Password">
                                             <i class="ion-key"></i>
                                         </button>
                                         <a href="@Url.Action("EditUser", "Admin", new {id = data.Id})" class="btn btn-xs btn-default btn-success" title="Edit User">
