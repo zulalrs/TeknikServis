@@ -1,4 +1,5 @@
 ﻿@using TeknikServis.Models.Enums;
+@using TeknikServis.BLL.Identity;
 @model List<TeknikServis.Models.ViewModels.UserMarkaModelViewModel>
 @{
     ViewBag.Title = "KayitliArizalar";
@@ -33,7 +34,7 @@
                             <th>Teknisyen Durumu</th>
                             <th>Arıza Onay Durumu</th>
                             <th>Ücret</th>
-                            
+
                         </tr>
                         @for (int i = 0; i < Model.Count; i++)
                         {
@@ -42,7 +43,8 @@
                                 <td class="text-center">@(i + 1)</td>
 
                                 <td>@data.EklemeTarihi</td>
-                                <td>@data.TeknisyenAdi</td>
+                                @* teknisyen adı gelmiyor *@
+                                <td>@MembershipTools.GetNameSurname(data.TeknisyenId)</td>
                                 <td>
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Beklemede)
                                     {<span class="label label-danger">@data.TeknisyenDurumu</span>}
@@ -51,10 +53,12 @@
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Ulasti)
                                     {<span class="label label-success">@data.TeknisyenDurumu</span>}
                                 </td>
-                                @* eve gidince ,if yaz *@
-                                <td>@data.ArizaOnaylandiMi</td>
+                                <td>
+                                    @if (data.ArizaOnaylandiMi == true)
+                                    {<span class="label label-success">Onaylandı</span>}
+                                    @if (data.ArizaOnaylandiMi == false)
+                                    {<span class="label label-danger">Onaylanmadı</span>}
                                 <td>@data.Ucret</td>
-
                             </tr>
                         }
                     </tbody>

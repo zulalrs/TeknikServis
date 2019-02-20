@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web;
 using TeknikServis.DAL;
+using TeknikServis.Models.Entities;
 using TeknikServis.Models.IdentityModels;
 
 namespace TeknikServis.BLL.Identity
