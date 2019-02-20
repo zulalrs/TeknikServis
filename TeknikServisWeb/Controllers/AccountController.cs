@@ -59,10 +59,10 @@ namespace TeknikServisWeb.Controllers
                     Email = rm.Email,
                     Name = rm.Name,
                     Surname = rm.Surname,
-                    PhoneNumber=rm.Telephone,
+                    PhoneNumber = rm.Telephone,
                     ActivationCode = StringHelpers.GetCode(),
-                    AvatarPath= "../../dist/img/ZGlogo.jpg"
-            };
+
+                };
                 var result = await userManager.CreateAsync(newUser, rm.Password);
                 if (result.Succeeded)
                 {

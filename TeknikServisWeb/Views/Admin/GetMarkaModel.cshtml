@@ -58,25 +58,7 @@
                         @Html.Label("Marka Adı")
                         @Html.DropDownListFor(x => x.MarkaViewModel.MarkaId, (List<SelectListItem>)ViewBag.MarkaList, new { @class = "form-control", size = "1" })
                         <br />
-                        @{var listmodel = new List<SelectListItem>();}
-                        @{var modeller = new ModelRepository().GetAll().OrderBy(x => x.ModelAdi);}
-                        @{var markalar = new MarkaRepository().GetAll().OrderBy(x => x.MarkaAdi);}
-
-                        @foreach (var modelim in modeller)
-                        {
-                            foreach (var marka in markalar)
-                            {
-                                if (modelim.MarkaId == marka.Id)
-                                {
-                                    listmodel.Add(new SelectListItem()
-                                    {
-                                        Text = modelim.ModelAdi,
-                                        Value = modelim.Id.ToString()
-                                    });
-                                }
-                            }
-                        }
-                        @{ViewBag.ModelList = (List<SelectListItem>)listmodel;}
+                      
                         @Html.ListBoxFor(x => x.ModelViewModel.ModelId, (List<SelectListItem>)ViewBag.ModelList, new { @class = "form-control" })
                     </div>
                 </div>

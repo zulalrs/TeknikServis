@@ -23,6 +23,7 @@
                             <th>Kullanıcı İsmi</th>
                             <th>Ad</th>
                             <th>Soyad</th>
+                            <th>Rol</th>
                             <th>Email</th>
                             <th>Aktif</th>
                             <th class="text-center" style="width: 10%;">Action</th>
@@ -40,6 +41,7 @@
                                 <td class="font-500">@data.UserName</td>
                                 <td>@data.Name</td>
                                 <td>@data.Surname</td>
+                                <td>@</td>
                                 <td>@data.Email</td>
                                 <td>@Html.CheckBox("EmailConfirm", data.EmailConfirmed, new { disabled = "true" })</td>
                                 <td class="text-center">
