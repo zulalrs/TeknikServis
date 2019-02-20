@@ -40,6 +40,31 @@ namespace TeknikServis.BLL.Identity
 
             return $"{user.Name} {user.Surname}";
         }
+        public static string GetRole(string userId)
+        {
+            User user;
+            string role="";
+            if (string.IsNullOrEmpty(userId))
+            {
+                var id = HttpContext.Current.User.Identity.GetUserId();
+                if (string.IsNullOrEmpty(id))
+                    return "";
+
+                user = NewUserManager().FindById(id);
+                foreach (var item in user.Roles)
+                {
+                     role = NewRoleManager().FindById(item.RoleId).Name;
+                }
+            }
+            else
+            {
+                user = NewUserManager().FindById(userId);
+                if (user == null)
+                    return null;
+            }
+
+            return $"{role}";
+        }
         public static string GetAvatarPath(string userId)
         {
             User user;
