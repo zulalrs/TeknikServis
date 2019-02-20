@@ -6651,6 +6651,7 @@
     <Compile Include="Controllers\MusteriController.cs" />
     <Compile Include="Controllers\OperatorController.cs" />
     <Compile Include="Controllers\PartialController.cs" />
+    <Compile Include="Controllers\TeknisyenController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -7290,6 +7291,11 @@
     <Content Include="Views\Musteri\ArizaBildirimi.cshtml" />
     <Content Include="Views\Operator\Index.cshtml" />
     <Content Include="Views\Admin\GetMarkaModel.cshtml" />
+    <Content Include="Views\Admin\GetUsers.cshtml" />
+    <Content Include="Views\Operator\Arizalar.cshtml" />
+    <Content Include="Views\Musteri\Index.cshtml" />
+    <Content Include="Views\Teknisyen\Index.cshtml" />
+    <Content Include="Views\Musteri\KayitliArizalar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using TeknikServis.BLL.Repository;
 using TeknikServis.Models.Entities;
+using TeknikServis.Models.Enums;
 using TeknikServis.Models.ViewModels;
 using static TeknikServis.BLL.Identity.MembershipTools;
 
@@ -15,6 +16,10 @@ namespace TeknikServisWeb.Controllers
     public class MusteriController : Controller
     {
         // GET: Musteri
+        public ActionResult Index()
+        {
+            return View();
+        }
         public ActionResult ArizaBildirimi()
         {
             return View();
@@ -67,6 +72,27 @@ namespace TeknikServisWeb.Controllers
                 };
                 return RedirectToAction("Error", "Home");
             }      
+        }
+
+        [HttpGet]
+        public ActionResult KayitliArizalar()
+        {
+            var id = HttpContext.User.Identity.GetUserId();
+            var data = new List<UserMarkaModelViewModel>();
+            var ariza = new ArizaRepository().GetAll(x=>x.MusteriId==id).ToList();
+            foreach (var x in ariza)
+            {
+                data.Add(new UserMarkaModelViewModel()
+                {
+                    Id = x.Id,
+                    EklemeTarihi = x.EklemeTarihi,
+                    TeknisyenAdi = x.Teknisyen?.Name + " " + x.Teknisyen?.Surname,
+                    TeknisyenDurumu=x.Teknisyen?.TeknisyenDurumu==null ? TeknisyenDurumu.Beklemede:x.Teknisyen.TeknisyenDurumu,
+                    ArizaOnaylandiMi = x.ArizaOnaylandiMi,
+                    Ucret=x.Ucret
+                });
+            }
+            return View(data);
         }
     }
 }

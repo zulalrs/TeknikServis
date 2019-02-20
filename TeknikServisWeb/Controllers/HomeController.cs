@@ -26,8 +26,12 @@ namespace TeknikServisWeb.Controllers
                 {
                     if (role == "GenelYonetici")
                         return RedirectToAction("Index", "Admin");
+                    else if (role == "Operator")
+                        return RedirectToAction("Index", "Operator");
+                    else if (role == "Teknisyen")
+                        return RedirectToAction("Index", "Teknisyen");
                     else if (role == "Musteri")
-                        return RedirectToAction("ArizaBildirimi", "Musteri");
+                        return RedirectToAction("Index", "Musteri");
                 }
                 return View();
             }

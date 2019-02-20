@@ -28,9 +28,9 @@
                 <br /><span class="text-red">@Html.ValidationMessageFor(x => x.Adres)</span>
             </div>
             <div class="form-group">
-                @Html.LabelFor(x => x.MarkaModelViewModel.Marka)
-                @Html.TextBoxFor(x => x.MarkaModelViewModel.Marka, new { @class = "form-control", placeholder = "Marka giriniz." })
-                <br /><span class="text-red">@Html.ValidationMessageFor(x => x.MarkaModelViewModel.Marka)</span>
+                @Html.LabelFor(x => x.MarkaModelViewModel.MarkaViewModel.Marka)
+                @Html.TextBoxFor(x => x.MarkaModelViewModel.MarkaViewModel.Marka, new { @class = "form-control", placeholder = "Marka giriniz." })
+                <br /><span class="text-red">@Html.ValidationMessageFor(x => x.MarkaModelViewModel.MarkaViewModel.Marka)</span>
                 @*@Html.LabelFor(x => x.MarkaModelViewModel.Marka)
                     <select class="form-control">
                         <option>option 1</option>
@@ -41,9 +41,9 @@
                     </select>*@
             </div>
             <div class="form-group">
-                @Html.LabelFor(x => x.MarkaModelViewModel.Model)
-                @Html.TextBoxFor(x => x.MarkaModelViewModel.Model, new { @class = "form-control", placeholder = "Model giriniz." })
-                <br /><span class="text-red">@Html.ValidationMessageFor(x => x.MarkaModelViewModel.Model)</span>
+                @Html.LabelFor(x => x.MarkaModelViewModel.ModelViewModel.Model)
+                @Html.TextBoxFor(x => x.MarkaModelViewModel.ModelViewModel.Model, new { @class = "form-control", placeholder = "Model giriniz." })
+                <br /><span class="text-red">@Html.ValidationMessageFor(x => x.MarkaModelViewModel.ModelViewModel.Model)</span>
                 @*@Html.LabelFor(x => x.MarkaModelViewModel.Model)
                     <select class="form-control">
                         <option>option 1</option>

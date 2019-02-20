@@ -18,12 +18,16 @@ namespace TeknikServisWeb.Controllers
         // GET: Operator
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult Arizalar()
+        {
             var teknisyenler = Teknisyenler();
 
             ViewBag.TeknisyenList = teknisyenler;
 
             var data = new List<UserMarkaModelViewModel>();
-            var ariza = new ArizaRepository().GetAll(x=>x.ArizaOnaylandiMi==false)
+            var ariza = new ArizaRepository().GetAll(x => x.ArizaOnaylandiMi == false)
                 .ToList();
             foreach (var x in ariza)
             {

@@ -11,7 +11,7 @@ namespace TeknikServis.Models.ViewModels
 {
     public class UserMarkaModelViewModel
     {
-        //public UserProfileViewModel UserProfileViewModel { get; set; }
+        public UserProfileViewModel UserProfileViewModel { get; set; }
         public MarkaModelViewModel MarkaModelViewModel { get; set; }
 
         public int Id { get; set; }
@@ -34,7 +34,7 @@ namespace TeknikServis.Models.ViewModels
         public int ModelId { get; set; }
         public string ModelAdi { get; set; }
         public string TeknisyenId { get; set; }
-        public string Teknisyen { get; set; }
+        public string TeknisyenAdi { get; set; }
         public TeknisyenDurumu TeknisyenDurumu { get; set; }
         public bool TeknisyenBosMu { get; set; }
         public bool ArizaYapildiMi { get; set; }

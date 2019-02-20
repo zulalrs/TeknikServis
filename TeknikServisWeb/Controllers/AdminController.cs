@@ -24,8 +24,13 @@ namespace TeknikServisWeb.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult GetUsers()
+        {
             return View(NewUserStore().Users.ToList());
         }
+    
         [HttpPost]
         public async Task<JsonResult> SendCode(string id)
         {
@@ -129,7 +134,7 @@ namespace TeknikServisWeb.Controllers
             {
                 var user = NewUserManager().FindById(id);
                 if (user == null)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("GetUsers");
 
                 var roller = GetRoleList();
                 foreach (var role in user.Roles)
@@ -161,7 +166,7 @@ namespace TeknikServisWeb.Controllers
                 TempData["Model"] = new ErrorViewModel()
                 {
                     Text = $"Bir hata oluştu {ex.Message}",
-                    ActionName = "Index",
+                    ActionName = "GetUsers",
                     ControllerName = "Admin",
                     ErrorCode = 500
                 };
@@ -236,7 +241,7 @@ namespace TeknikServisWeb.Controllers
                 TempData["Model"] = new ErrorViewModel()
                 {
                     Text = $"Bir hata oluştu {ex.Message}",
-                    ActionName = "Index",
+                    ActionName = "GetUsers",
                     ControllerName = "Admin",
                     ErrorCode = 500
                 };

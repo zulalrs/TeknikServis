@@ -1,0 +1,113 @@
+﻿@model List<TeknikServis.Models.ViewModels.UserMarkaModelViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section top
+{
+    <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Arıza Yönetimi Sayfası</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Fotoğraf</th>
+                            <th>Müşteri İsmi</th>
+                            <th>Adres</th>
+                            <th>Ekleme Tarihi</th>
+                            <th>Teknisyen</th>
+                            <th>Onay</th>
+                            <th class="text-center" style="width: 10%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            var data = Model[i];
+                            <tr class="@(data.ArizaOnaylandiMi?"":"bg-red")">
+
+                                <td class="text-center">@(i + 1)</td>
+                                <td class="text-center">
+                                    <img src="@(string.IsNullOrEmpty(data.ArizaFoto)?"/dist/img/ZGlogo.jpg":data.ArizaFoto)" class="img-rounded" width="100" height="100" />
+                                </td>
+                                <td>@data.MusteriAdi</td>
+                                <td>@data.Adres</td>
+                                <td>@data.EklemeTarihi</td>
+                                <td>
+
+                                    @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.TeknisyenList, new { @class = "form-control", style = "width:100%", id = "teknisyen" })
+
+
+                                </td>
+                                <td>@Html.CheckBox("ArizaOnaylandiMi", data.ArizaOnaylandiMi, new { id = "onay" })</td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button class="btn btn-default btnguncelle" name="@data.Id" type="button" title="Güncelle">
+                                            Güncelle
+                                        </button>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+@section bottom
+{
+    <script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/dist/js/bootstrap-notify.min.js"></script>
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $(".btnguncelle").click(function () {
+                var id = this.name;
+                var trItems = $(this).parent().parent().parent().children();
+                var select = $(trItems[5]).children()[0];
+                var secili = $(select).val();
+                var onay = $(trItems[6]).children().is(':checked');
+
+                var data = {
+                    Id:id,
+                    ArizaOnaylandiMi :onay,
+                    TeknisyenId: secili,
+                    EklemeTarihi: $(trItems[4])[0].innerText,
+                    ArizaFoto: $(trItems[1])[0].childNodes[1].attributes[0].textContent,
+                    MusteriAdi: $(trItems[2])[0].innerText,
+                    Adres: $(trItems[3])[0].innerText
+                }
+                $.ajax({
+                    url: "@Url.Action("Guncelle","Operator")",
+                    method: "post",
+                    dataType: "json",
+                    data: data
+                }).done(function (e) {
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Mesaj: '
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
+                });
+            });
+        });
+    </script>
+}
+
+
