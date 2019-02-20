@@ -96,14 +96,14 @@
                     data: data
                 }).done(function (e) {
                     $.notify({
-                            // options
-                            message: e.message,
-                            title: 'Mesaj: '
-                        },
-                        {
-                            // settings
-                            type: e.success ? "success" : "danger"
-                        });
+                        // options
+                        message: e.message,
+                        title: 'Mesaj: '
+                    },
+                    {
+                        // settings
+                        type: e.success ? "success" : "danger"
+                    });
                 });
             });
         });
