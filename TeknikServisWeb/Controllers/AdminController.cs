@@ -41,11 +41,12 @@ namespace TeknikServisWeb.Controllers
                         success = false
                     });
                 }
-                if(user.EmailConfirmed)
+                if (user.EmailConfirmed)
                 {
-                    return Json(new ResponseData() {
-                        message="Kullanıcı zaten e-postasını onaylamış",
-                        success=false
+                    return Json(new ResponseData()
+                    {
+                        message = "Kullanıcı zaten e-postasını onaylamış",
+                        success = false
                     });
                 }
 
@@ -281,7 +282,7 @@ namespace TeknikServisWeb.Controllers
         {
             ViewBag.MarkaList = GetMarka();
             ViewBag.ModelList = GetModel();
-            
+
             return View();
         }
 
@@ -297,18 +298,19 @@ namespace TeknikServisWeb.Controllers
                 if (!ModelState.IsValid)
                 {
                     ModelState.AddModelError("MarkaAdi", "70 karakteri geçmeyiniz");
-                    marka.MarkaId = marka.MarkaId;
+                    marka.MarkaViewModel.MarkaId = marka.MarkaViewModel.MarkaId;
                     ViewBag.MarkaList = GetMarka();
                     return View(marka);
                 }
 
-                
-                new MarkaRepository().Insert(new Marka() {
-                    Id=marka.MarkaId,
-                    MarkaAdi=marka.Marka
+
+                new MarkaRepository().Insert(new Marka()
+                {
+                    Id = marka.MarkaViewModel.MarkaId,
+                    MarkaAdi = marka.MarkaViewModel.Marka
                 });
-                TempData["Message"] = $"{marka.Marka} isimli kategori başarıyla eklenmiştir";
-                return RedirectToAction("Add");
+                TempData["Message"] = $"{marka.MarkaViewModel.Marka} isimli kategori başarıyla eklenmiştir";
+                return RedirectToAction("GetMarkaModel");
             }
             catch (DbEntityValidationException ex)
             {
@@ -346,19 +348,20 @@ namespace TeknikServisWeb.Controllers
                 if (!ModelState.IsValid)
                 {
                     ModelState.AddModelError("MarkaAdi", "70 karakteri geçmeyiniz");
-                    mmodel.ModelId = mmodel.ModelId;
+                    mmodel.ModelViewModel.ModelId = mmodel.ModelViewModel.ModelId;
                     ViewBag.MarkaList = GetMarka();
                     return View(mmodel);
                 }
 
 
-                new MarkaRepository().Insert(new Marka()
+                new ModelRepository().Insert(new Model()
                 {
-                    Id = mmodel.ModelId,
-                    MarkaAdi = mmodel.Model
+                    Id = mmodel.ModelViewModel.ModelId,
+                    MarkaId = mmodel.MarkaViewModel.MarkaId,
+                    ModelAdi = mmodel.ModelViewModel.Model
                 });
-                TempData["Message"] = $"{mmodel.Model} isimli Model başarıyla eklenmiştir";
-                return RedirectToAction("Add");
+                TempData["Message"] = $"{ mmodel.ModelViewModel.Model} isimli Model başarıyla eklenmiştir";
+                return RedirectToAction("GetMarkaModel");
             }
             catch (DbEntityValidationException ex)
             {

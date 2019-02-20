@@ -14,19 +14,20 @@
     <!-- form start -->
     @using (Html.BeginForm("AddMarka", "Admin", FormMethod.Post, new { @class = "form-horizontal" }))
     {
+        @Html.AntiForgeryToken()
         <div class="box-body">
             <div class="com-md-12">
                 <div class="col-md-5">
                     <div class="form-group">
                         @Html.Label("Marka Adı")
-                        @Html.TextBoxFor(x => x.Marka, new { @class = "form-control", placeholder = "Marka Adı Yazınız" })
+                        @Html.TextBoxFor(x => x.MarkaViewModel.Marka, new { @class = "form-control", placeholder = "Marka Adı Yazınız" })
                     </div>
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
                     <div class="form-group">
                         @Html.Label("Markalar")
-                        @Html.ListBoxFor(x => x.Marka, (List<SelectListItem>)ViewBag.MarkaList, new { @class = "form-control" })
+                        @Html.ListBox("Markalar", (List<SelectListItem>)ViewBag.MarkaList, new { @class = "form-control" })
                     </div>
                 </div>
 
@@ -34,7 +35,7 @@
 
         </div>
         <div class="box-footer">
-            <button type="button" class="btn btn-primary btn-warning">Kaydet</button>
+            <button type="submit" class="btn btn-primary btn-warning">Kaydet</button>
         </div>
     }
 </div>
@@ -47,21 +48,22 @@
     <!-- form start -->
     @using (Html.BeginForm("AddModel", "Admin", FormMethod.Post, new { @class = "form-horizontal" }))
     {
+        @Html.AntiForgeryToken()
         <div class="box-body">
             <div class="com-md-12">
                 <div class="col-md-5">
                     <div class="form-group">
                         @Html.Label("Marka Adı")
-                        @Html.DropDownListFor(x => x.Marka, (List<SelectListItem>)ViewBag.MarkaList, new { @class = "form-control", size = "1" })
+                        @Html.DropDownListFor(x => x.ModelViewModel.ModelId, (List<SelectListItem>)ViewBag.MarkaList, new { @class = "form-control", size = "1" })
                         <br />
-                        @Html.ListBoxFor(x => x.Marka, (List<SelectListItem>)ViewBag.MarkaList, new { @class = "form-control" })
+                        @Html.ListBoxFor(x => x.ModelViewModel.ModelId, (List<SelectListItem>)ViewBag.MarkaList, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
                     <div class="form-group">
                         @Html.Label("Model Adı")
-                        @Html.TextBoxFor(x => x.Marka, new { @class = "form-control", placeholder = "Model Adı Yazınız" })
+                        @Html.TextBoxFor(x => x.ModelViewModel.Model, new { @class = "form-control", placeholder = "Model Adı Yazınız" })
                     </div>
                 </div>
 

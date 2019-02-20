@@ -31,13 +31,13 @@ namespace TeknikServisWeb.Controllers
             {
                 var marka = new Marka()
                 {
-                    MarkaAdi = model.MarkaModelViewModel.Marka
+                    MarkaAdi = model.MarkaModelViewModel.MarkaViewModel.Marka
                 };
                 new MarkaRepository().Insert(marka);
                 var markaId = marka.Id;
                 var markaModel = new Model()
                 {
-                    ModelAdi = model.MarkaModelViewModel.Model,
+                   ModelAdi = model.MarkaModelViewModel.ModelViewModel.Model,
                    MarkaId=markaId
                 };
                 new ModelRepository().Insert(markaModel);
