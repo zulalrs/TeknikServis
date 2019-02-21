@@ -45,6 +45,8 @@
                                 <td>@data.ArizaBaslangicTarihi</td>
                                 <td>@data.TeknisyenAdi</td>
                                 <td>
+                                    @if (data.TeknisyenDurumu == TeknisyenDurumu.Bosta)
+                                    {<span class="label label-danger" style="font-size:13px;">@data.TeknisyenDurumu</span>}
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Beklemede)
                                     {<span class="label label-danger" style="font-size:13px;">@data.TeknisyenDurumu</span>}
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Atandı)

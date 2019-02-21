@@ -29,7 +29,8 @@ namespace TeknikServisWeb.Controllers
             ViewBag.TeknisyenList = teknisyenler;
 
             var data = new List<UserMarkaModelViewModel>();
-            var ariza = new ArizaRepository().GetAll(x => x.ArizaOnaylandiMi == false)
+            //x => x.ArizaOnaylandiMi == false
+            var ariza = new ArizaRepository().GetAll()
                 .ToList();
             foreach (var x in ariza)
             {
@@ -59,18 +60,19 @@ namespace TeknikServisWeb.Controllers
             });
             foreach (var user in users)
             {
-                if (NewUserManager().IsInRole(user.Id, "Teknisyen"))
+                if (NewUserManager().IsInRole(user.Id, "Teknisyen") && user.TeknisyenDurumu==TeknisyenDurumu.Bosta)
                 {
-                    var teknisyen = new ArizaRepository().GetAll().FirstOrDefault(x => x.TeknisyenId == user.Id);
+                    // var teknisyen = new ArizaRepository().GetAll().FirstOrDefault(x => x.TeknisyenId == user.Id);
+                    //if (teknisyen == null)
+                    //{
 
-                    if (teknisyen == null)
+                    //}
+                    data.Add(new SelectListItem()
                     {
-                        data.Add(new SelectListItem()
-                        {
-                            Text = $"{user.Name} {user.Surname}",
-                            Value = user.Id
-                        });
-                    }
+                        Text = $"{user.Name} {user.Surname}",
+                        Value = user.Id
+                    });
+                    
                 }
 
             }
@@ -78,7 +80,7 @@ namespace TeknikServisWeb.Controllers
             return data;
         }
 
-        public JsonResult Guncelle(UserMarkaModelViewModel data)
+        public async Task<JsonResult> Guncelle(UserMarkaModelViewModel data)
         {
             try
             {
@@ -95,6 +97,7 @@ namespace TeknikServisWeb.Controllers
                 var ariza = new ArizaRepository().GetById(data.Id);
                 ariza.TeknisyenId = data.TeknisyenId;
                 ariza.ArizaOnaylandiMi = data.ArizaOnaylandiMi;
+               
                 if (data.ArizaOnaylandiMi)
                 {
                     if (data.TeknisyenId == null || data.TeknisyenId=="0")
@@ -106,15 +109,20 @@ namespace TeknikServisWeb.Controllers
                         });
                     }
                     new ArizaRepository().Update(ariza);
+                    ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Beklemede;
+                    new ArizaRepository().Update(ariza);
                     string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                     (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
 
-                    var user = NewUserManager().FindById(data.TeknisyenId);
+                    var user = await NewUserStore().FindByIdAsync(ariza.TeknisyenId);
+                    //user.TeknisyenDurumu = TeknisyenDurumu.Beklemede;
+                    //await NewUserStore().UpdateAsync(user);
                     var emailService = new EmailService();
                     var body = $"Merhaba <b>{user.Name} {user.Surname}</b><br>İşi kabul ediyorsanız lütfen linke tıklayınız<br> <a href='{SiteUrl}/operator/activation?code={user.ActivationCode}' >Onay Linki </a> ";
                     emailService.Send(new IdentityMessage() { Body = body, Subject = "İş Kabul" }, user.Email);
 
                     var userM = NewUserManager().FindById(ariza.MusteriId);
+               
                     var emailServiceM = new EmailService();
                     var bodyM = $"Merhaba <b>{userM.Name} {userM.Surname}</b><br>Arızanız onaylanmıştır. Sizinle en kısa sürede iletişime geçilecektir.<br> ";
                     emailServiceM.Send(new IdentityMessage() { Body = bodyM, Subject = "Arıza Onay" }, userM.Email);
@@ -144,40 +152,40 @@ namespace TeknikServisWeb.Controllers
             }
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Activation(string code)
-        {
-            try
-            {
-                var userStore = NewUserStore();
-                var user = userStore.Users.FirstOrDefault(x => x.ActivationCode == code);
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public ActionResult Activation(string code)
+        //{
+        //    try
+        //    {
+        //        var userStore = NewUserStore();
+        //        var user = userStore.Users.FirstOrDefault(x => x.ActivationCode == code);
 
-                if (user != null)
-                {
-                    if (user.TeknisyenDurumu==TeknisyenDurumu.Atandı)
-                    {
-                        ViewBag.Message = $"<div class='alert alert-info alert-dismissible'><i class='icon fa fa-info'></i>Bu iş daha önce onaylanmıştır.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-                    }
-                    else
-                    {
-                        user.TeknisyenDurumu = TeknisyenDurumu.Atandı;
+        //        if (user != null)
+        //        {
+        //            if (user.TeknisyenDurumu==TeknisyenDurumu.Atandı)
+        //            {
+        //                ViewBag.Message = $"<div class='alert alert-info alert-dismissible'><i class='icon fa fa-info'></i>Bu iş daha önce onaylanmıştır.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+        //            }
+        //            else
+        //            {
+        //                user.TeknisyenDurumu = TeknisyenDurumu.Atandı;
 
-                        userStore.Context.SaveChanges();
-                        ViewBag.Message = $"<div class='alert alert-success alert-dismissible'><i class='icon fa fa-check'></i>Onay işleminiz başarılı.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-                    }
-                }
-                else
-                {
-                    ViewBag.Message = $"<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay başarısız.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Message = "<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay işleminde bir hata oluştu.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-            }
+        //                userStore.Context.SaveChanges();
+        //                ViewBag.Message = $"<div class='alert alert-success alert-dismissible'><i class='icon fa fa-check'></i>Onay işleminiz başarılı.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ViewBag.Message = $"<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay başarısız.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        ViewBag.Message = "<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay işleminde bir hata oluştu.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+        //    }
 
-            return RedirectToAction("Activation", "Operator");
-        }
+        //    return RedirectToAction("Activation", "Operator");
+        //}
     }
 }

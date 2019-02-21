@@ -8,6 +8,7 @@ namespace TeknikServis.Models.Enums
 {
     public enum TeknisyenDurumu
     {
+        Bosta,
         Beklemede,
         Atandı,
         Yolda,

@@ -33,10 +33,10 @@
                                         @data.Aciklama
                                     </div>
                                     <div class="timeline-footer">
-                                        <a class="btn btn-success btn-xs">Yolda</a>
-                                        <a class="btn btn-danger btn-xs">Delete</a>
-                                        <a class="btn btn-warning btn-xs">Delete</a>
-                                        <a class="btn btn-info btn-xs">Delete</a>
+                                        <a class="btn btn-success btn-xs btniskabul" name="@data.Id">İş Kabul</a>
+                                        <a class="btn btn-danger btn-xs btnyolda" name="@data.Id">Yolda</a>
+                                        <a class="btn btn-warning btn-xs btnulasti" name="@data.Id">Ulaştı</a>
+                                        <a class="btn btn-info btn-xs btnislemtamam" name="@data.Id">İş Tamamlandı</a>
                                     </div>
                                 </div>
                             </li>
@@ -52,3 +52,92 @@
     </div>
 </div>
 
+@section bottom
+{
+    <script src="~/dist/js/bootstrap-notify.min.js"></script>
+    <script>
+        $(function () {
+            $(".btniskabul").click(function() {
+                var id = this.name;
+                $.ajax({
+                    url: "@Url.Action("IsOnay","Teknisyen")",
+                    method: "post",
+                    dataType: "json",
+                    data: {id:id}
+                }).done(function (e) {
+                    console.log(e);
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Mesaj: '
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
+                });
+            });
+
+            $(".btnyolda").click(function() {
+                var id = this.name;
+                $.ajax({
+                    url: "@Url.Action("Yolda", "Teknisyen")",
+                    method: "post",
+                    dataType: "json",
+                    data: {id:id}
+                }).done(function (e) {
+                    console.log(e);
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Mesaj: '
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
+                });
+            });
+            $(".btnulasti").click(function() {
+                var id = this.name;
+                $.ajax({
+                    url: "@Url.Action("Ulasti", "Teknisyen")",
+                    method: "post",
+                    dataType: "json",
+                    data: {id:id}
+                }).done(function (e) {
+                    console.log(e);
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Mesaj: '
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
+                });
+            });
+            $(".btnislemtamam").click(function() {
+                var id = this.name;
+                $.ajax({
+                    url: "@Url.Action("IslemTamam", "Teknisyen")",
+                    method: "post",
+                    dataType: "json",
+                    data: {id:id}
+                }).done(function (e) {
+                    console.log(e);
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Mesaj: '
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
+                });
+            });
+        });
+    </script>
+}

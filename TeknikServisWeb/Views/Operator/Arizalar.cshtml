@@ -177,6 +177,7 @@
                     dataType: "json",
                     data: data
                 }).done(function (e) {
+                    location.reload();
                     $.notify({
                         // options
                         message: e.message,
