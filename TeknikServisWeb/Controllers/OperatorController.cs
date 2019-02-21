@@ -39,7 +39,7 @@ namespace TeknikServisWeb.Controllers
                     //ArizaFoto = x.ArizaFoto,
                     MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
                     Adres = x.Adres,
-                    ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
+                    //ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
                     TeknisyenId = x.TeknisyenId,
                     ArizaOnaylandiMi = x.ArizaOnaylandiMi
                 });

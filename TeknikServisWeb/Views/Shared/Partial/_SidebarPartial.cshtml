@@ -43,7 +43,7 @@
             @if (User.IsInRole("Teknisyen"))
             {
                 <li><a href="@Url.Action("Index","Teknisyen")"> <i class="fa fa-circle-o text-aqua"></i> <span class="menu-title">Anasayfa</span></a></li>
-                @*<li><a href="@Url.Action("Arizalar","Operator")"> <i class="fa fa-circle-o text-red"></i> <span class="menu-title">Ariza Yönetimi</span></a></li>*@
+                <li><a href="@Url.Action("GetAriza","Teknisyen")"> <i class="fa fa-circle-o text-red"></i> <span class="menu-title">Arızalar</span></a></li>
                 @*<li><a href="@Url.Action("GetMarkaModel","Admin")"> <i class="fa fa-circle-o text-yellow"></i> <span class="menu-title">Marka ve Model Ekleme</span></a></li>*@
             }
             @if (User.IsInRole("Musteri"))

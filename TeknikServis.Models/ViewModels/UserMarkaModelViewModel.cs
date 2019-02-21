@@ -20,6 +20,8 @@ namespace TeknikServis.Models.ViewModels
         [StringLength(200, ErrorMessage ="Adresiniz 200 karakterden fazla olamaz")]
         [Display(Name = "Adres")]
         public string Adres { get; set; }
+
+        public DateTime ArizaOlusturmaTarihi { get; set; }
         [Required]
         [StringLength(200, ErrorMessage = "Açıklamanız 200 karakterden fazla olamaz")]
         [Display(Name ="Açıklama")]

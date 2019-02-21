@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,8 +19,10 @@ namespace TeknikServisWeb.Controllers
         [HttpGet]
         public ActionResult GetAriza()
         {
+            var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+            
             var data = new List<UserMarkaModelViewModel>();
-            var ariza = new ArizaRepository().GetAll(x => x.ArizaOnaylandiMi == false)
+            var ariza = new ArizaRepository().GetAll(x => x.TeknisyenId==id)
                 .ToList();
             foreach (var x in ariza)
             {
@@ -45,25 +48,26 @@ namespace TeknikServisWeb.Controllers
 
 
         [HttpGet]
-        public ActionResult GetArizaDetay()
+        public ActionResult GetArizaDetay(int id)
         {
-            var data = new List<UserMarkaModelViewModel>();
-            var ariza = new ArizaRepository().GetAll(x => x.ArizaOnaylandiMi == true)
-                .ToList();
-            foreach (var x in ariza)
+            var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
+
+            var data = new UserMarkaModelViewModel()
             {
-                data.Add(new UserMarkaModelViewModel()
-                {
-                    Id = x.Id,
-                    MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
-                    Adres = x.Adres,
-                    Aciklama = x.Aciklama,
-                    ArizaFoto = x.ArizaFoto,
-                    GarantiliVarMi = x.GarantiliVarMi,
-                    MarkaAdi = x.Model.Marka.MarkaAdi,
-                    ModelAdi = x.Model.ModelAdi
-                });
-            }
+                Id = ariza.Id,
+                MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
+                Adres = ariza.Adres,
+                Aciklama = ariza.Aciklama,
+                GarantiliVarMi = ariza.GarantiliVarMi,
+                MarkaAdi = ariza.Model.Marka.MarkaAdi,
+                ModelAdi = ariza.Model.ModelAdi,
+                ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
+                ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
+                ArizaYapildiMi = ariza.ArizaYapildiMi,
+               //TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
+
+            };
+
             return View(data);
 
         }

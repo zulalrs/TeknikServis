@@ -13,6 +13,7 @@ namespace TeknikServis.Models.Entities
         [StringLength(200)]
         public string Aciklama { get; set; }
 
+        public DateTime ArizaOlusturmaTarihi { get; set; } = DateTime.Now;
         [Column(TypeName = "smalldatetime")]
         public DateTime? ArizaBaslangicTarihi { get; set; }
         public DateTime? ArizaBitisTarihi { get; set; }

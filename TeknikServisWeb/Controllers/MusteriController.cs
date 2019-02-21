@@ -80,8 +80,7 @@ namespace TeknikServisWeb.Controllers
                             file.SaveAs(dosyayolu);
 
                             WebImage img = new WebImage(dosyayolu);
-                            img.Resize(150, 100, false);
-                            img.AddTextWatermark("Wissen");
+                            img.Resize(250, 250, false);
                             img.Save(dosyayolu);
 
                             new FotografRepository().Insert(new Fotograf()
@@ -119,7 +118,7 @@ namespace TeknikServisWeb.Controllers
                 data.Add(new UserMarkaModelViewModel()
                 {
                     Id = x.Id,
-                    ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
+                    //ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
                     TeknisyenAdi = x.Teknisyen?.Name + " " + x.Teknisyen?.Surname,
                     TeknisyenDurumu = x.Teknisyen?.TeknisyenDurumu == null ? TeknisyenDurumu.Beklemede : x.Teknisyen.TeknisyenDurumu,
                     ArizaOnaylandiMi = x.ArizaOnaylandiMi,

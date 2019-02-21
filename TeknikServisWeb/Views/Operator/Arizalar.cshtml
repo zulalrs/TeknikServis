@@ -19,10 +19,10 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
-                            <th>Fotoğraf</th>
+                            @*<th>Fotoğraf</th>*@
                             <th>Müşteri İsmi</th>
                             <th>Adres</th>
-                            <th>Ekleme Tarihi</th>
+                            @*<th>Ekleme Tarihi</th>*@
                             <th>Teknisyen</th>
                             <th>Onay</th>
                             <th class="text-center" style="width: 10%;">Action</th>
@@ -35,12 +35,12 @@
                             <tr class="@(data.ArizaOnaylandiMi?"":"bg-red")">
 
                                 <td class="text-center">@(i + 1)</td>
-                                <td class="text-center">
-                                    <img src="@(string.IsNullOrEmpty(data.ArizaFoto)?"/dist/img/ZGlogo.jpg":data.ArizaFoto)" class="img-rounded" width="100" height="100" />
-                                </td>
+                                @*<td class="text-center">
+                    <img src="@(string.IsNullOrEmpty(data.ArizaFoto)?"/dist/img/ZGlogo.jpg":data.ArizaFoto)" class="img-rounded" width="100" height="100" />
+                </td>*@
                                 <td>@data.MusteriAdi</td>
                                 <td>@data.Adres</td>
-                                <td>@data.ArizaBaslangicTarihi</td>
+                                @* <td>@data.ArizaBaslangicTarihi</td>*@
                                 <td>
 
                                     @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.TeknisyenList, new { @class = "form-control", style = "width:100%", id = "teknisyen" })
@@ -54,10 +54,35 @@
                                             Güncelle
                                         </button>
 
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                                            Launch Default Modal
+                                        </button>
+
                                     </div>
                                 </td>
                             </tr>
                         }
+                        <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4 class="modal-title">Default Modal</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>One fine body…</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                        
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
                     </tbody>
                 </table>
             </div>
@@ -76,18 +101,18 @@
             $(".btnguncelle").click(function () {
                 var id = this.name;
                 var trItems = $(this).parent().parent().parent().children();
-                var select = $(trItems[5]).children()[0];
+                var select = $(trItems[3]).children()[0];
                 var secili = $(select).val();
-                var onay = $(trItems[6]).children().is(':checked');
+                var onay = $(trItems[4]).children().is(':checked');
 
                 var data = {
                     Id:id,
                     ArizaOnaylandiMi :onay,
                     TeknisyenId: secili,
-                    EklemeTarihi: $(trItems[4])[0].innerText,
-                    ArizaFoto: $(trItems[1])[0].childNodes[1].attributes[0].textContent,
-                    MusteriAdi: $(trItems[2])[0].innerText,
-                    Adres: $(trItems[3])[0].innerText
+                    //EklemeTarihi: $(trItems[4])[0].innerText,
+                    //ArizaFoto: $(trItems[1])[0].childNodes[1].attributes[0].textContent,
+                    MusteriAdi: $(trItems[1])[0].innerText,
+                    Adres: $(trItems[2])[0].innerText
                 }
                 $.ajax({
                     url: "@Url.Action("Guncelle","Operator")",
