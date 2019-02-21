@@ -60,7 +60,7 @@ namespace TeknikServisWeb.Controllers
                     Name = rm.Name,
                     Surname = rm.Surname,
                     PhoneNumber = rm.Telephone,
-                    ActivationCode = StringHelpers.GetCode(),
+                    ActivationCode = StringHelpers.GetCode()
 
                 };
                 var result = await userManager.CreateAsync(newUser, rm.Password);
@@ -116,14 +116,16 @@ namespace TeknikServisWeb.Controllers
             try
             {
                 if (!ModelState.IsValid)
+                {
                     return View("Index", model);
+                }
 
                 var userManager = NewUserManager();
                 var user = await userManager.FindAsync(model.UserName, model.Password);
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
-                    return View("Index", model);
+                    return View("Index",model);
                 }
                 var authManager = HttpContext.GetOwinContext().Authentication;
                 var userIdentity =

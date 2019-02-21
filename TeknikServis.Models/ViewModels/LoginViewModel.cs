@@ -16,7 +16,7 @@ namespace TeknikServis.Models.ViewModels
         [Required]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Şifreniz en az 6 karakter olmalıdır!")]
         [Display(Name = "Şifre")]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password,ErrorMessage ="Şifrenizi yanlış girdiniz")]
         public string Password { get; set; }
 
         [Display(Name = "Beni Hatırla")]
