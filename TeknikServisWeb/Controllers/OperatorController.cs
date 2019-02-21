@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using TeknikServis.BLL.Identity;
 using TeknikServis.BLL.Repository;
+using TeknikServis.BLL.Services;
+using TeknikServis.Models.Enums;
 using TeknikServis.Models.Models;
 using TeknikServis.Models.ViewModels;
 using static TeknikServis.BLL.Identity.MembershipTools;
@@ -95,7 +97,7 @@ namespace TeknikServisWeb.Controllers
                 ariza.ArizaOnaylandiMi = data.ArizaOnaylandiMi;
                 if (data.ArizaOnaylandiMi)
                 {
-                    if (data.TeknisyenId == null)
+                    if (data.TeknisyenId == null || data.TeknisyenId=="0")
                     {
                         return Json(new ResponseData()
                         {
@@ -104,9 +106,18 @@ namespace TeknikServisWeb.Controllers
                         });
                     }
                     new ArizaRepository().Update(ariza);
-                    //var teknisyen = NewUserManager().FindById(ariza.TeknisyenId);
-                    //teknisyen.TeknisyenBosMu = false;
-                    //NewUserManager().Update(teknisyen); ;
+                    string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
+                                    (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+
+                    var user = NewUserManager().FindById(data.TeknisyenId);
+                    var emailService = new EmailService();
+                    var body = $"Merhaba <b>{user.Name} {user.Surname}</b><br>İşi kabul ediyorsanız lütfen linke tıklayınız<br> <a href='{SiteUrl}/operator/activation?code={user.ActivationCode}' >Onay Linki </a> ";
+                    emailService.Send(new IdentityMessage() { Body = body, Subject = "İş Kabul" }, user.Email);
+
+                    var userM = NewUserManager().FindById(ariza.MusteriId);
+                    var emailServiceM = new EmailService();
+                    var bodyM = $"Merhaba <b>{userM.Name} {userM.Surname}</b><br>Arızanız onaylanmıştır. Sizinle en kısa sürede iletişime geçilecektir.<br> ";
+                    emailServiceM.Send(new IdentityMessage() { Body = bodyM, Subject = "Arıza Onay" }, userM.Email);
                     return Json(new ResponseData()
                     {
                         message = "Güncelleme başarılı",
@@ -133,5 +144,40 @@ namespace TeknikServisWeb.Controllers
             }
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Activation(string code)
+        {
+            try
+            {
+                var userStore = NewUserStore();
+                var user = userStore.Users.FirstOrDefault(x => x.ActivationCode == code);
+
+                if (user != null)
+                {
+                    if (user.TeknisyenDurumu==TeknisyenDurumu.Atandı)
+                    {
+                        ViewBag.Message = $"<div class='alert alert-info alert-dismissible'><i class='icon fa fa-info'></i>Bu iş daha önce onaylanmıştır.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+                    }
+                    else
+                    {
+                        user.TeknisyenDurumu = TeknisyenDurumu.Atandı;
+
+                        userStore.Context.SaveChanges();
+                        ViewBag.Message = $"<div class='alert alert-success alert-dismissible'><i class='icon fa fa-check'></i>Onay işleminiz başarılı.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = $"<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay başarısız.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay işleminde bir hata oluştu.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
+            }
+
+            return RedirectToAction("Activation", "Operator");
+        }
     }
 }

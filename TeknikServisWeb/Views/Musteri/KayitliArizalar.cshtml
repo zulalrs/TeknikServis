@@ -43,21 +43,19 @@
                                 <td class="text-center">@(i + 1)</td>
 
                                 <td>@data.EklemeTarihi</td>
-                                @* teknisyen adı gelmiyor *@
-                                <td>@MembershipTools.GetNameSurname(data.TeknisyenId)</td>
+                                <td>@data.TeknisyenAdi</td>
                                 <td>
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Beklemede)
-                                    {<span class="label label-danger">@data.TeknisyenDurumu</span>}
+                                    {<span class="label label-danger" style="font-size:13px;">@data.TeknisyenDurumu</span>}
+                                    @if (data.TeknisyenDurumu == TeknisyenDurumu.Atandı)
+                                    {<span class="label label-info" style="font-size:13px;">@data.TeknisyenDurumu</span>}
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Yolda)
-                                    {<span class="label label-warning">@data.TeknisyenDurumu</span>}
+                                    {<span class="label label-warning" style="font-size:13px;">@data.TeknisyenDurumu</span>}
                                     @if (data.TeknisyenDurumu == TeknisyenDurumu.Ulasti)
-                                    {<span class="label label-success">@data.TeknisyenDurumu</span>}
+                                    {<span class="label label-success" style="font-size:13px;">@data.TeknisyenDurumu</span>}
                                 </td>
-                                <td>
-                                    @if (data.ArizaOnaylandiMi == true)
-                                    {<span class="label label-success">Onaylandı</span>}
-                                    @if (data.ArizaOnaylandiMi == false)
-                                    {<span class="label label-danger">Onaylanmadı</span>}
+                                @* eve gidince ,if yaz *@
+                                <td>@(data.ArizaOnaylandiMi == true ? "Onaylandı" : "Onaylanmadı")</td>
                                 <td>@data.Ucret</td>
                             </tr>
                         }
