@@ -79,6 +79,7 @@
     <Compile Include="Abstracts\BaseEntity.cs" />
     <Compile Include="Abstracts\BaseEntity2.cs" />
     <Compile Include="Entities\Ariza.cs" />
+    <Compile Include="Entities\Fotograf.cs" />
     <Compile Include="Entities\Marka.cs" />
     <Compile Include="Entities\Model.cs" />
     <Compile Include="Enums\IdentityRoles.cs" />

@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using TeknikServis.BLL.Helpers;
 using TeknikServis.BLL.Repository;
 using TeknikServis.Models.Entities;
 using TeknikServis.Models.Enums;
@@ -42,8 +45,8 @@ namespace TeknikServisWeb.Controllers
                 var markaId = marka.Id;
                 var markaModel = new Model()
                 {
-                   ModelAdi = model.MarkaModelViewModel.ModelViewModel.Model,
-                   MarkaId=markaId
+                    ModelAdi = model.MarkaModelViewModel.ModelViewModel.Model,
+                    MarkaId = markaId
                 };
                 new ModelRepository().Insert(markaModel);
                 new MarkaRepository().Update(marka);
@@ -58,8 +61,39 @@ namespace TeknikServisWeb.Controllers
 
                 };
                 new ArizaRepository().Insert(ariza);
+                if (model.PostedFile.Count > 0)
+                {
+                    model.PostedFile.ForEach(file =>
+                    {
+                        if (file != null && file.ContentLength > 0)
+                        {
+
+                            string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                            string extName = Path.GetExtension(file.FileName);
+                            fileName = StringHelpers.UrlFormatConverter(fileName);
+                            fileName += StringHelpers.GetCode();
+                            var klasoryolu = Server.MapPath("~/Upload/");
+                            var dosyayolu = Server.MapPath("~/Upload/") + fileName + extName;
+
+                            if (!Directory.Exists(klasoryolu))
+                                Directory.CreateDirectory(klasoryolu);
+                            file.SaveAs(dosyayolu);
+
+                            WebImage img = new WebImage(dosyayolu);
+                            img.Resize(150, 100, false);
+                            img.AddTextWatermark("Wissen");
+                            img.Save(dosyayolu);
+
+                            new FotografRepository().Insert(new Fotograf()
+                            {
+                                ArizaId = ariza.Id,
+                                Yol = "/Upload/" + fileName + extName
+                            });
+                        }
+                    });
+                }             
                 TempData["Message"] = "Kaydınız alınlıştır";
-                return RedirectToAction("ArizaBildirimi","Musteri");
+                return RedirectToAction("ArizaBildirimi", "Musteri");
             }
             catch (Exception ex)
             {
@@ -71,7 +105,7 @@ namespace TeknikServisWeb.Controllers
                     ErrorCode = 500
                 };
                 return RedirectToAction("Error", "Home");
-            }      
+            }
         }
 
         [HttpGet]
@@ -79,17 +113,17 @@ namespace TeknikServisWeb.Controllers
         {
             var id = HttpContext.User.Identity.GetUserId();
             var data = new List<UserMarkaModelViewModel>();
-            var ariza = new ArizaRepository().GetAll(x=>x.MusteriId==id).ToList();
+            var ariza = new ArizaRepository().GetAll(x => x.MusteriId == id).ToList();
             foreach (var x in ariza)
             {
                 data.Add(new UserMarkaModelViewModel()
                 {
                     Id = x.Id,
-                    EklemeTarihi = x.EklemeTarihi,
+                    ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
                     TeknisyenAdi = x.Teknisyen?.Name + " " + x.Teknisyen?.Surname,
-                    TeknisyenDurumu=x.Teknisyen?.TeknisyenDurumu==null ? TeknisyenDurumu.Beklemede:x.Teknisyen.TeknisyenDurumu,
+                    TeknisyenDurumu = x.Teknisyen?.TeknisyenDurumu == null ? TeknisyenDurumu.Beklemede : x.Teknisyen.TeknisyenDurumu,
                     ArizaOnaylandiMi = x.ArizaOnaylandiMi,
-                    Ucret=x.Ucret
+                    Ucret = x.Ucret
                 });
             }
             return View(data);

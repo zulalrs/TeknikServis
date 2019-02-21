@@ -36,14 +36,15 @@
             @*<img src="~/dist/img/ZGlogo.jpg" width="650" height="500" />*@
         </div>
     </div>
+   
     <div class="col-md-6">
         <div class="login-box">
             <div class="login-logo">
+                <br /><br />
                 <p><b>ZG</b>TeknikServis</p>
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Sign in to start your session</p>
 
                 @using (Html.BeginForm("Login", "Account", FormMethod.Post))
                 {
@@ -58,13 +59,20 @@
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     <br /><span class="text-red">@Html.ValidationMessageFor(x => x.Password)</span>
                 </div>
-                    <div class="row">
-                        <!-- /.col -->
-                        <div class="col-xs-12">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat"><b>Giriş Yap</b></button>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox"> Remember Me
+                            </label>
                         </div>
-                        <!-- /.col -->
                     </div>
+                    <!-- /.col -->
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat"><b>Giriş Yap</b></button>
+                    </div>
+                    <!-- /.col -->
+                </div>
                 }
 
                 <div class="social-auth-links text-center">
