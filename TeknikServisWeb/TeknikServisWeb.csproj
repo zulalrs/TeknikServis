@@ -7296,6 +7296,8 @@
     <Content Include="Views\Musteri\Index.cshtml" />
     <Content Include="Views\Teknisyen\Index.cshtml" />
     <Content Include="Views\Musteri\KayitliArizalar.cshtml" />
+    <Content Include="Views\Teknisyen\GetAriza.cshtml" />
+    <Content Include="Views\Teknisyen\GetArizaDetay.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
