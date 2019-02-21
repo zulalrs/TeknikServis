@@ -90,7 +90,8 @@ namespace TeknikServisWeb.Controllers
                             });
                         }
                     });
-                }             
+                }
+                new ArizaRepository().Update(ariza);
                 TempData["Message"] = "Kaydınız alınlıştır";
                 return RedirectToAction("ArizaBildirimi", "Musteri");
             }
