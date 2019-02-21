@@ -36,10 +36,10 @@ namespace TeknikServisWeb.Controllers
                 data.Add(new UserMarkaModelViewModel()
                 {
                     Id = x.Id,
-                    ArizaFoto = x.ArizaFoto,
+                    //ArizaFoto = x.ArizaFoto,
                     MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
                     Adres = x.Adres,
-                    EklemeTarihi = x.EklemeTarihi,
+                    ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
                     TeknisyenId = x.TeknisyenId,
                     ArizaOnaylandiMi = x.ArizaOnaylandiMi
                 });

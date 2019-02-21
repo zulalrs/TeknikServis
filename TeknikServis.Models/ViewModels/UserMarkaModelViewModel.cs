@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using TeknikServis.Models.Enums;
 
 namespace TeknikServis.Models.ViewModels
@@ -23,9 +24,10 @@ namespace TeknikServis.Models.ViewModels
         [StringLength(200, ErrorMessage = "Açıklamanız 200 karakterden fazla olamaz")]
         [Display(Name ="Açıklama")]
         public string Aciklama { get; set; }
-        public string ArizaFoto { get; set; }
         [Column(TypeName = "smalldatetime")]
-        public DateTime EklemeTarihi { get; set; } = DateTime.Now;
+        public DateTime ArizaBaslangicTarihi { get; set; }
+        [Column(TypeName = "smalldatetime")]
+        public DateTime ArizaBitisTarihi { get; set; } 
         public bool ArizaOnaylandiMi { get; set; }
         public string MusteriId { get; set; }
         public string MusteriAdi { get; set; }
@@ -40,5 +42,8 @@ namespace TeknikServis.Models.ViewModels
         public bool ArizaYapildiMi { get; set; }
         public bool GarantiliVarMi { get; set; }
         public int Ucret { get; set; }
+
+        public List<string> ArizaFotograflari { get; set; }
+        public List<HttpPostedFileBase> PostedFile { get; set; }
     }
 }

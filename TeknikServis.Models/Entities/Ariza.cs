@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TeknikServis.Models.Abstracts;
@@ -13,7 +14,8 @@ namespace TeknikServis.Models.Entities
         public string Aciklama { get; set; }
 
         [Column(TypeName = "smalldatetime")]
-        public DateTime EklemeTarihi { get; set; } = DateTime.Now;
+        public DateTime? ArizaBaslangicTarihi { get; set; }
+        public DateTime? ArizaBitisTarihi { get; set; }
         public bool ArizaOnaylandiMi { get; set; }
         [StringLength(200)]
         public string Adres { get; set; }
@@ -22,7 +24,7 @@ namespace TeknikServis.Models.Entities
         public int ModelId { get; set; }
         public string TeknisyenId { get; set; }
         public bool ArizaYapildiMi { get; set; }
-        public string ArizaFoto { get; set; }
+        public List<string> ArizaFoto { get; set; }
         public bool GarantiliVarMi { get; set; }
         public int Ucret { get; set; }
 
@@ -32,5 +34,6 @@ namespace TeknikServis.Models.Entities
         public virtual User Teknisyen { get; set; }
         [ForeignKey("ModelId")]
         public virtual Model Model { get; set; }
+        public virtual List<Fotograf> Fotograflar { get; set; } = new List<Fotograf>();
     }
 }
