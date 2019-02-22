@@ -17,8 +17,7 @@ namespace TeknikServis.DAL
         {
             base.OnModelCreating(modelBuilder);
         }
-        public virtual DbSet<Marka> Markalar { get; set; }
-        public virtual DbSet<Model> Modeller { get; set; }
+
         public virtual DbSet<Ariza> Arizalar { get; set; }
         public virtual DbSet<Fotograf> Fotograflar { get; set; }
     }

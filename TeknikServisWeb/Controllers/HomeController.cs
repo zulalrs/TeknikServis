@@ -13,13 +13,14 @@ namespace TeknikServisWeb.Controllers
         public ActionResult Index()
         {
             var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+
             if (id == null)
                 return RedirectToAction("Index", "Account");
             else
             {
                 var user = NewUserManager().GetRoles(id);
                 if (user == null)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Account");
 
                 var roller = GetRoleList();
                 foreach (var role in user)

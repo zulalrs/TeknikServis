@@ -21,8 +21,8 @@ namespace TeknikServis.Models.Entities
         [StringLength(200)]
         public string Adres { get; set; }
         public string MusteriId { get; set; }
-        public int MarkaId { get; set; }
-        public int ModelId { get; set; }
+        public string MarkaAdi { get; set; }
+        public string ModelAdi { get; set; }
         public string TeknisyenId { get; set; }
         public bool ArizaYapildiMi { get; set; }
         public List<string> ArizaFoto { get; set; }
@@ -33,8 +33,7 @@ namespace TeknikServis.Models.Entities
         public virtual User Musteri { get; set; }
         [ForeignKey("TeknisyenId")]
         public virtual User Teknisyen { get; set; }
-        [ForeignKey("ModelId")]
-        public virtual Model Model { get; set; }
+     
         public virtual List<Fotograf> Fotograflar { get; set; } = new List<Fotograf>();
     }
 }

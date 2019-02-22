@@ -13,7 +13,6 @@ namespace TeknikServis.Models.ViewModels
     public class ArizaViewModel
     {
         public UserProfileViewModel UserProfileViewModel { get; set; }
-        public MarkaModelViewModel MarkaModelViewModel { get; set; }
 
         public int Id { get; set; }
         [Required]
@@ -33,10 +32,8 @@ namespace TeknikServis.Models.ViewModels
         public DateTime ArizaBitisTarihi { get; set; } 
         public bool ArizaOnaylandiMi { get; set; }
         public string MusteriId { get; set; }
-        public string MusteriAdi { get; set; }
-        public int MarkaId { get; set; }
-        public string MarkaAdi { get; set; }
-        public int ModelId { get; set; }
+        public string MusteriAdi { get; set; }     
+        public string MarkaAdi { get; set; }  
         public string ModelAdi { get; set; }
         public string TeknisyenId { get; set; }
         public string TeknisyenAdi { get; set; }

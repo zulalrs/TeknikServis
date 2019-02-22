@@ -40,11 +40,17 @@ namespace TeknikServisWeb.Controllers
                     //ArizaFoto = x.ArizaFoto,
                     MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
                     Adres = x.Adres,
-                    //ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
-                    TeknisyenId = x.TeknisyenId,
+                    //ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,                  
                     ArizaOnaylandiMi = x.ArizaOnaylandiMi
                 });
+                if(x.TeknisyenId!=null)
+                {
+                    data.Add(new ArizaViewModel() {
+                        TeknisyenId=x.TeknisyenId
+                    });
+                }
             }
+            
             return View(data);
         }
 
@@ -170,11 +176,11 @@ namespace TeknikServisWeb.Controllers
                 {
                     Id = ariza.Id,
                     MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
-                    ModelAdi = ariza.Model.ModelAdi,
-                    MarkaAdi = ariza.Model.Marka.MarkaAdi,
-                    TeknisyenId = ariza.TeknisyenId,
-                    TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
-                    TeknisyenAdi = ariza.Teknisyen.Name + " " + ariza.Teknisyen.Surname,
+                    ModelAdi = ariza.ModelAdi,
+                    MarkaAdi = ariza.MarkaAdi,
+                    TeknisyenId = ariza.TeknisyenId ?? "----",
+                    TeknisyenDurumu = ariza.Teknisyen?.TeknisyenDurumu ?? TeknisyenDurumu.Beklemede,
+                    TeknisyenAdi = ariza.Teknisyen?.Name + " " + ariza.Teknisyen?.Surname,
                     Adres = ariza.Adres,
                     Aciklama = ariza.Aciklama,
                     ArizaOlusturmaTarihiS = $"{ariza.ArizaOlusturmaTarihi:O}",

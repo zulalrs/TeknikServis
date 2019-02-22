@@ -37,26 +37,13 @@ namespace TeknikServisWeb.Controllers
             }
             try
             {
-                var marka = new Marka()
-                {
-                    MarkaAdi = model.MarkaModelViewModel.MarkaViewModel.Marka
-                };
-                new MarkaRepository().Insert(marka);
-                var markaId = marka.Id;
-                var markaModel = new Model()
-                {
-                    ModelAdi = model.MarkaModelViewModel.ModelViewModel.Model,
-                    MarkaId = markaId
-                };
-                new ModelRepository().Insert(markaModel);
-                new MarkaRepository().Update(marka);
-                var markaModelId = markaModel.Id;
+              
                 var ariza = new Ariza()
                 {
                     MusteriId = HttpContext.User.Identity.GetUserId(),
                     Aciklama = model.Aciklama,
-                    MarkaId = markaId,
-                    ModelId = markaModelId,
+                    MarkaAdi = model.MarkaAdi,
+                    ModelAdi = model.ModelAdi,
                     Adres = model.Adres,
                     ArizaOlusturmaTarihi = DateTime.Now
                 };

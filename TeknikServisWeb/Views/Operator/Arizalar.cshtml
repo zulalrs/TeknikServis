@@ -156,6 +156,7 @@
             $(".btnmodal").click(function () {
                 var id = this.name;
                 $(".modal").hide();
+              
                 console.log(id);
                
                 $.ajax({
@@ -182,11 +183,10 @@
                     $("#garanti").html(e.data.GarantiliVarMi);
                     $("#ucret").html(e.data.Ucret);
                     $("#arizadurumu").html(e.data.ArizaYapildiMi);
-
-
+                    
                     $(".modal").show();
                 });
-
+                $(".modal").removeData();
             });
             $(".btnguncelle").click(function () {
                 var id = this.name;

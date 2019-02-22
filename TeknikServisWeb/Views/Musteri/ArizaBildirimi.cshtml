@@ -28,14 +28,14 @@
                     <br /><span class="text-red">@Html.ValidationMessageFor(x => x.Adres)</span>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.MarkaModelViewModel.MarkaViewModel.Marka)
-                    @Html.TextBoxFor(x => x.MarkaModelViewModel.MarkaViewModel.Marka, new { @class = "form-control", placeholder = "Marka giriniz." })
-                    <br /><span class="text-red">@Html.ValidationMessageFor(x => x.MarkaModelViewModel.MarkaViewModel.Marka)</span>
+                    @Html.LabelFor(x => x.MarkaAdi)
+                    @Html.TextBoxFor(x => x.ModelAdi, new { @class = "form-control", placeholder = "Marka giriniz." })
+                    <br /><span class="text-red">@Html.ValidationMessageFor(x => x.MarkaAdi)</span>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.MarkaModelViewModel.ModelViewModel.Model)
-                    @Html.TextBoxFor(x => x.MarkaModelViewModel.ModelViewModel.Model, new { @class = "form-control", placeholder = "Model giriniz." })
-                    <br /><span class="text-red">@Html.ValidationMessageFor(x => x.MarkaModelViewModel.ModelViewModel.Model)</span>
+                    @Html.LabelFor(x => x.ModelAdi)
+                    @Html.TextBoxFor(x => x.ModelAdi, new { @class = "form-control", placeholder = "Model giriniz." })
+                    <br /><span class="text-red">@Html.ValidationMessageFor(x => x.ModelAdi)</span>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(x => x.PostedFile)

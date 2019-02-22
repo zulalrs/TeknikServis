@@ -19,7 +19,7 @@ using static TeknikServis.BLL.Identity.MembershipTools;
 namespace TeknikServisWeb.Controllers
 {
     [Authorize(Roles = "GenelYonetici")]
-    public class AdminController : BaseController
+    public class AdminController : Controller
     {
         // GET: Admin
         public ActionResult Index()
@@ -281,115 +281,7 @@ namespace TeknikServisWeb.Controllers
             return RedirectToAction("EditUser", new { id = userId });
         }
 
-        [HttpGet]
-        //[Authorize(Roles = "Admin")]
-        public ActionResult GetMarkaModel()
-        {
-            ViewBag.MarkaList = GetMarka();
-            ViewBag.ModelList = GetModel();
 
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddMarka(MarkaModelViewModel marka)
-        {
-            try
-            {
-                //if (markamodel.MarkaId== 0) markamodel.MarkaId = 0;
-
-                if (!ModelState.IsValid)
-                {
-                    ModelState.AddModelError("MarkaAdi", "70 karakteri geçmeyiniz");
-                    marka.MarkaViewModel.MarkaId = marka.MarkaViewModel.MarkaId;
-                    ViewBag.MarkaList = GetMarka();
-                    return View(marka);
-                }
-
-
-                new MarkaRepository().Insert(new Marka()
-                {
-                    Id = marka.MarkaViewModel.MarkaId,
-                    MarkaAdi = marka.MarkaViewModel.Marka
-                });
-                TempData["Message"] = $"{marka.MarkaViewModel.Marka} isimli kategori başarıyla eklenmiştir";
-                return RedirectToAction("GetMarkaModel");
-            }
-            catch (DbEntityValidationException ex)
-            {
-                TempData["Model"] = new ErrorViewModel()
-                {
-                    Text = $"Bir hata oluştu: {EntityHelpers.ValidationMessage(ex)}",
-                    ActionName = "AddMarka",
-                    ControllerName = "Admin",
-                    ErrorCode = 400
-                };
-                return RedirectToAction("Error", "Home");
-            }
-            catch (Exception ex)
-            {
-                TempData["Model"] = new ErrorViewModel()
-                {
-                    Text = $"Bir hata oluştu: {ex.Message}",
-                    ActionName = "AddMarka",
-                    ControllerName = "Admin",
-                    ErrorCode = 500
-                };
-                return RedirectToAction("Error", "Home");
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddModel(MarkaModelViewModel mmodel)
-        {
-            try
-            {
-                //if (markamodel.MarkaId== 0) markamodel.MarkaId = 0;
-
-                if (!ModelState.IsValid)
-                {
-                    ModelState.AddModelError("MarkaAdi", "70 karakteri geçmeyiniz");
-                    mmodel.ModelViewModel.ModelId = mmodel.ModelViewModel.ModelId;
-                    ViewBag.MarkaList = GetMarka();
-                    return View(mmodel);
-                }
-
-
-                new ModelRepository().Insert(new Model()
-                {
-                    Id = mmodel.ModelViewModel.ModelId,
-                    MarkaId = mmodel.MarkaViewModel.MarkaId,
-                    ModelAdi = mmodel.ModelViewModel.Model
-                });
-                TempData["Message"] = $"{ mmodel.ModelViewModel.Model} isimli Model başarıyla eklenmiştir";
-                return RedirectToAction("GetMarkaModel");
-            }
-            catch (DbEntityValidationException ex)
-            {
-                TempData["Model"] = new ErrorViewModel()
-                {
-                    Text = $"Bir hata oluştu: {EntityHelpers.ValidationMessage(ex)}",
-                    ActionName = "AddModel",
-                    ControllerName = "Admin",
-                    ErrorCode = 400
-                };
-                return RedirectToAction("Error", "Home");
-            }
-            catch (Exception ex)
-            {
-                TempData["Model"] = new ErrorViewModel()
-                {
-                    Text = $"Bir hata oluştu: {ex.Message}",
-                    ActionName = "AddModel",
-                    ControllerName = "Admin",
-                    ErrorCode = 500
-                };
-                return RedirectToAction("Error", "Home");
-            }
-        }
     }
 }
 
