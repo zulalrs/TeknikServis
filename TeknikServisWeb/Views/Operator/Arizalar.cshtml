@@ -94,23 +94,17 @@
                                                     <h3 class="timeline-header"><b>Arıza Bilgileri</b></h3>
 
                                                     <div class="timeline-body">
-                                                        <label>Müşteri Adı:</label><span id="musteriadi"></span><br />
-                                                        <label>Marka-Model:</label><span id="modelmarka"></span>
-                                                        <br />
-                                                        <label>Müşteri Arıza Analizi:</label><span id="aciklama"></span>
-                                                        <br />
-                                                        <label>Adres :</label><span id="adres"></span>
-                                                        <br />
-                                                        <label>Teknisyen Adı :</label><span id="teknisyen"></span>
-                                                        <br />
-                                                        <label>Teknisyen Durumu :</label><span id="teknisyendurumu"></span>
-                                                        <br />
-                                                        <label>Garanti Durumu :</label><span id="garanti"></span>
-                                                        <br />
-                                                        <label>Ücret :</label><span id="ücret"></span>
-                                                        <br />
-                                                        <label>Arıza Durumu :</label><span id="arizadurumu"></span>
-                                                        <br />
+                                                        <label>Ariza Kayıt Tarihi:</label><span id="arizakayit"> </span><br />
+                                                        <label>Müşteri Adı:</label><span id="musteriadi"> </span><br />
+                                                        <label>Marka-Model:</label><span id="modelmarka"> </span><br />
+                                                        <label>Müşteri Arıza Analizi:</label><span id="aciklama"> </span><br />
+                                                        <label>Adres :</label><span id="adres"></span><br />
+                                                        <label>Teknisyen Adı :</label><span id="teknisyen"> </span><br />
+                                                        <label>Teknisyen Durumu :</label><span id="teknisyendurumu"></span><br />
+                                                        <label>Garanti Durumu :</label><span id="garanti"></span><br />
+                                                        <label>Ücret :</label><span id="ucret"></span><br />
+                                                        <label>Arıza Durumu :</label><span id="arizadurumu"></span><br />
+                                                        <label>Arıza Saaati :</label><span id="saat"></span><br />
                                                     </div>
                                                 </div>
                                             </li>
@@ -161,14 +155,36 @@
             $('#example1').DataTable()
             $(".btnmodal").click(function () {
                 var id = this.name;
+                $(".modal").hide();
                 console.log(id);
-                $(".modal-content").hide();
-
+               
                 $.ajax({
+                    url: "@Url.Action("GetArizaDetay","Operator")",
+                    method: "post",
+                    dataType: "json",
+                    data: { id: id }
 
                 }).done(function (e) {
-                    $("#musteriadi").html(data.musteriadi)
-                    $(".modal-content").show();
+                    console.log(e);
+                    var arizaTarihi = new Date(e.data.ArizaOlusturmaTarihiS);
+
+                    var tarih = arizaTarihi.getDate() + "/" + (arizaTarihi.getMonth() + 1) + "/" + arizaTarihi.getFullYear();
+                    var saat = arizaTarihi.getHours() + ":" + arizaTarihi.getMinutes();
+                    var markamodel = e.data.MarkaAdi + " - " + e.data.ModelAdi;
+                    $("#saat").html(saat);
+                    $("#arizakayit").text(tarih);
+                    $("#musteriadi").html(e.data.MusteriAdi);
+                    $("#modelmarka").html(markamodel)
+                    $("#aciklama").html(e.data.Aciklama);
+                    $("#adres").html(e.data.Adres);
+                    $("#teknisyen").html(e.data.TeknisyenAdi);
+                    $("#teknisyendurumu").html(e.data.TeknisyenDurumu);
+                    $("#garanti").html(e.data.GarantiliVarMi);
+                    $("#ucret").html(e.data.Ucret);
+                    $("#arizadurumu").html(e.data.ArizaYapildiMi);
+
+
+                    $(".modal").show();
                 });
 
             });
@@ -182,7 +198,7 @@
                 var data = {
                     Id:id,
                     ArizaOnaylandiMi :onay,
-                    TeknisyenId: secili,                  
+                    TeknisyenId: secili,
                     MusteriAdi: $(trItems[1])[0].innerText,
                     Adres: $(trItems[2])[0].innerText
                 }

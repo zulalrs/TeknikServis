@@ -60,7 +60,7 @@ namespace TeknikServisWeb.Controllers
             });
             foreach (var user in users)
             {
-                if (NewUserManager().IsInRole(user.Id, "Teknisyen") && user.TeknisyenDurumu==TeknisyenDurumu.Bosta)
+                if (NewUserManager().IsInRole(user.Id, "Teknisyen") && user.TeknisyenDurumu == TeknisyenDurumu.Bosta)
                 {
                     // var teknisyen = new ArizaRepository().GetAll().FirstOrDefault(x => x.TeknisyenId == user.Id);
                     //if (teknisyen == null)
@@ -72,7 +72,7 @@ namespace TeknikServisWeb.Controllers
                         Text = $"{user.Name} {user.Surname}",
                         Value = user.Id
                     });
-                    
+
                 }
 
             }
@@ -97,10 +97,10 @@ namespace TeknikServisWeb.Controllers
                 var ariza = new ArizaRepository().GetById(data.Id);
                 ariza.TeknisyenId = data.TeknisyenId;
                 ariza.ArizaOnaylandiMi = data.ArizaOnaylandiMi;
-               
+
                 if (data.ArizaOnaylandiMi)
                 {
-                    if (data.TeknisyenId == null || data.TeknisyenId=="0")
+                    if (data.TeknisyenId == null || data.TeknisyenId == "0")
                     {
                         return Json(new ResponseData()
                         {
@@ -122,7 +122,7 @@ namespace TeknikServisWeb.Controllers
                     emailService.Send(new IdentityMessage() { Body = body, Subject = "İş Kabul" }, user.Email);
 
                     var userM = NewUserManager().FindById(ariza.MusteriId);
-               
+
                     var emailServiceM = new EmailService();
                     var bodyM = $"Merhaba <b>{userM.Name} {userM.Surname}</b><br>Arızanız onaylanmıştır. Sizinle en kısa sürede iletişime geçilecektir.<br> ";
                     emailServiceM.Send(new IdentityMessage() { Body = bodyM, Subject = "Arıza Onay" }, userM.Email);
@@ -169,7 +169,7 @@ namespace TeknikServisWeb.Controllers
                 var data = new ArizaViewModel()
                 {
                     Id = ariza.Id,
-                    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Name,
+                    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
                     ModelAdi = ariza.Model.ModelAdi,
                     MarkaAdi = ariza.Model.Marka.MarkaAdi,
                     TeknisyenId = ariza.TeknisyenId,
@@ -177,7 +177,7 @@ namespace TeknikServisWeb.Controllers
                     TeknisyenAdi = ariza.Teknisyen.Name + " " + ariza.Teknisyen.Surname,
                     Adres = ariza.Adres,
                     Aciklama = ariza.Aciklama,
-                    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
+                    ArizaOlusturmaTarihiS = $"{ariza.ArizaOlusturmaTarihi:O}",
                     ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
                     GarantiliVarMi = ariza.GarantiliVarMi,
                     Ucret = ariza.Ucret,
@@ -187,7 +187,7 @@ namespace TeknikServisWeb.Controllers
                 {
                     message = "Güncelleme başarılı",
                     success = true,
-                    data=data
+                    data = data
                 });
             }
             catch (Exception ex)

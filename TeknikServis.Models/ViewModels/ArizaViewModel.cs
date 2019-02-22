@@ -22,6 +22,7 @@ namespace TeknikServis.Models.ViewModels
         public string Adres { get; set; }
 
         public DateTime ArizaOlusturmaTarihi { get; set; }
+        public string ArizaOlusturmaTarihiS { get; set; }
         [Required]
         [StringLength(200, ErrorMessage = "Açıklamanız 200 karakterden fazla olamaz")]
         [Display(Name ="Açıklama")]
