@@ -59,6 +59,7 @@
         $(function () {
             $(".btniskabul").click(function() {
                 var id = this.name;
+                $(this).attr("disabled", true);
                 $.ajax({
                     url: "@Url.Action("IsOnay","Teknisyen")",
                     method: "post",
@@ -80,6 +81,7 @@
 
             $(".btnyolda").click(function() {
                 var id = this.name;
+                $(this).attr("disabled", true);
                 $.ajax({
                     url: "@Url.Action("Yolda", "Teknisyen")",
                     method: "post",
@@ -100,6 +102,7 @@
             });
             $(".btnulasti").click(function() {
                 var id = this.name;
+                $(this).attr("disabled", true);
                 $.ajax({
                     url: "@Url.Action("Ulasti", "Teknisyen")",
                     method: "post",
@@ -119,16 +122,15 @@
                 });
             });
            
-            $(".btnislemtamam").click(function() {
-                var id = this.name;              
+            $(".btnislemtamam").click(function () {        
+                var id = this.name;  
+                $(this).attr("disabled", true);
                 $.ajax({
                     url: "@Url.Action("IslemTamam", "Teknisyen")",
                     method: "post",
                     dataType: "json",
                     data: {id:id}
                 }).done(function (e) {
-                    console.log(e);   
-                 
                     $.notify({
                             // options
                             message: e.message,

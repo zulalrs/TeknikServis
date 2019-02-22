@@ -119,7 +119,7 @@ namespace TeknikServisWeb.Controllers
                 data.Add(new ArizaViewModel()
                 {
                     Id = x.Id,
-                    //ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,
+                    ArizaOlusturmaTarihi = x.ArizaOlusturmaTarihi,
                     TeknisyenAdi = x.Teknisyen?.Name + " " + x.Teknisyen?.Surname,
                     TeknisyenDurumu = x.Teknisyen?.TeknisyenDurumu == null ? TeknisyenDurumu.Beklemede : x.Teknisyen.TeknisyenDurumu,
                     ArizaOnaylandiMi = x.ArizaOnaylandiMi,

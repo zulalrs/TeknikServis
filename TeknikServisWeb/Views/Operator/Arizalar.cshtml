@@ -33,78 +33,6 @@
                             @for (int i = 0; i < Model.Count; i++)
                             {
                                 var data = Model[i];
-                                <div class="modal fade" id="modal-default" style="display: none;">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <div class="modal-body">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                    <h4 class="modal-title">Arıza Detayı</h4>
-                                                    <div>
-                                                        <ul class="timeline">
-                                                            <!-- timeline time label -->
-
-                                                            <li class="time-label">
-                                                                <span class="bg-red">
-                                                                    @data.ArizaBaslangicTarihi.ToShortDateString()
-                                                                </span>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa  fa-files-o bg-blue"></i>
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="fa fa-clock-o">@data.ArizaOlusturmaTarihi.ToShortTimeString()</i></span>
-
-                                                                    <h3 class="timeline-header"><b>Arıza Bilgileri</b></h3>
-
-                                                                    <div class="timeline-body">
-                                                                        <label>Müşteri Adı  : </label>@data.MusteriAdi<br />
-                                                                        <label>Marka-Model :     </label>@data.MarkaAdi - @data.ModelAdi
-                                                                        <br />
-                                                                        <label>Müşteri Arıza Analizi :     </label>@data.Aciklama
-                                                                        <br />
-                                                                        <label>Adres :     </label>@data.Adres
-                                                                        <br />
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-
-                                                            @*<li>
-                    <i class="fa fa-camera bg-purple"></i>
-
-                    <div class="timeline-item">
-
-                        <div class="timeline-body">
-
-                            @for (int y = 0; y < data.ArizaFotograflari.Count; y++)
-                            {
-                                var foto = data.ArizaFotograflari[i];
-                                <img src="@foto" class="margin">
-                            }
-
-
-
-
-                        </div>
-                    </div>
-                </li>*@
-
-                                                            <li>
-                                                                <i class="fa fa-clock-o bg-gray"></i>
-                                                            </li>
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                               
-                                            </div>
-
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
                                 <tr class="@(data.ArizaOnaylandiMi?"":"bg-red")">
 
                                     <td class="text-center">@(i + 1)</td>
@@ -127,21 +55,97 @@
                                                 Güncelle
                                             </button>
 
-                                            <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#modal-default">
+                                            <button type="button" class="btn btn-default btn-block btnmodal" name="@data.Id" data-toggle="modal" data-target="#modal-default">
                                                 Modal
                                             </button>
 
                                         </div>
                                     </td>
                                 </tr>
-
-
                             }
 
                         </tbody>
                     </table>
                 </div>
                 <!-- /.box-body -->
+                <div class="modal fade" id="modal-default" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">Arıza Detayı</h4>
+                                    <div>
+                                        <ul class="timeline">
+                                            <!-- timeline time label -->
+
+                                            <li class="time-label">
+                                                <span class="bg-red">
+                                                    Tarih
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <i class="fa  fa-files-o bg-blue"></i>
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-clock-o">Tarih</i></span>
+
+                                                    <h3 class="timeline-header"><b>Arıza Bilgileri</b></h3>
+
+                                                    <div class="timeline-body">
+                                                        <label>Müşteri Adı:</label><span id="musteriadi"></span><br />
+                                                        <label>Marka-Model:</label><span id="modelmarka"></span>
+                                                        <br />
+                                                        <label>Müşteri Arıza Analizi:</label><span id="aciklama"></span>
+                                                        <br />
+                                                        <label>Adres :</label><span id="adres"></span>
+                                                        <br />
+                                                        <label>Teknisyen Adı :</label><span id="teknisyen"></span>
+                                                        <br />
+                                                        <label>Teknisyen Durumu :</label><span id="teknisyendurumu"></span>
+                                                        <br />
+                                                        <label>Garanti Durumu :</label><span id="garanti"></span>
+                                                        <br />
+                                                        <label>Ücret :</label><span id="ücret"></span>
+                                                        <br />
+                                                        <label>Arıza Durumu :</label><span id="arizadurumu"></span>
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            @*<li>
+                                                    <i class="fa fa-camera bg-purple"></i>
+
+                                                    <div class="timeline-item">
+
+                                                        <div class="timeline-body">
+
+                                                            @for (int y = 0; y < data.ArizaFotograflari.Count; y++)
+                                                            {
+                                                                var foto = data.ArizaFotograflari[i];
+                                                                <img src="@foto" class="margin">
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>*@
+
+                                            <li>
+                                                <i class="fa fa-clock-o bg-gray"></i>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
             </div>
         </div>
     </div>
@@ -155,6 +159,19 @@
     <script>
         $(function () {
             $('#example1').DataTable()
+            $(".btnmodal").click(function () {
+                var id = this.name;
+                console.log(id);
+                $(".modal-content").hide();
+
+                $.ajax({
+
+                }).done(function (e) {
+                    $("#musteriadi").html(data.musteriadi)
+                    $(".modal-content").show();
+                });
+
+            });
             $(".btnguncelle").click(function () {
                 var id = this.name;
                 var trItems = $(this).parent().parent().parent().children();
@@ -165,9 +182,7 @@
                 var data = {
                     Id:id,
                     ArizaOnaylandiMi :onay,
-                    TeknisyenId: secili,
-                    //EklemeTarihi: $(trItems[4])[0].innerText,
-                    //ArizaFoto: $(trItems[1])[0].childNodes[1].attributes[0].textContent,
+                    TeknisyenId: secili,                  
                     MusteriAdi: $(trItems[1])[0].innerText,
                     Adres: $(trItems[2])[0].innerText
                 }

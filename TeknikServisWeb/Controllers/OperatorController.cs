@@ -152,40 +152,52 @@ namespace TeknikServisWeb.Controllers
             }
         }
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public ActionResult Activation(string code)
-        //{
-        //    try
-        //    {
-        //        var userStore = NewUserStore();
-        //        var user = userStore.Users.FirstOrDefault(x => x.ActivationCode == code);
-
-        //        if (user != null)
-        //        {
-        //            if (user.TeknisyenDurumu==TeknisyenDurumu.Atandı)
-        //            {
-        //                ViewBag.Message = $"<div class='alert alert-info alert-dismissible'><i class='icon fa fa-info'></i>Bu iş daha önce onaylanmıştır.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-        //            }
-        //            else
-        //            {
-        //                user.TeknisyenDurumu = TeknisyenDurumu.Atandı;
-
-        //                userStore.Context.SaveChanges();
-        //                ViewBag.Message = $"<div class='alert alert-success alert-dismissible'><i class='icon fa fa-check'></i>Onay işleminiz başarılı.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-        //            }
-        //        }
-        //        else
-        //        {
-        //            ViewBag.Message = $"<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay başarısız.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        ViewBag.Message = "<div class='alert alert-danger alert-dismissible'><i class='icon fa fa-ban'></i>Onay işleminde bir hata oluştu.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>x</button></div>";
-        //    }
-
-        //    return RedirectToAction("Activation", "Operator");
-        //}
+        [HttpPost]
+        public JsonResult GetArizaDetay(int id)
+        {
+            try
+            {
+                var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
+                if (ariza == null)
+                {
+                    return Json(new ResponseData()
+                    {
+                        message = "Arıza kaydı bulunamadı",
+                        success = false
+                    });
+                }
+                var data = new ArizaViewModel()
+                {
+                    Id = ariza.Id,
+                    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Name,
+                    ModelAdi = ariza.Model.ModelAdi,
+                    MarkaAdi = ariza.Model.Marka.MarkaAdi,
+                    TeknisyenId = ariza.TeknisyenId,
+                    TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
+                    TeknisyenAdi = ariza.Teknisyen.Name + " " + ariza.Teknisyen.Surname,
+                    Adres = ariza.Adres,
+                    Aciklama = ariza.Aciklama,
+                    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
+                    ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
+                    GarantiliVarMi = ariza.GarantiliVarMi,
+                    Ucret = ariza.Ucret,
+                    ArizaYapildiMi = ariza.ArizaYapildiMi
+                };
+                return Json(new ResponseData()
+                {
+                    message = "Güncelleme başarılı",
+                    success = true,
+                    data=data
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new ResponseData()
+                {
+                    message = $"Bir hata oluştu {ex.Message}",
+                    success = false
+                });
+            }
+        }
     }
 }
