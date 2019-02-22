@@ -1,4 +1,4 @@
-﻿@model List<TeknikServis.Models.ViewModels.UserMarkaModelViewModel>
+﻿@model List<TeknikServis.Models.ViewModels.ArizaViewModel>
 @{
     ViewBag.Title = "GetAriza";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -118,15 +118,17 @@
                         });
                 });
             });
+           
             $(".btnislemtamam").click(function() {
-                var id = this.name;
+                var id = this.name;              
                 $.ajax({
                     url: "@Url.Action("IslemTamam", "Teknisyen")",
                     method: "post",
                     dataType: "json",
                     data: {id:id}
                 }).done(function (e) {
-                    console.log(e);
+                    console.log(e);   
+                 
                     $.notify({
                             // options
                             message: e.message,

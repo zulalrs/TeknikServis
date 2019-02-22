@@ -28,13 +28,13 @@ namespace TeknikServisWeb.Controllers
 
             ViewBag.TeknisyenList = teknisyenler;
 
-            var data = new List<UserMarkaModelViewModel>();
+            var data = new List<ArizaViewModel>();
             //x => x.ArizaOnaylandiMi == false
             var ariza = new ArizaRepository().GetAll()
                 .ToList();
             foreach (var x in ariza)
             {
-                data.Add(new UserMarkaModelViewModel()
+                data.Add(new ArizaViewModel()
                 {
                     Id = x.Id,
                     //ArizaFoto = x.ArizaFoto,
@@ -80,7 +80,7 @@ namespace TeknikServisWeb.Controllers
             return data;
         }
 
-        public async Task<JsonResult> Guncelle(UserMarkaModelViewModel data)
+        public async Task<JsonResult> Guncelle(ArizaViewModel data)
         {
             try
             {

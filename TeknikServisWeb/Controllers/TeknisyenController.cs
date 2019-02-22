@@ -25,18 +25,18 @@ namespace TeknikServisWeb.Controllers
         {
             var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
 
-            var data = new List<UserMarkaModelViewModel>();
+            var data = new List<ArizaViewModel>();
             var ariza = new ArizaRepository().GetAll(x => x.TeknisyenId == id)
                 .ToList();
             foreach (var x in ariza)
             {
-                data.Add(new UserMarkaModelViewModel()
+                data.Add(new ArizaViewModel()
                 {
                     Id = x.Id,
                     MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
                     Adres = x.Adres,
                     Aciklama = x.Aciklama,
-                    //EklemeTarihi = x.EklemeTarihi
+                    ArizaOlusturmaTarihi=x.ArizaOlusturmaTarihi
                 });
             }
             return View(data);
@@ -52,11 +52,14 @@ namespace TeknikServisWeb.Controllers
 
 
         [HttpGet]
-        public ActionResult GetArizaDetay(int id)
+        public ActionResult GetArizaDetay(int id=0)
         {
+            if (id == 0)
+                return View();
+
             var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
 
-            var data = new UserMarkaModelViewModel()
+            var data = new ArizaViewModel()
             {
                 Id = ariza.Id,
                 MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,

@@ -29,7 +29,7 @@ namespace TeknikServisWeb.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ArizaBildirimi(UserMarkaModelViewModel model)
+        public ActionResult ArizaBildirimi(ArizaViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace TeknikServisWeb.Controllers
                     MarkaId = markaId,
                     ModelId = markaModelId,
                     Adres = model.Adres,
-
+                    ArizaOlusturmaTarihi = DateTime.Now
                 };
                 new ArizaRepository().Insert(ariza);
                 if (model.PostedFile.Count > 0)
@@ -112,11 +112,11 @@ namespace TeknikServisWeb.Controllers
         public ActionResult KayitliArizalar()
         {
             var id = HttpContext.User.Identity.GetUserId();
-            var data = new List<UserMarkaModelViewModel>();
+            var data = new List<ArizaViewModel>();
             var ariza = new ArizaRepository().GetAll(x => x.MusteriId == id).ToList();
             foreach (var x in ariza)
             {
-                data.Add(new UserMarkaModelViewModel()
+                data.Add(new ArizaViewModel()
                 {
                     Id = x.Id,
                     //ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,

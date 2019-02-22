@@ -1,4 +1,4 @@
-﻿@model TeknikServis.Models.ViewModels.UserMarkaModelViewModel
+﻿@model TeknikServis.Models.ViewModels.ArizaViewModel
 @{
     ViewBag.Title = "GetArizaDetay";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -13,7 +13,7 @@
                     <!-- timeline time label -->
                     <li class="time-label">
                         <span class="bg-red">
-                            @Model.ArizaOlusturmaTarihi.ToShortDateString()
+                            @(Model.ArizaOlusturmaTarihi.ToShortDateString())
                         </span>
                     </li>
                     <li>
@@ -47,9 +47,6 @@
                                     var data = Model.ArizaFotograflari[i];
                                     <img src="@data" class="margin">
                                 }
-
-
-
                                 
                             </div>
                         </div>

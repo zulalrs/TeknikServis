@@ -10,7 +10,7 @@ using TeknikServis.Models.Enums;
 
 namespace TeknikServis.Models.ViewModels
 {
-    public class UserMarkaModelViewModel
+    public class ArizaViewModel
     {
         public UserProfileViewModel UserProfileViewModel { get; set; }
         public MarkaModelViewModel MarkaModelViewModel { get; set; }

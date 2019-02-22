@@ -98,7 +98,7 @@
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\UpdateUserRoleViewModel.cs" />
-    <Compile Include="ViewModels\UserMarkaModelViewModel.cs" />
+    <Compile Include="ViewModels\ArizaViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
