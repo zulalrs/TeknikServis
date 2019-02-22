@@ -91,7 +91,10 @@ namespace TeknikServisWeb.Controllers
                         }
                     });
                 }
+                var fotograflar= new FotografRepository().GetAll(x => x.ArizaId == ariza.Id).ToList();
+                ariza.ArizaFoto = fotograflar.Select(x => x.Yol).ToList();
                 new ArizaRepository().Update(ariza);
+               
                 TempData["Message"] = "Kaydınız alınlıştır";
                 return RedirectToAction("ArizaBildirimi", "Musteri");
             }

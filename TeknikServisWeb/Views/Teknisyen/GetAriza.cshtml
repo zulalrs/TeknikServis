@@ -57,9 +57,13 @@
     <script src="~/dist/js/bootstrap-notify.min.js"></script>
     <script>
         $(function () {
+            $(".btnyolda").hide();
+            $(".btnulasti").hide();
+            $(".btnislemtamam").hide();
             $(".btniskabul").click(function() {
                 var id = this.name;
                 $(this).attr("disabled", true);
+                $(".btnyolda").show();
                 $.ajax({
                     url: "@Url.Action("IsOnay","Teknisyen")",
                     method: "post",
@@ -81,6 +85,7 @@
 
             $(".btnyolda").click(function() {
                 var id = this.name;
+                $(".btnulasti").show();
                 $(this).attr("disabled", true);
                 $.ajax({
                     url: "@Url.Action("Yolda", "Teknisyen")",
@@ -103,6 +108,7 @@
             $(".btnulasti").click(function() {
                 var id = this.name;
                 $(this).attr("disabled", true);
+                $(".btnislemtamam").show();
                 $.ajax({
                     url: "@Url.Action("Ulasti", "Teknisyen")",
                     method: "post",
@@ -124,7 +130,7 @@
            
             $(".btnislemtamam").click(function () {        
                 var id = this.name;  
-                $(this).attr("disabled", true);
+                $(this).attr("disabled", true);             
                 $.ajax({
                     url: "@Url.Action("IslemTamam", "Teknisyen")",
                     method: "post",

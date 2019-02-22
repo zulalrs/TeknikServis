@@ -42,15 +42,6 @@ namespace TeknikServisWeb.Controllers
             return View(data);
         }
 
-
-
-        //[HttpPost]
-        //public ActionResult GetAriza(UserMarkaModelViewModel model)
-        //{
-        //    return View(model);
-        //}
-
-
         [HttpGet]
         public ActionResult GetArizaDetay(int id=0)
         {
