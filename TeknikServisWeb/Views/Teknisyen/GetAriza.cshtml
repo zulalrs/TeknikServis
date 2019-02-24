@@ -1,4 +1,4 @@
-﻿@model List<TeknikServis.Models.ViewModels.ArizaViewModel>
+﻿@model TeknikServis.Models.ViewModels.ArizaViewModel
 @{
     ViewBag.Title = "GetAriza";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -10,42 +10,49 @@
         <div class="nav-tabs-custom">
             <div class="tab-content">
                 <div class="tab-pane active" id="timeline">
-                    <ul class="timeline timeline-inverse">
-                        @for (int i = 0; i < Model.Count; i++)
-                        {
-                            var data = Model[i];
+                    @if (TempData["Message"] != null)
+                    {
+                        <h3><i class=" fa fa-exclamation-circle text-orange" style="font-size:30px"></i>@TempData["Message"]</h3>
+                    }
+                    else
+                    {
+                        <ul class="timeline timeline-inverse">
+
+
+
                             <li class="time-label">
                                 <span class="bg-red">
-                                    @data.ArizaOlusturmaTarihi.ToShortDateString()
+                                    @Model.ArizaOlusturmaTarihi.ToShortDateString()
                                 </span>
                             </li>
                             <li>
                                 <i class="fa fa-wrench bg-blue"></i>
                                 <div class="timeline-item">
-                                    <span class="time"><a class="btn btn-warning btn-xs" href="@Url.Action("GetArizaDetay", "Teknisyen",new {id =data.Id })"><i class="fa fa-eye text-black"></i>Arıza Detay</a></span>
+                                    <span class="time"><a class="btn btn-warning btn-xs" href="@Url.Action("GetArizaDetay", "Teknisyen", new { id = Model.Id })"><i class="fa fa-eye text-black"></i>Arıza Detay</a></span>
 
-                                    <h3 class="timeline-header"><b>Arıza No: @(i + 1)</b></h3>
+                                    <h3 class="timeline-header"><b>Arıza No: @Model.Id</b></h3>
 
                                     <div class="timeline-body">
-                                        @data.MusteriAdi
+                                        @Model.MusteriAdi
                                     </div>
                                     <div class="timeline-body">
-                                        @data.Aciklama
+                                        @Model.Aciklama
                                     </div>
                                     <div class="timeline-footer">
-                                        <a class="btn btn-success btn-xs btniskabul" name="@data.Id">İş Kabul</a>
-                                        <a class="btn btn-danger btn-xs btnyolda" name="@data.Id">Yolda</a>
-                                        <a class="btn btn-warning btn-xs btnulasti" name="@data.Id">Ulaştı</a>
-                                        <a class="btn btn-info btn-xs btnislemtamam" name="@data.Id">İş Tamamlandı</a>
+
+                                        <a class="btn btn-success btn-xs btniskabul" name="@Model.Id">İş Kabul</a>
+                                        <a class="btn btn-danger btn-xs btnyolda" name="@Model.Id">Yolda</a>
+                                        <a class="btn btn-warning btn-xs btnulasti" name="@Model.Id">Ulaştı</a>
+                                        <a class="btn btn-info btn-xs btnislemtamam" name="@Model.Id">İş Tamamlandı</a>
+
                                     </div>
                                 </div>
                             </li>
-                        }
-
-                        <li>
-                            <i class="fa fa-clock-o bg-gray"></i>
-                        </li>
-                    </ul>
+                            <li>
+                                <i class="fa fa-clock-o bg-gray"></i>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </div>
@@ -80,7 +87,7 @@
                             // settings
                             type: e.success ? "success" : "danger"
                         });
-                });
+                    });
             });
 
             $(".btnyolda").click(function() {
@@ -127,10 +134,10 @@
                         });
                 });
             });
-           
-            $(".btnislemtamam").click(function () {        
-                var id = this.name;  
-                $(this).attr("disabled", true);             
+
+            $(".btnislemtamam").click(function () {
+                var id = this.name;
+                $(this).attr("disabled", true);
                 $.ajax({
                     url: "@Url.Action("IslemTamam", "Teknisyen")",
                     method: "post",

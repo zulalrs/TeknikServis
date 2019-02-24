@@ -42,6 +42,7 @@ namespace TeknikServis.Models.ViewModels
         public bool ArizaYapildiMi { get; set; }
         public bool GarantiliVarMi { get; set; }
         public int Ucret { get; set; }
+        public int? AnketId { get; set; }
 
         public List<string> ArizaFotograflari { get; set; }
         public List<HttpPostedFileBase> PostedFile { get; set; }

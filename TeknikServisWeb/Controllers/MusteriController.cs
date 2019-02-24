@@ -37,7 +37,7 @@ namespace TeknikServisWeb.Controllers
             }
             try
             {
-              
+                var arizaRepo = new ArizaRepository();
                 var ariza = new Ariza()
                 {
                     MusteriId = HttpContext.User.Identity.GetUserId(),
@@ -45,9 +45,10 @@ namespace TeknikServisWeb.Controllers
                     MarkaAdi = model.MarkaAdi,
                     ModelAdi = model.ModelAdi,
                     Adres = model.Adres,
-                    ArizaOlusturmaTarihi = DateTime.Now
+                    ArizaOlusturmaTarihi = DateTime.Now,
+                   
                 };
-                new ArizaRepository().Insert(ariza);
+                arizaRepo.Insert(ariza);
                 if (model.PostedFile.Count > 0)
                 {
                     model.PostedFile.ForEach(file =>
@@ -80,7 +81,7 @@ namespace TeknikServisWeb.Controllers
                 }
                 var fotograflar= new FotografRepository().GetAll(x => x.ArizaId == ariza.Id).ToList();
                 ariza.ArizaFoto = fotograflar.Select(x => x.Yol).ToList();
-                new ArizaRepository().Update(ariza);
+                arizaRepo.Update(ariza);
                
                 TempData["Message"] = "Kaydınız alınlıştır";
                 return RedirectToAction("ArizaBildirimi", "Musteri");
@@ -117,6 +118,21 @@ namespace TeknikServisWeb.Controllers
                 });
             }
             return View(data);
+        }
+
+
+
+        [HttpGet]
+        public ActionResult Anket()
+        {
+            return View();
+
+        }
+
+
+        public ActionResult Anket (int id)
+        {
+            return View();
         }
     }
 }

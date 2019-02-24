@@ -51,7 +51,7 @@
                                     <td>@Html.CheckBox("ArizaOnaylandiMi", data.ArizaOnaylandiMi, new { id = "onay" })</td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <button class="btn btn-default btnguncelle btn-block" name="@data.Id" type="button" title="Güncelle">
+                                            <button class="btn btn-default btn-block btnguncelle" name="@data.Id" type="button" title="Güncelle">
                                                 Güncelle
                                             </button>
 
@@ -99,7 +99,7 @@
                                                         <label>Marka-Model:</label><span id="modelmarka"> </span><br />
                                                         <label>Müşteri Arıza Analizi:</label><span id="aciklama"> </span><br />
                                                         <label>Adres :</label><span id="adres"></span><br />
-                                                        <label>Teknisyen Adı :</label><span id="teknisyen"> </span><br />
+                                                        <label>Teknisyen Adı :</label><span id="teknisyen"></span><br />
                                                         <label>Teknisyen Durumu :</label><span id="teknisyendurumu"></span><br />
                                                         <label>Garanti Durumu :</label><span id="garanti"></span><br />
                                                         <label>Ücret :</label><span id="ucret"></span><br />
@@ -156,9 +156,9 @@
             $(".btnmodal").click(function () {
                 var id = this.name;
                 $(".modal").hide();
-              
+
                 console.log(id);
-               
+
                 $.ajax({
                     url: "@Url.Action("GetArizaDetay","Operator")",
                     method: "post",
@@ -166,24 +166,25 @@
                     data: { id: id }
 
                 }).done(function (e) {
-                    console.log(e);
                     var arizaTarihi = new Date(e.data.ArizaOlusturmaTarihiS);
 
                     var tarih = arizaTarihi.getDate() + "/" + (arizaTarihi.getMonth() + 1) + "/" + arizaTarihi.getFullYear();
                     var saat = arizaTarihi.getHours() + ":" + arizaTarihi.getMinutes();
                     var markamodel = e.data.MarkaAdi + " - " + e.data.ModelAdi;
+                    var teknisyen = e.data.TeknisyenAdi;
+                    console.log(teknisyen);
                     $("#saat").html(saat);
                     $("#arizakayit").text(tarih);
                     $("#musteriadi").html(e.data.MusteriAdi);
                     $("#modelmarka").html(markamodel)
                     $("#aciklama").html(e.data.Aciklama);
                     $("#adres").html(e.data.Adres);
-                    $("#teknisyen").html(e.data.TeknisyenAdi);
+                    $("#teknisyen").html(teknisyen);
                     $("#teknisyendurumu").html(e.data.TeknisyenDurumu);
                     $("#garanti").html(e.data.GarantiliVarMi);
                     $("#ucret").html(e.data.Ucret);
                     $("#arizadurumu").html(e.data.ArizaYapildiMi);
-                    
+
                     $(".modal").show();
                 });
                 $(".modal").removeData();
@@ -217,8 +218,10 @@
                     {
                         // settings
                         type: e.success ? "success" : "danger"
+                        });
+                   
                     });
-                });
+
             });
         });
     </script>

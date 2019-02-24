@@ -75,11 +75,15 @@ namespace TeknikServis.BLL.Identity
                     return "../../dist/img/ZGlogo.jpg";
 
                 user = NewUserManager().FindById(id);
+                if(user.AvatarPath==null)
+                    return "../../dist/img/ZGlogo.jpg";
             }
             else
             {
                 user = NewUserManager().FindById(userId);
                 if (user == null)
+                    return "../../dist/img/ZGlogo.jpg";
+                if (user.AvatarPath == null)
                     return "../../dist/img/ZGlogo.jpg";
             }
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TeknikServis.BLL.Repository;
+using TeknikServis.BLL.Services;
+using TeknikServis.Models.Entities;
 using TeknikServis.Models.Enums;
 using TeknikServis.Models.Models;
 using TeknikServis.Models.ViewModels;
@@ -24,26 +26,29 @@ namespace TeknikServisWeb.Controllers
         public ActionResult GetAriza()
         {
             var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
-
-            var data = new List<ArizaViewModel>();
-            var ariza = new ArizaRepository().GetAll(x => x.TeknisyenId == id)
-                .ToList();
-            foreach (var x in ariza)
+            var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.TeknisyenId == id && x.ArizaYapildiMi == false);
+            if (ariza != null)
             {
-                data.Add(new ArizaViewModel()
+                var data = new ArizaViewModel()
                 {
-                    Id = x.Id,
-                    MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
-                    Adres = x.Adres,
-                    Aciklama = x.Aciklama,
-                    ArizaOlusturmaTarihi=x.ArizaOlusturmaTarihi
-                });
+                    Id = ariza.Id,
+                    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
+                    Adres = ariza.Adres,
+                    Aciklama = ariza.Aciklama,
+                    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi
+                };
+
+                return View(data);
             }
-            return View(data);
+            else
+            {
+                TempData["Message"] = "Atanmış Bir Arızanız Bulunmamaktadır";
+                return View();
+            }
         }
 
         [HttpGet]
-        public ActionResult GetArizaDetay(int id=0)
+        public ActionResult GetArizaDetay(int id = 0)
         {
             if (id == 0)
                 return View();
@@ -191,9 +196,11 @@ namespace TeknikServisWeb.Controllers
         {
             try
             {
-                var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
+                var arizaRepo = new ArizaRepository();
+                var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
                 var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
+                var musteri = await userStore.FindByIdAsync(ariza.MusteriId);
                 if (user == null)
                 {
                     return Json(new ResponseData()
@@ -205,11 +212,46 @@ namespace TeknikServisWeb.Controllers
 
                 ariza.ArizaBitisTarihi = DateTime.Now;
                 ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Bosta;
-                new ArizaRepository().Update(ariza);
+                ariza.ArizaYapildiMi = true;
+                arizaRepo.Update(ariza);
+
+                var anket = new Anket();
+                var anketRepo = new AnketRepository();
+                anketRepo.Insert(anket);
+                ariza.AnketId = anket.Id;
+                anketRepo.Update(anket);
+
+                string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
+                                  (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+
+                var emailService = new EmailService();
+                var body = $"Merhaba <b>{musteri.Name} {musteri.Surname}</b><br><br> <a href='{SiteUrl}/musteri/anket?code={ariza.AnketId}' >Anket Linki </a> ";
+                await emailService.SendAsync(new IdentityMessage() { Body = body, Subject = "Sitemize Hoşgeldiniz" }, musteri.Email);
+
+                var data = new ArizaViewModel
+                {
+                    ArizaYapildiMi = ariza.ArizaYapildiMi,
+                    Id = ariza.Id,
+                    ArizaBitisTarihi = ariza.ArizaBitisTarihi ?? DateTime.Now,
+                    TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
+                    Aciklama = ariza.Aciklama,
+                    Adres = ariza.Adres,
+                    MarkaAdi = ariza.MarkaAdi,
+                    ModelAdi = ariza.ModelAdi,
+                    MusteriId = ariza.MusteriId,
+                    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
+                    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
+                    ArizaOnaylandiMi = ariza.ArizaOnaylandiMi,
+                    TeknisyenId = ariza.TeknisyenId,
+
+                };
+
+
                 return Json(new ResponseData()
                 {
                     message = "İşlem başarılı",
-                    success = true
+                    success = true,
+                    data = data
                 });
             }
             catch (Exception ex)
@@ -220,6 +262,35 @@ namespace TeknikServisWeb.Controllers
                     success = false
                 });
             }
+        }
+
+        [HttpGet]
+        public ActionResult GetEskiArizalar()
+        {
+            var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+            var ariza = new ArizaRepository().GetAll(x => x.TeknisyenId == id && x.ArizaYapildiMi == true).ToList();
+            if (ariza != null)
+            {
+                var data = new List<ArizaViewModel>();
+                foreach (var item in ariza)
+                {
+                    data.Add(new ArizaViewModel()
+                    {
+                        Id = item.Id,
+                        MusteriAdi = item.Musteri.Name + " " + item.Musteri.Surname,
+                        Adres = item.Adres,
+                        Aciklama = item.Aciklama,
+                        ArizaOlusturmaTarihi = item.ArizaOlusturmaTarihi
+                    });
+                }
+                return View(data);
+            }
+            else
+            {
+                TempData["Message"] = "Bitirilmiş Bir Arızanız Bulunmamaktadır";
+                return View();
+            }
+
         }
     }
 }

@@ -20,5 +20,6 @@ namespace TeknikServis.DAL
 
         public virtual DbSet<Ariza> Arizalar { get; set; }
         public virtual DbSet<Fotograf> Fotograflar { get; set; }
+        public virtual DbSet<Anket> Anketler { get; set; }
     }
 }
