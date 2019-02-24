@@ -67,7 +67,7 @@ namespace TeknikServisWeb.Controllers
                 ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
                 ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
                 ArizaYapildiMi = ariza.ArizaYapildiMi,
-                //TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
+                TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
 
             };
 
@@ -280,7 +280,14 @@ namespace TeknikServisWeb.Controllers
                         MusteriAdi = item.Musteri.Name + " " + item.Musteri.Surname,
                         Adres = item.Adres,
                         Aciklama = item.Aciklama,
-                        ArizaOlusturmaTarihi = item.ArizaOlusturmaTarihi
+                        ArizaOlusturmaTarihi = item.ArizaOlusturmaTarihi,
+                        ArizaBaslangicTarihi = item.ArizaBaslangicTarihi ?? DateTime.Now,
+                        ArizaBitisTarihi = item.ArizaBitisTarihi ?? DateTime.Now,
+                        ArizaFotograflari = item.Fotograflar.Select(y => y.Yol).ToList(),
+                        GarantiliVarMi = item.GarantiliVarMi,
+                        Ucret = item.Ucret,
+                        MarkaAdi = item.MarkaAdi,
+                        ModelAdi = item.ModelAdi,
                     });
                 }
                 return View(data);
