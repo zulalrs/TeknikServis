@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,33 +55,34 @@ namespace TeknikServisWeb.Controllers
                 return View();
 
             var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
+            var data = Mapper.Map<ArizaViewModel>(ariza);
+            //var data = new ArizaViewModel()
+            //{
+            //    Id = ariza.Id,
+            //    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
+            //    Adres = ariza.Adres,
+            //    Aciklama = ariza.Aciklama,
+            //    GarantiliVarMi = ariza.GarantiliVarMi,
+            //    MarkaAdi = ariza.MarkaAdi,
+            //    ModelAdi = ariza.ModelAdi,
+            //    ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
+            //    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
+            //    ArizaYapildiMi = ariza.ArizaYapildiMi,
+            //    TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
 
-            var data = new ArizaViewModel()
-            {
-                Id = ariza.Id,
-                MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
-                Adres = ariza.Adres,
-                Aciklama = ariza.Aciklama,
-                GarantiliVarMi = ariza.GarantiliVarMi,
-                MarkaAdi = ariza.MarkaAdi,
-                ModelAdi = ariza.ModelAdi,
-                ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
-                ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
-                ArizaYapildiMi = ariza.ArizaYapildiMi,
-                TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
-
-            };
-
+            //};
+            data.ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList();
+            data.MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname;
             return View(data);
         }
-
 
         [HttpPost]
         public async Task<JsonResult> IsOnay(int id)
         {
             try
             {
-                var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
+                var arizaRepo = new ArizaRepository();
+                var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
                 var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
                 if (user == null)
@@ -103,7 +105,7 @@ namespace TeknikServisWeb.Controllers
                 {
                     ariza.ArizaBaslangicTarihi = DateTime.Now;
                     ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Atandı;
-                    new ArizaRepository().Update(ariza);
+                    arizaRepo.Update(ariza);
                 }
                 return Json(new ResponseData()
                 {
@@ -126,7 +128,8 @@ namespace TeknikServisWeb.Controllers
         {
             try
             {
-                var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
+                var arizaRepo = new ArizaRepository();
+                var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
                 var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
                 if (user == null)
@@ -138,7 +141,7 @@ namespace TeknikServisWeb.Controllers
                     });
                 }
                 ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Yolda;
-                new ArizaRepository().Update(ariza);
+                arizaRepo.Update(ariza);
 
                 return Json(new ResponseData()
                 {
@@ -161,7 +164,8 @@ namespace TeknikServisWeb.Controllers
         {
             try
             {
-                var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
+                var arizaRepo = new ArizaRepository();
+                var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
                 var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
                 if (user == null)
@@ -174,7 +178,7 @@ namespace TeknikServisWeb.Controllers
                 }
 
                 ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Ulasti;
-                new ArizaRepository().Update(ariza);
+                arizaRepo.Update(ariza);
                 return Json(new ResponseData()
                 {
                     message = "İşlem başarılı",

@@ -63,22 +63,14 @@ namespace TeknikServisWeb.Controllers
             foreach (var user in users)
             {
                 if (NewUserManager().IsInRole(user.Id, "Teknisyen") && user.TeknisyenDurumu == TeknisyenDurumu.Bosta)
-                {
-                    // var teknisyen = new ArizaRepository().GetAll().FirstOrDefault(x => x.TeknisyenId == user.Id);
-                    //if (teknisyen == null)
-                    //{
-
-                    //}
+                { 
                     data.Add(new SelectListItem()
                     {
                         Text = $"{user.Name} {user.Surname}",
                         Value = user.Id
                     });
-
                 }
-
             }
-
             return data;
         }
 
@@ -116,13 +108,7 @@ namespace TeknikServisWeb.Controllers
                     string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                     (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
 
-                    var user = await NewUserStore().FindByIdAsync(ariza.TeknisyenId);
-                    //user.TeknisyenDurumu = TeknisyenDurumu.Beklemede;
-                    //await NewUserStore().UpdateAsync(user);
-                    var emailService = new EmailService();
-                    var body = $"Merhaba <b>{user.Name} {user.Surname}</b><br>İşi kabul ediyorsanız lütfen linke tıklayınız<br> <a href='{SiteUrl}/operator/activation?code={user.ActivationCode}' >Onay Linki </a> ";
-                    emailService.Send(new IdentityMessage() { Body = body, Subject = "İş Kabul" }, user.Email);
-
+                    var user = await NewUserStore().FindByIdAsync(ariza.TeknisyenId);   // Bu satır silinecek
                     var userM = NewUserManager().FindById(ariza.MusteriId);
 
                     var emailServiceM = new EmailService();
@@ -155,7 +141,6 @@ namespace TeknikServisWeb.Controllers
         }
 
         [HttpPost]
-        // [ValidateAntiForgeryToken]
         public JsonResult GetArizaDetay(int id)
         {
             try
