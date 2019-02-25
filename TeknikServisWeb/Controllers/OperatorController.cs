@@ -39,12 +39,14 @@ namespace TeknikServisWeb.Controllers
                 data.Add(new ArizaViewModel()
                 {
                     Id = x.Id,
-                    //ArizaFoto = x.ArizaFoto,
-                    MusteriAdi = x.Musteri?.Name + " " + x.Musteri?.Surname,
+                    MusteriId = x.MusteriId,
+                    MusteriAdi = GetNameSurname(x.MusteriId),
                     Adres = x.Adres,
                     TeknisyenId = x.TeknisyenId ?? null,
-                    //ArizaBaslangicTarihi = x.ArizaBaslangicTarihi,                  
-                    ArizaOnaylandiMi = x.ArizaOnaylandiMi
+                    ArizaOlusturmaTarihi = x.ArizaOlusturmaTarihi,
+                    ArizaOnaylandiMi = x.ArizaOnaylandiMi,
+                    ArizaOlusturmaTarihiS = $"{x.ArizaOlusturmaTarihi:O}",
+
                 });
             }
             return View(data);
@@ -63,7 +65,7 @@ namespace TeknikServisWeb.Controllers
             foreach (var user in users)
             {
                 if (NewUserManager().IsInRole(user.Id, "Teknisyen") && user.TeknisyenDurumu == TeknisyenDurumu.Bosta)
-                { 
+                {
                     data.Add(new SelectListItem()
                     {
                         Text = $"{user.Name} {user.Surname}",
@@ -103,7 +105,11 @@ namespace TeknikServisWeb.Controllers
                         });
                     }
                     arizaRepo.Update(ariza);
-                    ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Beklemede;
+                    var userStore = NewUserStore();
+                    var teknisyen = await userStore.FindByIdAsync(data.TeknisyenId);
+                    teknisyen.TeknisyenDurumu = TeknisyenDurumu.Beklemede;
+                    await userStore.UpdateAsync(teknisyen);
+                    userStore.Context.SaveChanges();
                     arizaRepo.Update(ariza);
                     string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                     (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
@@ -166,7 +172,7 @@ namespace TeknikServisWeb.Controllers
                     Adres = ariza.Adres,
                     Aciklama = ariza.Aciklama,
                     ArizaOlusturmaTarihiS = $"{ariza.ArizaOlusturmaTarihi:O}",
-                    ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
+                    ArizaFotograflari = new FotografRepository().GetAll(x => x.ArizaId == ariza.Id).Select(y => y.Yol).ToList(),
                     GarantiliVarMi = ariza.GarantiliVarMi,
                     Ucret = ariza.Ucret,
                     ArizaYapildiMi = ariza.ArizaYapildiMi
@@ -176,6 +182,7 @@ namespace TeknikServisWeb.Controllers
                     message = "Güncelleme başarılı",
                     success = true,
                     data=data
+                    
                 });
             }
             catch (Exception ex)

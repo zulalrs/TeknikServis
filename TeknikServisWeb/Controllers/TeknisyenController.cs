@@ -84,8 +84,8 @@ namespace TeknikServisWeb.Controllers
                 var arizaRepo = new ArizaRepository();
                 var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
-                var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
-                if (user == null)
+                var teknisyen = await userStore.FindByIdAsync(ariza.TeknisyenId);
+                if (teknisyen == null)
                 {
                     return Json(new ResponseData()
                     {
@@ -93,7 +93,7 @@ namespace TeknikServisWeb.Controllers
                         success = false
                     });
                 }
-                if (user.TeknisyenDurumu == TeknisyenDurumu.Atandı)
+                if (teknisyen.TeknisyenDurumu == TeknisyenDurumu.Atandı)
                 {
                     return Json(new ResponseData()
                     {
@@ -104,7 +104,9 @@ namespace TeknikServisWeb.Controllers
                 else
                 {
                     ariza.ArizaBaslangicTarihi = DateTime.Now;
-                    ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Atandı;
+                    teknisyen.TeknisyenDurumu = TeknisyenDurumu.Atandı;
+                    await userStore.UpdateAsync(teknisyen);
+                    userStore.Context.SaveChanges();
                     arizaRepo.Update(ariza);
                 }
                 return Json(new ResponseData()
@@ -131,8 +133,8 @@ namespace TeknikServisWeb.Controllers
                 var arizaRepo = new ArizaRepository();
                 var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
-                var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
-                if (user == null)
+                var teknisyen = await userStore.FindByIdAsync(ariza.TeknisyenId);
+                if (teknisyen == null)
                 {
                     return Json(new ResponseData()
                     {
@@ -140,7 +142,9 @@ namespace TeknikServisWeb.Controllers
                         success = false
                     });
                 }
-                ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Yolda;
+                teknisyen.TeknisyenDurumu = TeknisyenDurumu.Yolda;
+                await userStore.UpdateAsync(teknisyen);
+                userStore.Context.SaveChanges();
                 arizaRepo.Update(ariza);
 
                 return Json(new ResponseData()
@@ -167,8 +171,8 @@ namespace TeknikServisWeb.Controllers
                 var arizaRepo = new ArizaRepository();
                 var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
-                var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
-                if (user == null)
+                var teknisyen = await userStore.FindByIdAsync(ariza.TeknisyenId);
+                if (teknisyen == null)
                 {
                     return Json(new ResponseData()
                     {
@@ -177,7 +181,9 @@ namespace TeknikServisWeb.Controllers
                     });
                 }
 
-                ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Ulasti;
+                teknisyen.TeknisyenDurumu = TeknisyenDurumu.Ulasti;
+                await userStore.UpdateAsync(teknisyen);
+                userStore.Context.SaveChanges();
                 arizaRepo.Update(ariza);
                 return Json(new ResponseData()
                 {
@@ -203,9 +209,9 @@ namespace TeknikServisWeb.Controllers
                 var arizaRepo = new ArizaRepository();
                 var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == id);
                 var userStore = NewUserStore();
-                var user = await userStore.FindByIdAsync(ariza.TeknisyenId);
+                var teknisyen = await userStore.FindByIdAsync(ariza.TeknisyenId);
                 var musteri = await userStore.FindByIdAsync(ariza.MusteriId);
-                if (user == null)
+                if (teknisyen == null)
                 {
                     return Json(new ResponseData()
                     {
@@ -215,7 +221,9 @@ namespace TeknikServisWeb.Controllers
                 }
 
                 ariza.ArizaBitisTarihi = DateTime.Now;
-                ariza.Teknisyen.TeknisyenDurumu = TeknisyenDurumu.Bosta;
+                teknisyen.TeknisyenDurumu = TeknisyenDurumu.Bosta;
+                await userStore.UpdateAsync(teknisyen);
+                userStore.Context.SaveChanges();
                 ariza.ArizaYapildiMi = true;
                 arizaRepo.Update(ariza);
 
@@ -230,7 +238,7 @@ namespace TeknikServisWeb.Controllers
 
                 var emailService = new EmailService();
                 var body = $"Merhaba <b>{musteri.Name} {musteri.Surname}</b><br><br> <a href='{SiteUrl}/musteri/anket?code={ariza.AnketId}' >Anket Linki </a> ";
-                await emailService.SendAsync(new IdentityMessage() { Body = body, Subject = "Sitemize Hoşgeldiniz" }, musteri.Email);
+                await emailService.SendAsync(new IdentityMessage() { Body = body, Subject = "Memnuniyet Anketi" }, musteri.Email);
 
                 var data = new ArizaViewModel
                 {
@@ -265,6 +273,41 @@ namespace TeknikServisWeb.Controllers
                     message = $"Bir hata oluştu: {ex.Message}",
                     success = false
                 });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetArizaDetay(ArizaViewModel model)
+        {
+            try
+            {
+                //if (!ModelState.IsValid)
+                //{
+                //    return View(model);
+                //}
+                var arizaRepo = new ArizaRepository();
+                var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == model.Id);
+                if (ariza == null)
+                {
+                    return View(model);
+                }
+                ariza.GarantiliVarMi = model.GarantiliVarMi;
+                ariza.Ucret = model.Ucret;
+                arizaRepo.Update(ariza);
+
+                TempData["Message"] = "Kaydınız alınlıştır";
+                return RedirectToAction("GetArizaDetay", "Teknisyen");
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "Guncelle",
+                    ControllerName = "Teknisyen",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
             }
         }
 
