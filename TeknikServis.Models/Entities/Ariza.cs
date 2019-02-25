@@ -29,6 +29,7 @@ namespace TeknikServis.Models.Entities
         public bool GarantiliVarMi { get; set; }
         public int Ucret { get; set; }
         public int? AnketId { get; set; }
+        
 
         [ForeignKey("MusteriId")]
         public virtual User Musteri { get; set; }

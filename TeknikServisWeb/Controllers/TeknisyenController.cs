@@ -69,7 +69,6 @@ namespace TeknikServisWeb.Controllers
             //    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
             //    ArizaYapildiMi = ariza.ArizaYapildiMi,
             //    TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
-
             //};
             data.ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList();
             data.MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname;

@@ -15,6 +15,8 @@ namespace TeknikServisWeb.App_Start
             Mapper.Initialize(cfg =>
             {
                 ArizaMapping(cfg);
+                AnketMapping(cfg);
+
 
             });
         }
@@ -26,6 +28,12 @@ namespace TeknikServisWeb.App_Start
                 //.ForMember(dest => dest.MusteriAdi, opt => opt.MapFrom((s, d) => s.Musteri?.Name + " " + s.Musteri?.Surname))
                 // .ForMember(dest => dest.TeknisyenDurumu, opt => opt.MapFrom((s, d) => s.Teknisyen?.TeknisyenDurumu))
                 .ReverseMap();
+        }
+        private static void AnketMapping(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<Anket, AnketViewModel>()
+                 .ForMember(dest => dest.AnketId, opt => opt.MapFrom(x => x.Id))
+                 .ReverseMap();
         }
 
     }

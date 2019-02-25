@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -119,20 +120,71 @@ namespace TeknikServisWeb.Controllers
             }
             return View(data);
         }
-
-
-
+        
         [HttpGet]
-        public ActionResult Anket()
+        [Authorize]
+        public ActionResult Anket(int code)
         {
-            return View();
-
+            try
+            {
+                var anketRepo = new AnketRepository();
+                var anket = anketRepo.GetById(code);
+                if (anket == null)
+                    return RedirectToAction("Index", "Home");
+                var data = Mapper.Map<Anket, AnketViewModel>(anket);
+                return View(data);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message2"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "Anket",
+                    ControllerName = "Musteri",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
         }
 
-
-        public ActionResult Anket (int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+       [Authorize]
+        public ActionResult Anket(AnketViewModel model)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Hata Oluştu.");
+                return RedirectToAction("Anket", "Musteri", model);
+            }
+            try
+            {
+                var anketRepo = new AnketRepository();
+                var anket = anketRepo.GetById(model.AnketId);
+                if (anket == null)
+                    return RedirectToAction("Index", "Home");
+                anket.Soru1 = model.Soru1;
+                anket.Soru2 = model.Soru2;
+                anket.Soru3 = model.Soru3;
+                anket.Soru4 = model.Soru4;
+                anket.Soru5 = model.Soru5;
+                anket.Soru6 = model.Soru6;
+                anketRepo.Update(anket);
+
+                TempData["Message2"] = "Anket tamamlandı.";
+                return RedirectToAction("Index", "Musteri");
+            }
+            catch (Exception ex)
+            {
+                TempData["Message2"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "Anket",
+                    ControllerName = "Musteri",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
         }
     }
 }

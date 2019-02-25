@@ -80,6 +80,7 @@
     <Compile Include="Abstracts\BaseEntity2.cs" />
     <Compile Include="Entities\Anket.cs" />
     <Compile Include="Entities\Ariza.cs" />
+    <Compile Include="Entities\ArizaLog.cs" />
     <Compile Include="Entities\Fotograf.cs" />
     <Compile Include="Enums\AnketPuanlari.cs" />
     <Compile Include="Enums\IdentityRoles.cs" />
