@@ -35,7 +35,7 @@
                             <div class="col-md-2">
 
                                 @*<input type="text" class="form-control" id="inputError">*@
-                                @Html.EditorFor(model => model.Soru1, new { htmlAttributes = new { @class = "form-control", id = "inputError", type = "number", stepsize = "1", min = "0", max = "5" } })
+                                @Html.EditorFor(model => model.Soru1, new { htmlAttributes = new { @class = "form-control", id = "inputError", type = "number", stepsize = "5", min = "0", max = "100" } })
                                 @Html.ValidationMessageFor(model => model.Soru1, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Soru2, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                @Html.EditorFor(model => model.Soru2, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "1", min = "0", max = "5" } })
+                                @Html.EditorFor(model => model.Soru2, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "5", min = "0", max = "100" } })
                                 @Html.ValidationMessageFor(model => model.Soru2, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Soru3, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                @Html.EditorFor(model => model.Soru3, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "1", min = "0", max = "5" } })
+                                @Html.EditorFor(model => model.Soru3, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "5", min = "0", max = "100" } })
                                 @Html.ValidationMessageFor(model => model.Soru3, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Soru4, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                @Html.EditorFor(model => model.Soru4, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "1", min = "0", max = "5" } })
+                                @Html.EditorFor(model => model.Soru4, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "5", min = "0", max = "100" } })
                                 @Html.ValidationMessageFor(model => model.Soru4, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -72,11 +72,21 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Soru5, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                @Html.EditorFor(model => model.Soru5, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "1", min = "0", max = "5" } })
+                                @Html.EditorFor(model => model.Soru5, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "5", min = "0", max = "100" } })
                                 @Html.ValidationMessageFor(model => model.Soru5, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <br />
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Soru7, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Soru7, new { htmlAttributes = new { @class = "form-control", type = "number", stepsize = "5", min = "0", max = "100" } })
+                                @Html.ValidationMessageFor(model => model.Soru7, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+
                         <br />
                         <div class="form-group">
                             @Html.LabelFor(model => model.Soru6, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -84,6 +94,8 @@
 
                         </div>
                         <br />
+
+
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">

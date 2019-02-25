@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Raporlar";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Raporlar</h2>
+<div class=" col-md-6">
+    <div class="box box-danger">
+        <div class="box-header with-border">
+            <div>
+                <div id="chart_div"></div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+
+<!-- /.col (LEFT) -->
+<!-- /.col (RIGHT) -->
+
+
+@section bottom
+{
+  
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        $(function () {
+            google.charts.load("current", { packages: ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                $.ajax({
+                    /*
+                     * 1) kategori satış grafiği
+                     * 2) kategori bazli aylık satış grafiği
+                     *
+                     *
+                     */
+                    url: "@Url.Action("RaporGorunum","Admin")",
+                    method: "get",
+                    dataType: "json",
+                }).done(function (e) {
+                    //var data = google.visualization.arrayToDataTable([
+                    //    ["Element", "Density", { role: "style" }],
+                    //    ["Copper", 8.94, "#b87333"],
+                    //    ["Silver", 10.49, "silver"],
+                    //    ["Gold", 19.30, "gold"],
+                    //    ["Platinum", 21.45, "color: #e5e4e2"]
+                    //]);
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Anket Soruları');
+                    data.addColumn('number', 'Puan');
+                    $.each(e.data, function (key, value) {
+                        data.addRow([value.Soru, value.Deger]);
+                    });
+                    var view = new google.visualization.DataView(data);
+                    var options = { // View ın ayarları
+                        title: "Genel Memnuniyet Grafiği",
+                        width: 500,
+                        height: 400,
+                        bar: { groupWidth: "50%" },
+                        legend: { position:"none"}
+                        
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));// bu id deki div in içerisine
+                    chart.draw(view, options); // tanımlanan view ı belirlenen ayarlarda göster
+                });
+            }
+
+           
+        });
+    </script>
+    }

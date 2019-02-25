@@ -17,7 +17,7 @@ namespace TeknikServis.Models.Entities
 
         [DisplayName("Firma Memnuniyeti")]
         public double Soru1 { get; set; } = 0;
-        [DisplayName("Nezakaket")]
+        [DisplayName("Nezaket")]
         public double Soru2 { get; set; } = 0;
         [DisplayName("Teknik Bilgi ve Yeterlilik")]
         public double Soru3 { get; set; } = 0;
@@ -25,9 +25,14 @@ namespace TeknikServis.Models.Entities
         public double Soru4 { get; set; } = 0;
         [DisplayName("Fiyat")]
         public double Soru5 { get; set; } = 0;
+
+        [DisplayName("Genel Teknisyen Puanı")]
+        public double Soru6 { get; set; } = 0;
+
         [DisplayName("Görüş ve Öneriler")]
         [StringLength(500, ErrorMessage = "Max 200 karakter giriniz.")]
-        public string Soru6 { get; set; }
+        public string Soru7 { get; set; }
+
 
         public virtual ICollection<Ariza> Arizalar { get; set; } = new HashSet<Ariza>();
     }

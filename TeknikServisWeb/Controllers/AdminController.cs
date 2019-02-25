@@ -281,6 +281,57 @@ namespace TeknikServisWeb.Controllers
             return RedirectToAction("EditUser", new { id = userId });
         }
 
+        [HttpGet]
+        public ActionResult Raporlar()
+        {
+            return View();
+        }
+        [HttpGet]
+        public JsonResult RaporGorunum()
+        {
+            var anketRepo = new AnketRepository();
+            var soru1 = anketRepo.GetAll().Select(x => x.Soru1).Sum() / anketRepo.GetAll().Select(x => x.Soru1).Count();
+            var soru2 = anketRepo.GetAll().Select(x => x.Soru2).Sum() / anketRepo.GetAll().Select(x => x.Soru2).Count();
+            var soru3 = anketRepo.GetAll().Select(x => x.Soru3).Sum() / anketRepo.GetAll().Select(x => x.Soru3).Count();
+            var soru4 = anketRepo.GetAll().Select(x => x.Soru4).Sum() / anketRepo.GetAll().Select(x => x.Soru4).Count();
+            var soru5 = anketRepo.GetAll().Select(x => x.Soru5).Sum() / anketRepo.GetAll().Select(x => x.Soru5).Count();
+           
+            
+            var data = new List<ReportData>();
+            data.Add(new ReportData()
+            {
+                Soru = "Firma Memnuniyeti",
+                Deger = soru1
+               
+            });
+            data.Add(new ReportData()
+            {
+                Soru = "Nezaket",
+                Deger = soru2
+            });
+            data.Add(new ReportData()
+            {
+                Soru = "Teknik Bilgi ve Yeterlilik",
+                Deger = soru3
+            });
+            data.Add(new ReportData()
+            {
+                Soru = "Hız",
+                Deger = soru4
+            });
+            data.Add(new ReportData()
+            {
+                Soru = "Fiyat",
+                Deger = soru5
+            });
+            return Json(new ResponseData()
+            {
+                message = $"{data.Count} adet kayıt bulundu",
+                success = true,
+                data = data
+            }, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }
