@@ -37,7 +37,7 @@
                                 <td>@data.MusteriAdi</td>
                                 <td>@data.Adres</td>
                                 <td>
-                                    @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.TeknisyenList, new { @class = "form-control", style = "width:100%", id = "teknisyen" })
+                                    @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.TeknisyenList, new { @class = "form-control", style = "width:100%", id = "teknisyen"+i })
                                 </td>
                                 <td>@Html.CheckBox("ArizaOnaylandiMi", data.ArizaOnaylandiMi, new { id = "onay" })</td>
                                 <td class="text-center">
@@ -148,6 +148,7 @@
                     data: { id: id }
 
                 }).done(function (e) {
+                    console.log(e);
                     var arizaTarihi = new Date(e.data.ArizaOlusturmaTarihiS);
 
                     var tarih = arizaTarihi.getDate() + "/" + (arizaTarihi.getMonth() + 1) + "/" + arizaTarihi.getFullYear();
@@ -178,7 +179,7 @@
                 $.each(data,
                     function (key, value) {
                         var img = document.createElement("img");
-                        $(img).attr("src", "~" + value).attr("class", "margin").width("150px").height("150px");
+                        $(img).attr("src",value).attr("class", "margin").width("150px").height("150px");
                         $("#foto").append(img);
                         
                     });

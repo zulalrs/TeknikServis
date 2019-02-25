@@ -39,7 +39,7 @@
                                         @Model.Aciklama
                                     </div>
                                     <div class="timeline-footer">
-
+                                        
                                         <a class="btn btn-success btn-xs btniskabul" name="@Model.Id">İş Kabul</a>
                                         <a class="btn btn-danger btn-xs btnyolda" name="@Model.Id">Yolda</a>
                                         <a class="btn btn-warning btn-xs btnulasti" name="@Model.Id">Ulaştı</a>
@@ -64,6 +64,7 @@
     <script src="~/dist/js/bootstrap-notify.min.js"></script>
     <script>
         $(function () {
+            
             $(".btnyolda").hide();
             $(".btnulasti").hide();
             $(".btnislemtamam").hide();
