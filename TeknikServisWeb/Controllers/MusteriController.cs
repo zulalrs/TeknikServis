@@ -18,6 +18,7 @@ using static TeknikServis.BLL.Identity.MembershipTools;
 
 namespace TeknikServisWeb.Controllers
 {
+    [Authorize(Roles = "Musteri")]
     public class MusteriController : Controller
     {
         // GET: Musteri
@@ -209,7 +210,7 @@ namespace TeknikServisWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-       [Authorize]
+        [Authorize]
         public ActionResult Anket(AnketViewModel model)
         {
             if (!ModelState.IsValid)
