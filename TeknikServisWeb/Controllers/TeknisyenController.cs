@@ -113,7 +113,7 @@ namespace TeknikServisWeb.Controllers
                     {
                         ArizaId = ariza.Id,
                         Aciklama = "Teknisyen atanmıştır",
-                        Zaman = ariza.ArizaBaslangicTarihi.Value
+                        Zaman = DateTime.Now
                     };
                     arizaLogRepo.Insert(log);
                     //ariza.ArizaLoglar.Add(log);

@@ -12,14 +12,11 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><b>Tüm Arızalar Formu</b></h3>
-
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
                 <br />
                 <table class="table table-hover">
-
-
                     <tbody>
 
                         @for (int i = 0; i < Model.Count; i++)
@@ -33,6 +30,12 @@
                                         <div class="box collapsed-box box-success">
                                             <div class="box-header with-border">
                                                 <h3 class="box-title">@data.ArizaOlusturmaTarihiS.AsDateTime().ToShortDateString() -  @data.ArizaOlusturmaTarihiS.AsDateTime().ToShortTimeString()  -  @data.MarkaAdi-@data.ModelAdi</h3>
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-check-square-o text-success"></i> Arızanız Sonuçlanmıştır.</span>
+                                                    <h6 class="timeline-header no-border">
+                                                        Bizi tercih ettiğiniz için teşekkür ederiz. Memnuniyet anketimize katılmanız rica olunur.
+                                                    </h6>
+                                                </div>
 
                                                 <div class="box-tools pull-right">
                                                     <button type="button" class="btn btn-box-tool btndetay" name="@data.Id" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
@@ -66,11 +69,23 @@
                                                     {
                                                         for (int k = 0; k < data.ArizaLoglar.Count; k++)
                                                         {
-                                                            <label>@data.ArizaLoglar[k].Zaman</label>
-                                                            <label>@data.ArizaLoglar[k].Aciklama</label>
+                                                            <div class="tab-pane active" id="timeline">
+                                                                <ul class="timeline timeline-inverse">
+                                                                    <li>
+                                                                        <i class="fa fa-user bg-aqua"></i>
+                                                                        <div class="timeline-item">
+                                                                            <span class="time"><i class="fa fa-clock-o"></i>@data.ArizaLoglar[k].Zaman</span>
+
+                                                                            <h3 class="timeline-header no-border">
+                                                                                @data.ArizaLoglar[k].Aciklama
+                                                                            </h3>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
                                                         }
                                                     }
-
+                                                  
                                                 </div>
                                             </div>
                                         </div>
@@ -116,14 +131,25 @@
                                                 {
                                                     for (int k = 0; k < data.ArizaLoglar.Count; k++)
                                                     {
-                                                        <label>@data.ArizaLoglar[k].Zaman</label>
-                                                        <label>@data.ArizaLoglar[k].Aciklama</label>
+                                                        <div class="tab-pane active" id="timeline">
+                                                            <ul class="timeline timeline-inverse">
+                                                                <li>
+                                                                    <i class="fa fa-user bg-aqua"></i>
+                                                                    <div class="timeline-item">
+                                                                        <span class="time"><i class="fa fa-clock-o"></i>@data.ArizaLoglar[k].Zaman</span>
+
+                                                                        <h3 class="timeline-header no-border">
+                                                                            @data.ArizaLoglar[k].Aciklama
+                                                                        </h3>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     }
                                                 }
 
                                             </div>
                                         </div>
-
                                     </td>
                                 </tr>
                             }
@@ -132,9 +158,6 @@
                     </tbody>
                 </table>
             </div>
-
-
-
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
