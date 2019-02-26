@@ -5,14 +5,34 @@
 }
 
 <h2>Raporlar</h2>
-<div class=" col-md-6">
-    <div class="box box-danger">
-        <div class="box-header with-border">
-            <div>
-                <div id="chart_div"></div>
+<div class="row">
+    <div class=" col-md-12">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div  class="col-md-6 col-md-offset-2">
+                        <div id="chart_div"></div>
+                    </div>
+                </div>
             </div>
+            <!-- /.box-body -->
         </div>
-        <!-- /.box-body -->
+    </div>
+    <div class=" col-md-12">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <div class="row">
+                <label class="col-md-12" style="text-align:center;">Teknisyenlerin Son İşi Bitirme Süreleri</label>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-2">
+                        <div id="timeline" style="height: 180px; width:700px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
     </div>
 </div>
 
@@ -22,7 +42,7 @@
 
 @section bottom
 {
-  
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         $(function () {
@@ -30,23 +50,10 @@
             google.charts.setOnLoadCallback(drawChart);
             function drawChart() {
                 $.ajax({
-                    /*
-                     * 1) kategori satış grafiği
-                     * 2) kategori bazli aylık satış grafiği
-                     *
-                     *
-                     */
-                    url: "@Url.Action("RaporGorunum","Admin")",
+                    url: "@Url.Action("Rapor1","Admin")",
                     method: "get",
                     dataType: "json",
                 }).done(function (e) {
-                    //var data = google.visualization.arrayToDataTable([
-                    //    ["Element", "Density", { role: "style" }],
-                    //    ["Copper", 8.94, "#b87333"],
-                    //    ["Silver", 10.49, "silver"],
-                    //    ["Gold", 19.30, "gold"],
-                    //    ["Platinum", 21.45, "color: #e5e4e2"]
-                    //]);
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Anket Soruları');
                     data.addColumn('number', 'Puan');
@@ -56,18 +63,62 @@
                     var view = new google.visualization.DataView(data);
                     var options = { // View ın ayarları
                         title: "Genel Memnuniyet Grafiği",
-                        width: 500,
+                        width: 700,
                         height: 400,
                         bar: { groupWidth: "50%" },
                         legend: { position:"none"}
-                        
+
                     };
                     var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));// bu id deki div in içerisine
                     chart.draw(view, options); // tanımlanan view ı belirlenen ayarlarda göster
                 });
             }
 
-           
+            google.charts.load('current', { 'packages': ['timeline'] });
+            google.charts.setOnLoadCallback(drawChart1);
+            function drawChart1() {
+                $.ajax({
+                    url: "@Url.Action("Rapor2","Admin")",
+                    method: "get",
+                    dataType: "json"
+                }).done(function (e) {
+                    console.log(e);
+                    var container = document.getElementById('timeline');
+                    var chart = new google.visualization.Timeline(container);
+                    var dataTable = new google.visualization.DataTable();
+
+                    dataTable.addColumn({ type: 'string', id: 'Sıra' });
+                    dataTable.addColumn({ type: 'string', id: 'Teknisyen' });
+                    dataTable.addColumn({ type: 'date', id: 'Başlangıç' });
+                    dataTable.addColumn({ type: 'date', id: 'Bitiş' });
+                    $.each(e.data, function (key, value) {
+                        console.log(key);
+                        var arizaTarihiB = new Date(value.ArizaBaslangicTarihiS);
+                        var gun = arizaTarihiB.getDate();
+                        var ay = (arizaTarihiB.getMonth() + 1);
+                        var yil = arizaTarihiB.getFullYear();
+                        var saat = arizaTarihiB.getHours();
+                        var dakika = arizaTarihiB.getMinutes();
+                        var saniye = arizaTarihiB.getSeconds();
+
+                        var arizaTarihiBts = new Date(value.ArizaBitisTarihiS);
+                        var gunBts = arizaTarihiBts.getDate();
+                        var ayBts = (arizaTarihiBts.getMonth() + 1);
+                        var yilBts = arizaTarihiBts.getFullYear();
+                        var saatBts = arizaTarihiBts.getHours();
+                        var dakikaBts = arizaTarihiBts.getMinutes();
+                        var saniyeBts = arizaTarihiBts.getSeconds();
+
+                        dataTable.addRows([
+                            [(key+1)+"",value.TeknisyenAdi, new Date(yil, ay, gun, saat, dakika, saniye), new Date(yilBts, ayBts, gunBts, saatBts, dakikaBts, saniyeBts)],
+                            ]);
+                    });
+
+                    
+                    chart.draw(dataTable);
+                    });
+
+            }
         });
     </script>
-    }
+}

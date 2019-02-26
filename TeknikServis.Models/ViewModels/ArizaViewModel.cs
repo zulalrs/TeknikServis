@@ -28,8 +28,10 @@ namespace TeknikServis.Models.ViewModels
         public string Aciklama { get; set; }
         [Column(TypeName = "smalldatetime")]
         public DateTime ArizaBaslangicTarihi { get; set; }
+        public string ArizaBaslangicTarihiS { get; set; }
         [Column(TypeName = "smalldatetime")]
-        public DateTime ArizaBitisTarihi { get; set; } 
+        public DateTime ArizaBitisTarihi { get; set; }
+        public string ArizaBitisTarihiS { get; set; }
         public bool ArizaOnaylandiMi { get; set; }
         public string MusteriId { get; set; }
         public string MusteriAdi { get; set; }     

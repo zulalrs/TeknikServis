@@ -132,6 +132,7 @@ namespace TeknikServisWeb.Controllers
                     Ucret = ariza.Ucret,
                     ArizaYapildiMi = ariza.ArizaYapildiMi
                 };
+               
                 return Json(new ResponseData()
                 {
                     message = "Güncelleme başarılı",

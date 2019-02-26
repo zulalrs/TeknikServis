@@ -30,7 +30,7 @@ namespace TeknikServisWeb.Controllers
         {
             return View(NewUserStore().Users.ToList());
         }
-    
+
         [HttpPost]
         public async Task<JsonResult> SendCode(string id)
         {
@@ -287,7 +287,7 @@ namespace TeknikServisWeb.Controllers
             return View();
         }
         [HttpGet]
-        public JsonResult RaporGorunum()
+        public JsonResult Rapor1()
         {
             var anketRepo = new AnketRepository();
             var soru1 = anketRepo.GetAll().Select(x => x.Soru1).Sum() / anketRepo.GetAll().Select(x => x.Soru1).Count();
@@ -295,14 +295,14 @@ namespace TeknikServisWeb.Controllers
             var soru3 = anketRepo.GetAll().Select(x => x.Soru3).Sum() / anketRepo.GetAll().Select(x => x.Soru3).Count();
             var soru4 = anketRepo.GetAll().Select(x => x.Soru4).Sum() / anketRepo.GetAll().Select(x => x.Soru4).Count();
             var soru5 = anketRepo.GetAll().Select(x => x.Soru5).Sum() / anketRepo.GetAll().Select(x => x.Soru5).Count();
-           
-            
+
+
             var data = new List<ReportData>();
             data.Add(new ReportData()
             {
                 Soru = "Firma Memnuniyeti",
                 Deger = soru1
-               
+
             });
             data.Add(new ReportData()
             {
@@ -332,6 +332,35 @@ namespace TeknikServisWeb.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult Rapor2()
+        {
+            var user = NewUserManager().Users.ToList();
+            var arizaRepo = new ArizaRepository();
+            var sonArizalar = new List<ArizaViewModel>();
+            foreach (var item in user)
+            {
+                if (NewUserManager().IsInRole(item.Id, "Teknisyen"))
+                {
+                    var ariza = arizaRepo.GetAll().FindLast(x => x.TeknisyenId == item.Id);
+                    if (ariza != null)
+                    {
+                        sonArizalar.Add(new ArizaViewModel()
+                        {
+                            TeknisyenAdi = ariza.Teknisyen?.Name + " " + ariza.Teknisyen?.Surname,
+                            ArizaBaslangicTarihiS= $"{ariza.ArizaBaslangicTarihi:O}",
+                            ArizaBitisTarihiS = $"{ariza.ArizaBitisTarihi:O}"
+                        });
+                    }
+                }
+            }
+            return Json(new ResponseData()
+            {
+                message = $"{sonArizalar.Count} adet kayıt bulundu",
+                success = true,
+                data = sonArizalar
+            }, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
