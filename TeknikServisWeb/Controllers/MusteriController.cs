@@ -18,6 +18,7 @@ using static TeknikServis.BLL.Identity.MembershipTools;
 
 namespace TeknikServisWeb.Controllers
 {
+    [Authorize(Roles = "Musteri")]
     public class MusteriController : Controller
     {
         // GET: Musteri
@@ -162,11 +163,21 @@ namespace TeknikServisWeb.Controllers
                 data.Add(new ArizaViewModel()
                 {
                     Id = x.Id,
-                    ArizaOlusturmaTarihi = x.ArizaOlusturmaTarihi,
+                    ArizaOlusturmaTarihiS = $"{x.ArizaOlusturmaTarihi:O}",
+                    MusteriAdi = x.Musteri.Name+" "+x.Musteri.Surname,
+                    ModelAdi = x.ModelAdi,
+                    MarkaAdi = x.MarkaAdi,
+                    Adres = x.Adres,
+                    Aciklama = x.Aciklama,
+                    TeknisyenId = x.TeknisyenId ?? null,
                     TeknisyenAdi = x.Teknisyen?.Name + " " + x.Teknisyen?.Surname,
                     TeknisyenDurumu = x.Teknisyen?.TeknisyenDurumu == null ? TeknisyenDurumu.Beklemede : x.Teknisyen.TeknisyenDurumu,
                     ArizaOnaylandiMi = x.ArizaOnaylandiMi,
-                    Ucret = x.Ucret
+                    ArizaFotograflari = new FotografRepository().GetAll(z => z.ArizaId == x.Id).Select(y => y.Yol).ToList(),
+                    GarantiliVarMi = x.GarantiliVarMi,
+                    Ucret = x.Ucret,
+                    ArizaYapildiMi = x.ArizaYapildiMi
+
                 });
             }
             return View(data);
@@ -200,7 +211,7 @@ namespace TeknikServisWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-       [Authorize]
+        [Authorize]
         public ActionResult Anket(AnketViewModel model)
         {
             if (!ModelState.IsValid)

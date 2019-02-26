@@ -16,6 +16,7 @@ using static TeknikServis.BLL.Identity.MembershipTools;
 
 namespace TeknikServisWeb.Controllers
 {
+    [Authorize(Roles = "Teknisyen")]
     public class TeknisyenController : Controller
     {
         // GET: Teknisyen
