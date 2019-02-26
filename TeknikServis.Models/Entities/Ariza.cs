@@ -39,5 +39,6 @@ namespace TeknikServis.Models.Entities
         public virtual Anket Anket { get; set; }
      
         public virtual List<Fotograf> Fotograflar { get; set; } = new List<Fotograf>();
+        public virtual ICollection<ArizaLog> ArizaLoglar { get; set; } = new HashSet<ArizaLog>();
     }
 }

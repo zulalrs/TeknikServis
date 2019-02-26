@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using TeknikServis.BLL.Identity;
 using TeknikServis.BLL.Repository;
 using TeknikServis.BLL.Services;
+using TeknikServis.Models.Entities;
 using TeknikServis.Models.Enums;
 using TeknikServis.Models.Models;
 using TeknikServis.Models.ViewModels;
@@ -112,6 +113,15 @@ namespace TeknikServisWeb.Controllers
                     await userStore.UpdateAsync(teknisyen);
                     userStore.Context.SaveChanges();
                     arizaRepo.Update(ariza);
+
+                    var arizaLogRepo = new ArizaLogRepository();
+                    arizaLogRepo.Insert(new ArizaLog()
+                    {
+                        ArizaId = ariza.Id,
+                        Aciklama = "Arızanız onaylanmıştır",
+                        Zaman = ariza.ArizaBaslangicTarihi.Value
+                    });
+
                     string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                     (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
 

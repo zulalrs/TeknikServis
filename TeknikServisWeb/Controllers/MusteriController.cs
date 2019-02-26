@@ -84,8 +84,7 @@ namespace TeknikServisWeb.Controllers
                 }
                 var fotograflar= new FotografRepository().GetAll(x => x.ArizaId == ariza.Id).ToList();
                 ariza.ArizaFoto = fotograflar.Select(x => x.Yol).ToList();
-                arizaRepo.Update(ariza);
-               
+                arizaRepo.Update(ariza);               
                 TempData["Message"] = "Kaydınız alınlıştır";
                 return RedirectToAction("ArizaBildirimi", "Musteri");
             }
@@ -110,26 +109,51 @@ namespace TeknikServisWeb.Controllers
             var ariza = new ArizaRepository().GetAll(x => x.MusteriId == id).ToList();
             foreach (var x in ariza)
             {
-                data.Add(new ArizaViewModel()
-                {
-                    Id = x.Id,
-                    ArizaOlusturmaTarihiS = $"{x.ArizaOlusturmaTarihi:O}",
-                    MusteriAdi = x.Musteri.Name+" "+x.Musteri.Surname,
-                    ModelAdi = x.ModelAdi,
-                    MarkaAdi = x.MarkaAdi,
-                    Adres = x.Adres,
-                    Aciklama = x.Aciklama,
-                    TeknisyenId = x.TeknisyenId ?? null,
-                    TeknisyenAdi = x.Teknisyen?.Name + " " + x.Teknisyen?.Surname,
-                    TeknisyenDurumu = x.Teknisyen?.TeknisyenDurumu == null ? TeknisyenDurumu.Beklemede : x.Teknisyen.TeknisyenDurumu,
-                    ArizaOnaylandiMi = x.ArizaOnaylandiMi,
-                    ArizaFotograflari = new FotografRepository().GetAll(z => z.ArizaId == x.Id).Select(y => y.Yol).ToList(),
-                    GarantiliVarMi = x.GarantiliVarMi,
-                    Ucret = x.Ucret,
-                    ArizaYapildiMi = x.ArizaYapildiMi
 
-                });
-            
+                if(x.TeknisyenId==null)
+                {
+                    data.Add(new ArizaViewModel()
+                    {
+                        Id = x.Id,
+                        ArizaOlusturmaTarihiS = $"{x.ArizaOlusturmaTarihi:O}",
+                        MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
+                        ModelAdi = x.ModelAdi,
+                        MarkaAdi = x.MarkaAdi,
+                        Adres = x.Adres,
+                        Aciklama = x.Aciklama,
+                        ArizaOnaylandiMi = x.ArizaOnaylandiMi,
+                        ArizaFotograflari = new FotografRepository().GetAll(z => z.ArizaId == x.Id).Select(y => y.Yol).ToList(),
+                        GarantiliVarMi = x.GarantiliVarMi,
+                        Ucret = x.Ucret,
+                        ArizaYapildiMi = x.ArizaYapildiMi
+
+                    });
+                }
+                else
+                {
+                    data.Add(new ArizaViewModel()
+                    {
+                        Id = x.Id,
+                        ArizaOlusturmaTarihiS = $"{x.ArizaOlusturmaTarihi:O}",
+                        MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
+                        ModelAdi = x.ModelAdi,
+                        MarkaAdi = x.MarkaAdi,
+                        Adres = x.Adres,
+                        Aciklama = x.Aciklama,
+                        TeknisyenId = x.TeknisyenId,
+                        TeknisyenAdi = NewUserManager().FindById(x.TeknisyenId).Name + " " + NewUserManager().FindById(x.TeknisyenId).Surname,
+                        TeknisyenDurumu = NewUserManager().FindById(x.TeknisyenId).TeknisyenDurumu,
+                        ArizaOnaylandiMi = x.ArizaOnaylandiMi,
+                        ArizaFotograflari = new FotografRepository().GetAll(z => z.ArizaId == x.Id).Select(y => y.Yol).ToList(),
+                        GarantiliVarMi = x.GarantiliVarMi,
+                        Ucret = x.Ucret,
+                        ArizaYapildiMi = x.ArizaYapildiMi
+
+                    });
+                }
+
+
+
             }
             return View(data);
         }

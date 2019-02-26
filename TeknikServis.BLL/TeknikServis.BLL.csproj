@@ -82,6 +82,7 @@
     <Compile Include="Identity\MembershipTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AnketRepository.cs" />
+    <Compile Include="Repository\ArizaLogRepository.cs" />
     <Compile Include="Repository\ArizaRepository.cs" />
     <Compile Include="Repository\FotografRepository.cs" />
     <Compile Include="Repository\RepositoryBase.cs" />
