@@ -399,15 +399,14 @@ namespace TeknikServisWeb.Controllers
             var teknisyenSorgu = from ariza in arizaRepo
                                  join teknisyen in userRepo on ariza.TeknisyenId equals teknisyen.Id
                                  join anket in anketRepo on ariza.AnketId equals anket.Id
+                                 where teknisyen.Id==ariza.TeknisyenId & anket.Id==ariza.AnketId
                                  group new
                                  {
                                      ariza,
-                                     anket,
                                      teknisyen
                                  }
                                  by new
                                  {
-                                     anket.Soru6,
                                      teknisyen.Name,
                                      teknisyen.Surname
                                  }
