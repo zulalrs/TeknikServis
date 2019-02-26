@@ -12,7 +12,7 @@ using TeknikServis.Models.Enums;
 namespace TeknikServis.Models.Entities
 {
     [Table("Anketler")]
-    public class Anket : RepositoryBase<int>
+    public class Anket : BaseEntity<int>
     {
 
         [DisplayName("Firma Memnuniyeti")]

@@ -7,7 +7,7 @@ using TeknikServis.Models.Abstracts;
 
 namespace TeknikServis.Models.Entities
 {
-    public class ArizaLog:RepositoryBase<Guid>
+    public class ArizaLog: BaseEntity<Guid>
     {
         public ArizaLog()
         {

@@ -16,16 +16,18 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
+                <br />
                 <table class="table table-hover">
 
-                 
+
                     <tbody>
+
                         @for (int i = 0; i < Model.Count; i++)
                         {
                             var data = Model[i];
                             if (data.ArizaYapildiMi == true)
                             {
-                               
+
                                 <tr>
                                     <td>
                                         <div class="box collapsed-box box-success">
@@ -37,7 +39,7 @@
                                                         <i class="fa fa-plus"></i>
                                                     </button>
                                                 </div>
-
+                                            
                                             </div>
                                             <div class="box-body detay" style="display: none;">
                                                 <label>Müşteri Adı:</label><span id="musteriadi">@data.MusteriAdi</span><br />
@@ -50,19 +52,17 @@
                                                 <label>Ücret :</label><span id="ucret">@data.Ucret</span><br />
                                                 <label>Arıza Durumu :</label><span id="arizadurumu">@data.ArizaYapildiMi</span><br />
 
-
-                                                @for (int j = 0; j < data.ArizaFotograflari.Count; j++)
-                                                {
-                                                    <div class="timeline-item">
-                                                        <div class="timeline-body" id="foto">
-                                                            <img src="@data.ArizaFotograflari[j]" />
-                                                        </div>
+                                                <div class="timeline-item">
+                                                    <div class="timeline-body">
+                                                        @for (int j = 0; j < data.ArizaFotograflari.Count; j++)
+                                                        {
+                                                            <img src="@data.ArizaFotograflari[j]" class="margin">
+                                                        }
                                                     </div>
-                                                }
-
-                                            </div>
+                                                </div>
+                                             
+                                            </div>   
                                         </div>
-
                                     </td>
                                 </tr>
                             }
@@ -91,17 +91,14 @@
                                                 <label>Garanti Durumu :</label><span id="garanti">@data.GarantiliVarMi</span><br />
                                                 <label>Ücret :</label><span id="ucret">@data.Ucret</span><br />
                                                 <label>Arıza Durumu :</label><span id="arizadurumu">@data.ArizaYapildiMi</span><br />
-
-
-                                                @for (int j = 0; j < data.ArizaFotograflari.Count; j++)
-                                                {
-                                                    <div class="timeline-item">
-                                                        <div class="timeline-body" id="foto">
-                                                            <img src="@data.ArizaFotograflari[j]" />
-                                                        </div>
+                                                <div class="timeline-item">
+                                                    <div class="timeline-body">
+                                                        @for (int j = 0; j < data.ArizaFotograflari.Count; j++)
+                                                        {
+                                                            <img src="@data.ArizaFotograflari[j]" class="margin">
+                                                        }
                                                     </div>
-                                                }
-
+                                                </div>
                                             </div>
                                         </div>
 

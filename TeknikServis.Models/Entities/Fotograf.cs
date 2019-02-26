@@ -10,7 +10,7 @@ using TeknikServis.Models.Abstracts;
 namespace TeknikServis.Models.Entities
 {
     [Table("Fotograflar")]
-    public class Fotograf: RepositoryBase<int>
+    public class Fotograf: BaseEntity<int>
     {
        
         [Required]

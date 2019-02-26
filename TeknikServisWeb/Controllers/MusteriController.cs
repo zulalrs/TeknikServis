@@ -102,56 +102,6 @@ namespace TeknikServisWeb.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult GetArizaDetay(int id)
-        {
-            try
-            {
-                var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
-                if (ariza == null)
-                {
-                    return Json(new ResponseData()
-                    {
-                        message = "Arıza kaydı bulunamadı",
-                        success = false
-                    });
-                }
-                var data = new ArizaViewModel()
-                {
-                    Id = ariza.Id,
-                    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
-                    ModelAdi = ariza.ModelAdi,
-                    MarkaAdi = ariza.MarkaAdi,
-                    TeknisyenId = ariza.TeknisyenId ?? null,
-                    TeknisyenDurumu = ariza.Teknisyen?.TeknisyenDurumu ?? TeknisyenDurumu.Beklemede,
-                    TeknisyenAdi = ariza.Teknisyen?.Name + " " + ariza.Teknisyen?.Surname,
-                    Adres = ariza.Adres,
-                    Aciklama = ariza.Aciklama,
-                    ArizaOlusturmaTarihiS = $"{ariza.ArizaOlusturmaTarihi:O}",
-                    ArizaFotograflari = new FotografRepository().GetAll(x => x.ArizaId == ariza.Id).Select(y => y.Yol).ToList(),
-                    GarantiliVarMi = ariza.GarantiliVarMi,
-                    Ucret = ariza.Ucret,
-                    ArizaYapildiMi = ariza.ArizaYapildiMi
-                };
-               
-                return Json(new ResponseData()
-                {
-                    message = "Güncelleme başarılı",
-                    success = true,
-                    data = data
-
-                });
-            }
-            catch (Exception ex)
-            {
-                return Json(new ResponseData()
-                {
-                    message = $"Bir hata oluştu {ex.Message}",
-                    success = false
-                });
-            }
-        }
-
         [HttpGet]
         public ActionResult KayitliArizalar()
         {
@@ -179,6 +129,7 @@ namespace TeknikServisWeb.Controllers
                     ArizaYapildiMi = x.ArizaYapildiMi
 
                 });
+            
             }
             return View(data);
         }
