@@ -51,10 +51,24 @@
                                                 <label>Adres :</label><span id="adres">@data.Adres</span><br />
                                                 <label>Teknisyen Adı :</label><span id="teknisyen">@data.TeknisyenAdi</span><br />
                                                 <label>Teknisyen Durumu :</label><span id="teknisyendurumu">@data.TeknisyenDurumu</span><br />
-                                                <label>Garanti Durumu :</label><span id="garanti">@data.GarantiliVarMi</span><br />
+                                                @if (data.GarantiliVarMi)
+                                                {
+                                                    <label>Garanti Durumu :</label><span id="garanti">Garantili Ürün</span><br />
+                                                }
+                                                else
+                                                {
+                                                    <label>Garanti Durumu :</label><span id="garanti">Garantisiz Ürün</span><br />
+                                                }
                                                 <label>Ücret :</label><span id="ucret">@data.Ucret</span><br />
-                                                <label>Arıza Durumu :</label><span id="arizadurumu">@data.ArizaYapildiMi</span><br />
-
+                                                @if (data.ArizaYapildiMi)
+                                                {
+                                                    <label>Arıza Onarımı :</label><span id="garanti">Başarılı</span><br />
+                                                }
+                                                else
+                                                {
+                                                    <label>Arıza Onarımı :</label><span id="garanti">Başarısız</span><br />
+                                                }
+                                               
                                                 <div class="timeline-item">
                                                     <div class="timeline-body">
                                                         @for (int j = 0; j < data.ArizaFotograflari.Count; j++)
@@ -85,7 +99,7 @@
                                                             </div>
                                                         }
                                                     }
-                                                  
+
                                                 </div>
                                             </div>
                                         </div>
@@ -114,9 +128,24 @@
                                                 <label>Adres :</label><span id="adres">@data.Adres</span><br />
                                                 <label>Teknisyen Adı :</label><span id="teknisyen">@data.TeknisyenAdi</span><br />
                                                 <label>Teknisyen Durumu :</label><span id="teknisyendurumu">@data.TeknisyenDurumu</span><br />
-                                                <label>Garanti Durumu :</label><span id="garanti">@data.GarantiliVarMi</span><br />
+                                                @if (!data.GarantiliVarMi)
+                                                {
+                                                    <label>Garanti Durumu :</label><span id="garanti">Henüz incelenemedi</span><br />
+                                                }
+                                                else
+                                                {
+                                                    <label>Garanti Durumu :</label><span id="garanti">Garantili Ürün</span><br />
+                                                }
                                                 <label>Ücret :</label><span id="ucret">@data.Ucret</span><br />
-                                                <label>Arıza Durumu :</label><span id="arizadurumu">@data.ArizaYapildiMi</span><br />
+                                                @if (data.ArizaYapildiMi)
+                                                {
+                                                    <label>Arıza Durumu :</label><span id="arizadurumu">Başarılı</span><br />
+                                                }
+                                                else
+                                                {
+                                                    <label>Arıza Durumu :</label><span id="arizadurumu">Henüz işlemde</span><br />
+                                                }
+
                                                 <div class="timeline-item">
                                                     <div class="timeline-body">
                                                         @for (int j = 0; j < data.ArizaFotograflari.Count; j++)
