@@ -9,6 +9,10 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
+                @if (TempData["Message"] != null)
+                {
+                    <h3><i class=" fa fa-exclamation-circle text-success" style="font-size:30px"></i>@TempData["Message"]</h3>
+                }
                 @using (Html.BeginForm("GetArizaDetay", "Teknisyen", FormMethod.Post))
                 {
                     <ul class="timeline">

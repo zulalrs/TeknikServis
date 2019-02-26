@@ -57,20 +57,6 @@ namespace TeknikServisWeb.Controllers
 
             var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.Id == id);
             var data = Mapper.Map<ArizaViewModel>(ariza);
-            //var data = new ArizaViewModel()
-            //{
-            //    Id = ariza.Id,
-            //    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
-            //    Adres = ariza.Adres,
-            //    Aciklama = ariza.Aciklama,
-            //    GarantiliVarMi = ariza.GarantiliVarMi,
-            //    MarkaAdi = ariza.MarkaAdi,
-            //    ModelAdi = ariza.ModelAdi,
-            //    ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList(),
-            //    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi,
-            //    ArizaYapildiMi = ariza.ArizaYapildiMi,
-            //    TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu,
-            //};
             data.ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList();
             data.MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname;
             return View(data);
@@ -263,7 +249,8 @@ namespace TeknikServisWeb.Controllers
                 var anketRepo = new AnketRepository();
                 anketRepo.Insert(anket);
                 ariza.AnketId = anket.Id;
-                anketRepo.Update(anket);
+                arizaRepo.Update(ariza);
+                
 
                 string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                   (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
@@ -313,10 +300,6 @@ namespace TeknikServisWeb.Controllers
         {
             try
             {
-                //if (!ModelState.IsValid)
-                //{
-                //    return View(model);
-                //}
                 var arizaRepo = new ArizaRepository();
                 var ariza = arizaRepo.GetAll().FirstOrDefault(x => x.Id == model.Id);
                 if (ariza == null)
@@ -327,7 +310,7 @@ namespace TeknikServisWeb.Controllers
                 ariza.Ucret = model.Ucret;
                 arizaRepo.Update(ariza);
 
-                TempData["Message"] = "Kaydınız alınlıştır";
+                TempData["Message"] = "Güncelleme başarılı";
                 return RedirectToAction("GetArizaDetay", "Teknisyen");
             }
             catch (Exception ex)
