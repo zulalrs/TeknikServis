@@ -10,7 +10,7 @@
         <div class="box box-danger">
             <div class="box-header with-border">
                 <div class="row">
-                    <div  class="col-md-6 col-md-offset-2">
+                    <div class="col-md-6 col-md-offset-2">
                         <div id="chart_div"></div>
                     </div>
                 </div>
@@ -22,12 +22,28 @@
         <div class="box box-danger">
             <div class="box-header with-border">
                 <div class="row">
-                <label class="col-md-12" style="text-align:center;">Teknisyenlerin Son İşi Bitirme Süreleri</label>
+                    <label class="col-md-12" style="text-align:center;">Teknisyenlerin Son İşi Bitirme Süreleri</label>
                 </div>
                 <br />
                 <div class="row">
                     <div class="col-md-6 col-md-offset-2">
                         <div id="timeline" style="height: 180px; width:700px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <div class=" col-md-12">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <div class="row">
+                    <label class="col-md-12" style="text-align:center;">Teknisyenlerin Son İşi Bitirme Süreleri</label>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-2">
+                        <div id="chart_div2"></div>
                     </div>
                 </div>
             </div>
@@ -118,6 +134,34 @@
                     chart.draw(dataTable);
                     });
 
+            }
+
+             google.charts.load("current", { packages: ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart2);
+            function drawChart2() {
+                $.ajax({
+                    url: "@Url.Action("Rapor4","Admin")",
+                    method: "get",
+                    dataType: "json",
+                }).done(function (e) {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Teknisyen Adı');
+                    data.addColumn('number', 'Ortalama Puan');
+                    $.each(e.data, function (key, value) {
+                        data.addRow([value.isim, value.toplam]);
+                    });
+                    var view = new google.visualization.DataView(data);
+                    var options = { // View ın ayarları
+                        title: "Ortalama Teknisyen Memnuniyeti",
+                        width: 700,
+                        height: 400,
+                        bar: { groupWidth: "50%" },
+                        legend: { position:"none"}
+
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div2"));// bu id deki div in içerisine
+                    chart.draw(view, options); // tanımlanan view ı belirlenen ayarlarda göster
+                });
             }
         });
     </script>

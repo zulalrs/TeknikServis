@@ -18,20 +18,23 @@ using static TeknikServis.BLL.Identity.MembershipTools;
 
 namespace TeknikServisWeb.Controllers
 {
-    [Authorize(Roles = "GenelYonetici")]
+
     public class AdminController : Controller
     {
         // GET: Admin
+        [Authorize(Roles = "GenelYonetici")]
         public ActionResult Index()
         {
             return View();
         }
+        [Authorize(Roles = "GenelYonetici")]
         public ActionResult GetUsers()
         {
             return View(NewUserStore().Users.ToList());
         }
 
         [HttpPost]
+        [Authorize(Roles = "GenelYonetici")]
         public async Task<JsonResult> SendCode(string id)
         {
             try
@@ -85,6 +88,7 @@ namespace TeknikServisWeb.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "GenelYonetici")]
         public async Task<JsonResult> SendPassword(string id)
         {
             try
@@ -128,6 +132,7 @@ namespace TeknikServisWeb.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "GenelYonetici")]
         public ActionResult EditUser(string id)
         {
             try
@@ -174,6 +179,7 @@ namespace TeknikServisWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "GenelYonetici")]
         public List<SelectListItem> GetRoleList()
         {
             var data = new List<SelectListItem>();
@@ -191,6 +197,7 @@ namespace TeknikServisWeb.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "GenelYonetici")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditUser(UserProfileViewModel model)
         {
@@ -250,6 +257,7 @@ namespace TeknikServisWeb.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "GenelYonetici")]
         [ValidateAntiForgeryToken]
         public ActionResult EditUserRoles(UpdateUserRoleViewModel model)
         {
@@ -282,10 +290,12 @@ namespace TeknikServisWeb.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "GenelYonetici,Operator")]
         public ActionResult Raporlar()
         {
             return View();
         }
+
         [HttpGet]
         public JsonResult Rapor1()
         {
@@ -348,7 +358,7 @@ namespace TeknikServisWeb.Controllers
                         sonArizalar.Add(new ArizaViewModel()
                         {
                             TeknisyenAdi = ariza.Teknisyen?.Name + " " + ariza.Teknisyen?.Surname,
-                            ArizaBaslangicTarihiS= $"{ariza.ArizaBaslangicTarihi:O}",
+                            ArizaBaslangicTarihiS = $"{ariza.ArizaBaslangicTarihi:O}",
                             ArizaBitisTarihiS = $"{ariza.ArizaBitisTarihi:O}"
                         });
                     }
@@ -361,7 +371,62 @@ namespace TeknikServisWeb.Controllers
                 data = sonArizalar
             }, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
 
+        public JsonResult Rapor3()
+        {
+            var arizaRepo = new ArizaRepository();
+            var arizalar = arizaRepo.GetAll(x => x.ArizaYapildiMi == true);
+            var toplamS = new TimeSpan();
+            foreach (var ariza in arizalar)
+            {
+                toplamS += (TimeSpan)(ariza.ArizaBitisTarihi - ariza.ArizaOlusturmaTarihi);
+            }
+            return Json(new ResponseData()
+            {
+                message = $" adet kayıt bulundu",
+                success = true,
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult Rapor4()
+        {
+            var arizaRepo = new ArizaRepository().GetAll();
+            var userRepo = NewUserManager().Users.ToList();
+            var anketRepo = new AnketRepository().GetAll();
+
+            var teknisyenSorgu = from ariza in arizaRepo
+                                 join teknisyen in userRepo on ariza.TeknisyenId equals teknisyen.Id
+                                 join anket in anketRepo on ariza.AnketId equals anket.Id
+                                 group new
+                                 {
+                                     ariza,
+                                     anket,
+                                     teknisyen
+                                 }
+                                 by new
+                                 {
+                                     anket.Soru6,
+                                     teknisyen.Name,
+                                     teknisyen.Surname
+                                 }
+                               into gp
+                                 select new
+                                 {
+                                     isim=gp.Key.Name+" "+gp.Key.Surname,
+                                     toplam = gp.Average(x=>x.anket.Soru6)
+                                 };
+
+            var data = teknisyenSorgu.ToList();
+             
+            return Json(new ResponseData()
+            {
+                message = $"{data.Count} adet kayıt bulundu",
+                success = true,
+                data=data
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
 
