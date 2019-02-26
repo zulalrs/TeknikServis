@@ -30,12 +30,13 @@ namespace TeknikServis.Models.ViewModels
         [EmailAddress(ErrorMessage = "Geçersiz E-Mail adresi")]
         public string Email { get; set; }
 
-        [Display(Name = "Telefon No.")]
+        [Display(Name = "Telefon No")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon sadece sayılardan oluşmalıdır")]
         [StringLength(11, ErrorMessage = "telefon 11 karakterden fazla olamaz!")]
         public string PhoneNumber { get; set; }
 
         public string AvatarPath { get; set; }
+        [Display(Name = "Arıza Fotoğrafları")]
         public HttpPostedFileBase PostedFile { get; set; }
     }
 }

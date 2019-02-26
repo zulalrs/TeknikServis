@@ -415,7 +415,7 @@ namespace TeknikServisWeb.Controllers
                                  select new
                                  {
                                      isim=gp.Key.Name+" "+gp.Key.Surname,
-                                     toplam = gp.Average(x=>x.anket.Soru6)
+                                     toplam = gp.Average(x=>x.ariza.Anket.Soru6)
                                  };
 
             var data = teknisyenSorgu.ToList();
