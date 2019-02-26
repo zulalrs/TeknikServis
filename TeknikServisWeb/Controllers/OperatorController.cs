@@ -112,16 +112,17 @@ namespace TeknikServisWeb.Controllers
                     teknisyen.TeknisyenDurumu = TeknisyenDurumu.Beklemede;
                     await userStore.UpdateAsync(teknisyen);
                     userStore.Context.SaveChanges();
-                    arizaRepo.Update(ariza);
 
                     var arizaLogRepo = new ArizaLogRepository();
-                    arizaLogRepo.Insert(new ArizaLog()
+                    var log = new ArizaLog()
                     {
                         ArizaId = ariza.Id,
                         Aciklama = "Arızanız onaylanmıştır",
-                        Zaman = ariza.ArizaBaslangicTarihi.Value
-                    });
-
+                        Zaman = DateTime.Now
+                    };
+                    arizaLogRepo.Insert(log);
+                    //ariza.ArizaLoglar.Add(log);
+                    arizaRepo.Update(ariza);
                     string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                     (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
 
@@ -192,8 +193,8 @@ namespace TeknikServisWeb.Controllers
                 {
                     message = "Güncelleme başarılı",
                     success = true,
-                    data=data
-                    
+                    data = data
+
                 });
             }
             catch (Exception ex)

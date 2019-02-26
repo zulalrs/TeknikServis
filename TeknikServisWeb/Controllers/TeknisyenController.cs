@@ -107,15 +107,17 @@ namespace TeknikServisWeb.Controllers
                     teknisyen.TeknisyenDurumu = TeknisyenDurumu.Atandı;
                     await userStore.UpdateAsync(teknisyen);
                     userStore.Context.SaveChanges();
-                    arizaRepo.Update(ariza);
-
+                    ariza.Teknisyen.TeknisyenDurumu = teknisyen.TeknisyenDurumu;
                     var arizaLogRepo = new ArizaLogRepository();
-                    arizaLogRepo.Insert(new ArizaLog()
+                    var log = new ArizaLog()
                     {
                         ArizaId = ariza.Id,
                         Aciklama = "Teknisyen atanmıştır",
-                        Zaman = DateTime.Now
-                    });
+                        Zaman = ariza.ArizaBaslangicTarihi.Value
+                    };
+                    arizaLogRepo.Insert(log);
+                    //ariza.ArizaLoglar.Add(log);
+                    arizaRepo.Update(ariza);
                 }
                 return Json(new ResponseData()
                 {
@@ -153,15 +155,17 @@ namespace TeknikServisWeb.Controllers
                 teknisyen.TeknisyenDurumu = TeknisyenDurumu.Yolda;
                 await userStore.UpdateAsync(teknisyen);
                 userStore.Context.SaveChanges();
-                arizaRepo.Update(ariza);
-
+                ariza.Teknisyen.TeknisyenDurumu = teknisyen.TeknisyenDurumu;
                 var arizaLogRepo = new ArizaLogRepository();
-                arizaLogRepo.Insert(new ArizaLog()
+                var log = new ArizaLog()
                 {
                     ArizaId = ariza.Id,
-                    Aciklama = "Teknisyen yola çıkmıştır",
+                    Aciklama = "Teknisyen yola çıktı.",
                     Zaman = DateTime.Now
-                });
+                };
+                arizaLogRepo.Insert(log);
+                //ariza.ArizaLoglar.Add(log);
+                arizaRepo.Update(ariza);
 
                 return Json(new ResponseData()
                 {
@@ -200,6 +204,7 @@ namespace TeknikServisWeb.Controllers
                 teknisyen.TeknisyenDurumu = TeknisyenDurumu.Ulasti;
                 await userStore.UpdateAsync(teknisyen);
                 userStore.Context.SaveChanges();
+                ariza.Teknisyen.TeknisyenDurumu = teknisyen.TeknisyenDurumu;
                 arizaRepo.Update(ariza);
                 return Json(new ResponseData()
                 {
@@ -241,15 +246,18 @@ namespace TeknikServisWeb.Controllers
                 await userStore.UpdateAsync(teknisyen);
                 userStore.Context.SaveChanges();
                 ariza.ArizaYapildiMi = true;
-                arizaRepo.Update(ariza);
-
+              
                 var arizaLogRepo = new ArizaLogRepository();
-                arizaLogRepo.Insert(new ArizaLog()
+                var log = new ArizaLog()
                 {
                     ArizaId = ariza.Id,
                     Aciklama = "Arıza çözümlenmiştir.",
                     Zaman = ariza.ArizaBitisTarihi.Value
-                });
+                };
+                arizaLogRepo.Insert(log);
+                //ariza.ArizaLoglar.Add(log);
+                ariza.Teknisyen.TeknisyenDurumu = teknisyen.TeknisyenDurumu;
+                arizaRepo.Update(ariza);
 
                 var anket = new Anket();
                 var anketRepo = new AnketRepository();

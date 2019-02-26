@@ -147,7 +147,8 @@ namespace TeknikServisWeb.Controllers
                         ArizaFotograflari = new FotografRepository().GetAll(z => z.ArizaId == x.Id).Select(y => y.Yol).ToList(),
                         GarantiliVarMi = x.GarantiliVarMi,
                         Ucret = x.Ucret,
-                        ArizaYapildiMi = x.ArizaYapildiMi
+                        ArizaYapildiMi = x.ArizaYapildiMi,
+                        ArizaLoglar = new ArizaLogRepository().GetAll(a => a.ArizaId == x.Id).ToList()
 
                     });
                 }

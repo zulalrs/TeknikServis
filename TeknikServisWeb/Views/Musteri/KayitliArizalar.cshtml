@@ -39,7 +39,7 @@
                                                         <i class="fa fa-plus"></i>
                                                     </button>
                                                 </div>
-                                            
+
                                             </div>
                                             <div class="box-body detay" style="display: none;">
                                                 <label>Müşteri Adı:</label><span id="musteriadi">@data.MusteriAdi</span><br />
@@ -60,8 +60,19 @@
                                                         }
                                                     </div>
                                                 </div>
-                                             
-                                            </div>   
+
+                                                <div>
+                                                    @if (data.ArizaLoglar != null)
+                                                    {
+                                                        for (int k = 0; k < data.ArizaLoglar.Count; k++)
+                                                        {
+                                                            <label>@data.ArizaLoglar[k].Zaman</label>
+                                                            <label>@data.ArizaLoglar[k].Aciklama</label>
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -100,6 +111,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div>
+                                                @if (data.ArizaLoglar != null)
+                                                {
+                                                    for (int k = 0; k < data.ArizaLoglar.Count; k++)
+                                                    {
+                                                        <label>@data.ArizaLoglar[k].Zaman</label>
+                                                        <label>@data.ArizaLoglar[k].Aciklama</label>
+                                                    }
+                                                }
+
+                                            </div>
                                         </div>
 
                                     </td>
@@ -122,51 +144,51 @@
 @section bottom
 {
     @*<script>
-        $(".btndetay").click(function () {
-            var id = this.name;
-            $(".detay").hide();
-            $.ajax({
-                url: "@Url.Action("GetArizaDetay","Operator")",
-                method: "post",
-                dataType: "json",
-                data: { id: id }
-            }).done(function (e) {
-                console.log(e);
-                var arizaTarihi = new Date(e.data.ArizaOlusturmaTarihiS);
+            $(".btndetay").click(function () {
+                var id = this.name;
+                $(".detay").hide();
+                $.ajax({
+                    url: "@Url.Action("GetArizaDetay","Operator")",
+                    method: "post",
+                    dataType: "json",
+                    data: { id: id }
+                }).done(function (e) {
+                    console.log(e);
+                    var arizaTarihi = new Date(e.data.ArizaOlusturmaTarihiS);
 
-                var tarih = arizaTarihi.getDate() + "/" + (arizaTarihi.getMonth() + 1) + "/" + arizaTarihi.getFullYear();
-                var saat = arizaTarihi.getHours() + ":" + arizaTarihi.getMinutes();
-                var markamodel = e.data.MarkaAdi + " - " + e.data.ModelAdi;
-                var teknisyen = e.data.TeknisyenAdi;
-                renderfoto(e.data.ArizaFotograflari);
-                $("#saat").html(saat);
-                $("#arizakayit").text(tarih);
-                $("#musteriadi").html(e.data.MusteriAdi);
-                $("#modelmarka").html(markamodel)
-                $("#aciklama").html(e.data.Aciklama);
-                $("#adres").html(e.data.Adres);
-                $("#teknisyen").html(teknisyen);
-                $("#teknisyendurumu").html(e.data.TeknisyenDurumu);
-                $("#garanti").html(e.data.GarantiliVarMi);
-                $("#ucret").html(e.data.Ucret);
-                $("#arizadurumu").html(e.data.ArizaYapildiMi);
+                    var tarih = arizaTarihi.getDate() + "/" + (arizaTarihi.getMonth() + 1) + "/" + arizaTarihi.getFullYear();
+                    var saat = arizaTarihi.getHours() + ":" + arizaTarihi.getMinutes();
+                    var markamodel = e.data.MarkaAdi + " - " + e.data.ModelAdi;
+                    var teknisyen = e.data.TeknisyenAdi;
+                    renderfoto(e.data.ArizaFotograflari);
+                    $("#saat").html(saat);
+                    $("#arizakayit").text(tarih);
+                    $("#musteriadi").html(e.data.MusteriAdi);
+                    $("#modelmarka").html(markamodel)
+                    $("#aciklama").html(e.data.Aciklama);
+                    $("#adres").html(e.data.Adres);
+                    $("#teknisyen").html(teknisyen);
+                    $("#teknisyendurumu").html(e.data.TeknisyenDurumu);
+                    $("#garanti").html(e.data.GarantiliVarMi);
+                    $("#ucret").html(e.data.Ucret);
+                    $("#arizadurumu").html(e.data.ArizaYapildiMi);
 
-                $(".modal").show();
-                });
-            $("#foto").children().remove("img");
-        });
+                    $(".modal").show();
+                    });
+                $("#foto").children().remove("img");
+            });
 
-        function renderfoto(data) {
+            function renderfoto(data) {
 
-            $.each(data,
-                function (key, value) {
-                    var img = document.createElement("img");
-                    $(img).attr("src", value).attr("class", "margin").width("150px").height("150px");
-                    $("#foto").append(img);
+                $.each(data,
+                    function (key, value) {
+                        var img = document.createElement("img");
+                        $(img).attr("src", value).attr("class", "margin").width("150px").height("150px");
+                        $("#foto").append(img);
 
-                });
-        };
+                    });
+            };
 
-    </script>*@
+        </script>*@
 }
 

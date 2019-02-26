@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using TeknikServis.Models.Entities;
 using TeknikServis.Models.Enums;
 
 namespace TeknikServis.Models.ViewModels
@@ -45,6 +46,8 @@ namespace TeknikServis.Models.ViewModels
         public bool GarantiliVarMi { get; set; }
         public int Ucret { get; set; }
         public int? AnketId { get; set; }
+        public int ArizaLogId { get; set; }
+        public List<ArizaLog> ArizaLoglar { get; set; }
 
         public List<string> ArizaFotograflari { get; set; }
         public List<HttpPostedFileBase> PostedFile { get; set; }
