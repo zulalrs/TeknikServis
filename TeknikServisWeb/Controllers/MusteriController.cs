@@ -116,7 +116,7 @@ namespace TeknikServisWeb.Controllers
                     {
                         Id = x.Id,
                         ArizaOlusturmaTarihiS = $"{x.ArizaOlusturmaTarihi:O}",
-                        MusteriAdi = x.Musteri.Name + " " + x.Musteri.Surname,
+                        MusteriAdi = GetNameSurname(x.MusteriId),
                         ModelAdi = x.ModelAdi,
                         MarkaAdi = x.MarkaAdi,
                         Adres = x.Adres,

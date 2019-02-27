@@ -33,11 +33,11 @@
                                         @Model.MusteriAdi
                                     </div>
                                     <div class="timeline-body">
-                                        @Model.Aciklama
+                                        @Model.Adres
                                     </div>
                                     <div class="timeline-footer">
                                         <div class="row">
-                                            @if (Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Bosta)
+                                            @if (Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Beklemede || Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Bosta)
                                             {<div class="col-md-6 col-md-offset-3"><button class="btn btn-success btn-block btniskabul" name="@Model.Id">İş Kabul</button></div>}
                                             @if (Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Atandı)
                                             {<div class="col-md-6 col-md-offset-3"><button class="btn btn-danger btn-block btnyolda" name="@Model.Id">Yolda</button></div>}
