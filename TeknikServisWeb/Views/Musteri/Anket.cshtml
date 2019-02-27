@@ -16,7 +16,7 @@
                 <br />
             </div>
             <div class="box-body">
-                @using (Html.BeginForm("Anket", "Musteri", FormMethod.Post))
+                @using (Html.BeginForm("Anket", "Musteri","", FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(x => x.AnketId)
@@ -24,7 +24,7 @@
                     <div class="form-group ">
                         @Html.LabelFor(model => model.Soru1, new { @class = "col-sm-3 control-label" })
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.Soru1, new { @class = "form-control", id = "inputError", type = "number", step = "5", min = "0", max = "100" })
+                            @Html.TextBoxFor(model => model.Soru1, new { @class = "form-control", id = "inputError", type = "number", step = "1", min = "0", max = "100" })
                         </div>
                         <br /><span>@Html.ValidationMessageFor(model => model.Soru1, "", new { @class = "text-danger" })</span>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="form-group ">
                         @Html.LabelFor(model => model.Soru2, new { @class = "col-sm-3 control-label" })
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.Soru2, new { @class = "form-control", id = "inputError", type = "number", step = "5", min = "0", max = "100" })
+                            @Html.TextBoxFor(model => model.Soru2, new { @class = "form-control", id = "inputError", type = "number", step = "1", min = "0", max = "100" })
                         </div>
                         <br /><span>@Html.ValidationMessageFor(model => model.Soru2, "", new { @class = "text-danger" })</span>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="form-group ">
                         @Html.LabelFor(model => model.Soru3, new { @class = "col-sm-3 control-label" })
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.Soru3, new { @class = "form-control", id = "inputError", type = "number", step = "5", min = "0", max = "100" })
+                            @Html.TextBoxFor(model => model.Soru3, new { @class = "form-control", id = "inputError", type = "number", step = "1", min = "0", max = "100" })
                         </div>
                         <br /><span>@Html.ValidationMessageFor(model => model.Soru3, "", new { @class = "text-danger" })</span>
                     </div>
@@ -51,7 +51,7 @@
                     <div class="form-group ">
                         @Html.LabelFor(model => model.Soru4, new { @class = "col-sm-3 control-label" })
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.Soru4, new { @class = "form-control", id = "inputError", type = "number", step = "5", min = "0", max = "100" })
+                            @Html.TextBoxFor(model => model.Soru4, new { @class = "form-control", id = "inputError", type = "number", step = "1", min = "0", max = "100" })
                         </div>
                         <br /><span>@Html.ValidationMessageFor(model => model.Soru4, "", new { @class = "text-danger" })</span>
                     </div>
@@ -60,7 +60,7 @@
                     <div class="form-group ">
                         @Html.LabelFor(model => model.Soru5, new { @class = "col-sm-3 control-label" })
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.Soru5, new { @class = "form-control", id = "inputError", type = "number", step = "5", min = "0", max = "100" })
+                            @Html.TextBoxFor(model => model.Soru5, new { @class = "form-control", id = "inputError", type = "number", step = "1", min = "0", max = "100" })
                         </div>
                         <br /><span>@Html.ValidationMessageFor(model => model.Soru5, "", new { @class = "text-danger" })</span>
                     </div>
@@ -69,7 +69,7 @@
                     <div class="form-group ">
                         @Html.LabelFor(model => model.Soru6, new { @class = "col-sm-3 control-label" })
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.Soru6, new { @class = "form-control", id = "inputError", type = "number", step = "5", min = "0", max = "100" })
+                            @Html.TextBoxFor(model => model.Soru6, new { @class = "form-control", id = "inputError", type = "number", step = "1", min = "0", max = "100" })
                         </div>
                         <br /><span>@Html.ValidationMessageFor(model => model.Soru6, "", new { @class = "text-danger" })</span>
                     </div>

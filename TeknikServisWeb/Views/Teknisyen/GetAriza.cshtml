@@ -36,11 +36,16 @@
                                         @Model.Aciklama
                                     </div>
                                     <div class="timeline-footer">
-                                        
-                                        <a class="btn btn-success btn-xs btniskabul" name="@Model.Id">İş Kabul</a>
-                                        <a class="btn btn-danger btn-xs btnyolda" name="@Model.Id">Yolda</a>
-                                        <a class="btn btn-warning btn-xs btnulasti" name="@Model.Id">Ulaştı</a>
-                                        <a class="btn btn-info btn-xs btnislemtamam" name="@Model.Id">İş Tamamlandı</a>
+                                        <div class="row">
+                                            @if (Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Bosta)
+                                            {<div class="col-md-6 col-md-offset-3"><button class="btn btn-success btn-block btniskabul" name="@Model.Id">İş Kabul</button></div>}
+                                            @if (Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Atandı)
+                                            {<div class="col-md-6 col-md-offset-3"><button class="btn btn-danger btn-block btnyolda" name="@Model.Id">Yolda</button></div>}
+                                            @if (Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Yolda)
+                                            {<div class="col-md-6 col-md-offset-3"><button class="btn btn-warning btn-block btnulasti" name="@Model.Id">Ulaştı</button></div>}
+                                            @if (Model.TeknisyenDurumu == TeknikServis.Models.Enums.TeknisyenDurumu.Ulasti)
+                                            {<div class="col-md-6 col-md-offset-3"><button class="btn btn-info btn-block btnislemtamam" name="@Model.Id">İş Tamamlandı</button></div>}
+                                        </div>
 
                                     </div>
                                 </div>
@@ -61,20 +66,20 @@
     <script src="~/dist/js/bootstrap-notify.min.js"></script>
     <script>
         $(function () {
-            $(".btnyolda").hide();
-            $(".btnulasti").hide();
-            $(".btnislemtamam").hide();
+            //$(".btnyolda").hide();
+            //$(".btnulasti").hide();
+            //$(".btnislemtamam").hide();
             $(".btniskabul").click(function() {
                 var id = this.name;
                 $(this).attr("disabled", true);
-                $(".btnyolda").show();
+                //$(".btnyolda").show();
                 $.ajax({
                     url: "@Url.Action("IsOnay","Teknisyen")",
                     method: "post",
                     dataType: "json",
                     data: {id:id}
                 }).done(function (e) {
-                    console.log(e);
+                    location.reload();
                     $.notify({
                             // options
                             message: e.message,
@@ -89,15 +94,15 @@
 
             $(".btnyolda").click(function() {
                 var id = this.name;
-                $(".btnulasti").show();
-                $(this).attr("disabled", true);
+                //$(".btnulasti").show();
+                //$(this).attr("disabled", true);
                 $.ajax({
                     url: "@Url.Action("Yolda", "Teknisyen")",
                     method: "post",
                     dataType: "json",
                     data: {id:id}
                 }).done(function (e) {
-                    console.log(e);
+                    location.reload();
                     $.notify({
                             // options
                             message: e.message,
@@ -111,15 +116,15 @@
             });
             $(".btnulasti").click(function() {
                 var id = this.name;
-                $(this).attr("disabled", true);
-                $(".btnislemtamam").show();
+                //$(this).attr("disabled", true);
+                //$(".btnislemtamam").show();
                 $.ajax({
                     url: "@Url.Action("Ulasti", "Teknisyen")",
                     method: "post",
                     dataType: "json",
                     data: {id:id}
                 }).done(function (e) {
-                    console.log(e);
+                    location.reload();
                     $.notify({
                             // options
                             message: e.message,

@@ -160,7 +160,7 @@ namespace TeknikServisWeb.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult Anket(int code)
         {
             try
@@ -187,7 +187,7 @@ namespace TeknikServisWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult Anket(AnketViewModel model)
         {
             if (!ModelState.IsValid)

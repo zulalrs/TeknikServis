@@ -31,7 +31,6 @@ namespace TeknikServisWeb.Controllers
             ViewBag.TeknisyenList = teknisyenler;
 
             var data = new List<ArizaViewModel>();
-            //x => x.ArizaOnaylandiMi == false
             var arizaRepo = new ArizaRepository();
             var ariza = arizaRepo.GetAll()
                 .ToList();
@@ -106,13 +105,13 @@ namespace TeknikServisWeb.Controllers
                             success = false
                         });
                     }
-                    arizaRepo.Update(ariza);
+                    
                     var userStore = NewUserStore();
                     var teknisyen = await userStore.FindByIdAsync(data.TeknisyenId);
                     teknisyen.TeknisyenDurumu = TeknisyenDurumu.Beklemede;
                     await userStore.UpdateAsync(teknisyen);
                     userStore.Context.SaveChanges();
-
+                    arizaRepo.Update(ariza);
                     var arizaLogRepo = new ArizaLogRepository();
                     var log = new ArizaLog()
                     {

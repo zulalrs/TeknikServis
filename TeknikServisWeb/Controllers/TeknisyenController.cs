@@ -31,14 +31,19 @@ namespace TeknikServisWeb.Controllers
             var ariza = new ArizaRepository().GetAll().FirstOrDefault(x => x.TeknisyenId == id && x.ArizaYapildiMi == false);
             if (ariza != null)
             {
-                var data = new ArizaViewModel()
-                {
-                    Id = ariza.Id,
-                    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
-                    Adres = ariza.Adres,
-                    Aciklama = ariza.Aciklama,
-                    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi
-                };
+               
+                var data = Mapper.Map<ArizaViewModel>(ariza);
+                data.ArizaFotograflari = ariza.Fotograflar.Select(y => y.Yol).ToList();
+                data.MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname;
+                data.TeknisyenDurumu = ariza.Teknisyen.TeknisyenDurumu;
+                //var data = new ArizaViewModel()
+                //{
+                //    Id = ariza.Id,
+                //    MusteriAdi = ariza.Musteri.Name + " " + ariza.Musteri.Surname,
+                //    Adres = ariza.Adres,
+                //    Aciklama = ariza.Aciklama,
+                //    ArizaOlusturmaTarihi = ariza.ArizaOlusturmaTarihi
+                //};
 
                 return View(data);
             }
@@ -108,7 +113,8 @@ namespace TeknikServisWeb.Controllers
                 return Json(new ResponseData()
                 {
                     message = "İş onayı başarılı",
-                    success = true
+                    success = true,
+                    
                 });
             }
             catch (Exception ex)
@@ -345,7 +351,7 @@ namespace TeknikServisWeb.Controllers
                         ArizaOlusturmaTarihi = item.ArizaOlusturmaTarihi,
                         ArizaBaslangicTarihi = item.ArizaBaslangicTarihi ?? DateTime.Now,
                         ArizaBitisTarihi = item.ArizaBitisTarihi ?? DateTime.Now,
-                        ArizaFotograflari = item.Fotograflar.Select(y => y.Yol).ToList(),
+                        ArizaFotograflari = new FotografRepository().GetAll(x => x.ArizaId == item.Id).Select(y => y.Yol).ToList(),
                         GarantiliVarMi = item.GarantiliVarMi,
                         Ucret = item.Ucret,
                         MarkaAdi = item.MarkaAdi,

@@ -155,6 +155,27 @@
                     var saat = arizaTarihi.getHours() + ":" + arizaTarihi.getMinutes();
                     var markamodel = e.data.MarkaAdi + " - " + e.data.ModelAdi;
                     var teknisyen = e.data.TeknisyenAdi;
+                    if (e.data.ArizaYapildiMi)
+                        var arizasonuc = "Arıza Giderildi";
+                    else
+                        var arizasonuc = "Arıza Giderilemedi";
+                    switch (e.data.TeknisyenDurumu) {
+                        case 0:
+                            var tdurum = "Boşta";
+                            break;
+                        case 1:
+                            var tdurum = "Beklemede";
+                            break;
+                        case 2:
+                            var tdurum = "Atandı";
+                            break;
+                        case 3:
+                            var tdurum = "Yolda";
+                            break;
+                        case 4:
+                            var tdurum = "Ulaştı";
+                            break;
+                    }
                     renderfoto(e.data.ArizaFotograflari);
                     $("#saat").html(saat);
                     $("#arizakayit").text(tarih);
@@ -163,10 +184,10 @@
                     $("#aciklama").html(e.data.Aciklama);
                     $("#adres").html(e.data.Adres);
                     $("#teknisyen").html(teknisyen);
-                    $("#teknisyendurumu").html(e.data.TeknisyenDurumu);
+                    $("#teknisyendurumu").html(tdurum);
                     $("#garanti").html(e.data.GarantiliVarMi);
                     $("#ucret").html(e.data.Ucret);
-                    $("#arizadurumu").html(e.data.ArizaYapildiMi);
+                    $("#arizadurumu").html(arizasonuc);
                    
                     $(".modal").show();
                     });
