@@ -9,13 +9,13 @@ Arıza kaydı oluşturma, teknisyen atama ve takibini yapma, müşteri memnuniye
 
 ----------
 
-### [](https://github.com/mesutozturk/EmlakProjesi#repositoryyi-indirdikten-sonra)Repository'yi indirdikten sonra
+### []()Repository'yi indirdikten sonra
 
 > **1)**  Solution'ı sağ tıklayıp  **Restore Nuget Packages**'i tıklayınız
 
 
 
-> **2)**  _Nuget Package Manager Console_'dan Default Project'i Emlak.DAL yaptıktan sonra "**update-database**" komutunu çalıştırınız.
+> **2)**  _Nuget Package Manager Console_'dan Default Project'i TeknikServis.DAL yaptıktan sonra "**update-database**" komutunu çalıştırınız.
 > 
 > > **2-a)**  Hata vermesi durumunda "**Rebuilt Solution**" yapıp projeyi kapatıp tekrar açabilirsiniz.
 
