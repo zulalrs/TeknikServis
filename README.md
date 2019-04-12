@@ -17,7 +17,7 @@ Arıza kaydı oluşturma, teknisyen atama ve takibini yapma, müşteri memnuniye
 
 > **2)**  _Nuget Package Manager Console_'dan Default Project'i TeknikServis.DAL yaptıktan sonra "**update-database**" komutunu çalıştırınız.
 > 
-> > **2-a)**  Hata vermesi durumunda "**Rebuilt Solution**" yapıp projeyi kapatıp tekrar açabilirsiniz.
+> > **2-a)**  Hata vermesi durumunda "**Rebuild Solution**" yapıp projeyi kapatıp tekrar açabilirsiniz.
 
 ## Kullanılan Teknolojiler
 
